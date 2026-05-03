@@ -171,30 +171,54 @@
             if(l[n]) { window.open(l[n], '_blank'); }
         }
 
-        function postaviSve() {
+                function postaviSve() {
             const d = new Date();
-            const m = d.getMonth() + 1; const dan = d.getDate();
+            const m = d.getMonth() + 1; 
+            const dan = d.getDate();
+
+            // 1. POZADINA PO MESECU
             document.body.style.backgroundImage = "url('m" + m + ".jpg')";
+
+            // 2. DATUM I SAT (fiksno)
             document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
 
+            // 3. PROVERA SPECIJALNIH DANA
             const je289 = (m == 9 && dan == 28);
             const je710 = (m == 10 && dan == 7);
-            const specijalanDan = (je289 || je710);
+            const je95 = (m == 5 && dan == 9); // ДАН ПОБЕДЕ 9. МАЈ
+            const specijalanDan = (je289 || je710 || je95);
 
+            // 4. SPECIJALNI REŽIM ZA 9. MAJ (YouTube preko celog ekrana)
+            if (je95) {
+                // Ovde samo zameniš ID videa (posle embed/) ako nađeš drugi link
+                const ytLink = "https://youtube.com"; 
+                document.body.innerHTML = `<iframe width="100%" height="100vh" src="${ytLink}&autoplay=1" style="position:fixed; top:0; left:0; border:none; z-index:99999;" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
+                return; // Prekida sve ostalo, ostaje samo YouTube
+            }
+
+            // 5. TEKST NA PERGAMENTU
             let tekst;
-            if (je289) { tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔"; }
-            else if (je710) { tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни."; }
-            else { tekst = (misli2026[m] && misli2026[m][dan]) || "Људско битисање се протеже<br>од варања мозга до преварености ума."; }
+            if (je289) {
+                tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔";
+            } else if (je710) {
+                tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни.";
+            } else {
+                tekst = (misli2026[m] && misli2026[m][dan]) || "Људско битисање се протеже<br>од варања мозга до преварености ума.";
+            }
 
+            // 6. KONTROLA VIDLJIVOSTI ZA OSTALE SPECIJALNE DANE (28.9. i 7.10.)
             document.getElementById('video-container').style.display = specijalanDan ? "block" : "none";
             document.getElementById('glavna-sekcija').style.display = specijalanDan ? "none" : "block";
             document.getElementById('donja-sekcija').style.display = specijalanDan ? "none" : "flex";
 
-            if (specijalanDan) {
+            if (specijalanDan && !je95) {
                 const mojVideo = document.getElementById('mini-video');
                 const noviIzvor = je289 ? "v2.mp4" : "v.mp4";
-                if (!mojVideo.src.includes(noviIzvor)) { mojVideo.src = noviIzvor; }
+                if (!mojVideo.src.includes(noviIzvor)) {
+                    mojVideo.src = noviIzvor;
+                }
             }
+
             kucajTekst(document.getElementById('tekst-misli'), tekst);
         }
 
