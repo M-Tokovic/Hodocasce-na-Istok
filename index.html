@@ -69,9 +69,40 @@
         .fb { background: #1877F2; font-family: sans-serif; font-weight: bold; font-size: 36px; color: white; }
 
         @keyframes rotacija { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-    </style>
+    .tv-traka {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccff00;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 9999;
+    padding: 3px 0;
+    font-weight: bold;
+    border-bottom: 1px solid #8b5a2b;
+    pointer-events: none; /* Da ne smeta klikovima ispod nje */
+}
+
+.klizni-tekst {
+    display: inline-block;
+    padding-left: 100%;
+    animation: tv-setnja 25s linear infinite;
+}
+
+@keyframes tv-setnja {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+	</style>
 </head>
 <body>
+<div class="tv-traka">
+    <div class="klizni-tekst">
+        Добро дошли на интернет презентацију „Ходочашће на Исток“ — М. Токовић. Све што вас занима, сугестије, коментаре и предлоге пишите на адресе линкова у доњем делу екрана...
+    </div>
+</div>
     <div class="mrak"></div>
     <div class="blok-levo"><div class="scena"><div class="lopta"><div class="lopta-lice"></div></div></div><div id="sat-prikaz"></div></div>
     
