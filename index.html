@@ -54,7 +54,13 @@
         .ikona-baza { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 2px 4px 10px black; border: 1px solid rgba(255,255,255,0.2); position: relative; z-index: 1001; }
         .ikona-kontejner:hover .ikona-baza { transform: scale(1.15) translateY(-5px); }
         .yt1 { background: #FF0000; color: white; font-size: 28px; } 
-        .yt2 { background: #8B0000; color: white; font-size: 28px; }
+        .yt2 { 
+    background: #8B0000; 
+    color: white; 
+    font-size: 28px; 
+    position: relative; 
+    z-index: 9999 !important; 
+}
 
         /* DONJA ZONA */
         .donja-zona { position: fixed; bottom: 30px; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 50px; box-sizing: border-box; z-index: 100; }
@@ -93,10 +99,10 @@
 
             <div id="yt-zona-sredina">
                 <div class="ikona-kontejner" onclick="idi(6)"><div class="prozor">YouTube 1</div><div class="ikona-baza yt1">▶</div></div>
-                <div class="ikona-kontejner" onclick="idi(7)"><div class="prozor">YouTube 2</div><div class="ikona-baza yt2">▶</div></div>
-            </div>
-        </div>
-    </div>
+                <div class="ikona-kontejner" onclick="idi(7)">
+    <div class="prozor">YouTube 2</div>
+    <div class="ikona-baza yt2">▶</div>
+</div>
 }, 55);
 
         <div id="donja-sekcija" class="donja-zona">
@@ -112,9 +118,38 @@
     </div>
 
     <script>
-        const misli2026 = {
-            "9": { "28": "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔" },
-            "10": { "7": "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни." }
+                const misli2026 = {
+            "5": { 
+                "3": "Кљун се заглавио у решетку канализационог одвода.<br>Уместо да смирено затвори кљун и извуче се, он је све више гордо зевао и усисавао канализацију у себе.",
+                "6": "Чудио се зашто стално жури, као мећава — док није схватио да га је ђаво узјахао па копитама удара о слабине, а роговима га туче за врат.",
+                "8": "Није исто Q10 и IQ10.",
+                "10": "Гледају унакрсно, а нису разроки, да би што више „похватали“.",
+                "12": "Један њаче, други гаче, трећи њишти, четврти пишти, пети скаче…",
+                "17": "Знам човека који је имао захват на мозгу, знам и другога који је имао интервенцију на задњици. – Свакоме страда оно што највише користи.",
+                "19": "Капетана Куку нису пробадали кукови.",
+                "21": "Он је неутралан, чак је неопредељен и по питању самог себе.",
+                "22": "Да ниси отишла у бели свет, ne bi shvatila koliko je život u Srbiji lep.",
+                "24": "На свако питање има одговор, али филозофски, мада на нека и философски.",
+                "30": "Имам гробно место, на прелепом месту, испод тује, одакле se vidi moj grad... Покој нам душама, ускоро, Боже здравља!",
+                "31": "<span onclick='idi(3105)' style='color:#8b0000; cursor:pointer; text-decoration:underline;'>Тројице</span>"
+            },
+            "6": { 
+                "3": "Друга срећа – М. Т.<br><br>Прва слава – глава. Друга слава – кила. Понекад вам бело запоседне тело. Трећа слава – ко зна шта би била.", 
+                "28": "Видели су Виду како на острву Виду Видоја вида." 
+            },
+            "7": { 
+                "30": "Ако математика не лаже — данас у 16:16:40 навршава ми се свега: 1 600 000 000 секунди." 
+            },
+            "9": {
+                "28": "Не преферирам вештачку интелигенцију. 🫣<br>А ви?! 🤔"
+            },
+            "10": { 
+                "7": "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни." 
+            },
+            "11": { 
+                "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…", 
+                "24": "24 године, са свега 24 минута i 24 sekunde pauze u toku 24 sata…" 
+            }
         };
 
         function idi(n) {
