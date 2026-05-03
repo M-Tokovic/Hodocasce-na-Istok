@@ -69,39 +69,52 @@
         .fb { background: #1877F2; font-family: sans-serif; font-weight: bold; font-size: 36px; color: white; }
 
         @keyframes rotacija { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-    .tv-traka {
+    /* GORNJA TRAKA */
+/* ZAJEDNIČKI STIL ZA OBE TRAKE */
+.tv-traka, .tv-traka-donja {
     position: fixed;
-    top: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: #ccff00;
+    background: rgba(0, 0, 0, 0.9); /* Skoro skroz crna za bolji kontrast */
+    color: #ffffff;
     white-space: nowrap;
     overflow: hidden;
-    z-index: 9999;
-    padding: 3px 0;
+    padding: 6px 0;
     font-weight: bold;
-    border-bottom: 1px solid #8b5a2b;
-    pointer-events: none; /* Da ne smeta klikovima ispod nje */
+    font-family: sans-serif;
+    pointer-events: none;
 }
 
+/* POZICIJE */
+.tv-traka { top: 0; border-bottom: 1px solid #8b5a2b; z-index: 9999; }
+.tv-traka-donja { bottom: 0; border-top: 1px solid #8b5a2b; z-index: 9999; }
+
+/* ANIMACIJE */
 .klizni-tekst {
     display: inline-block;
     padding-left: 100%;
     animation: tv-setnja 25s linear infinite;
 }
 
-@keyframes tv-setnja {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+.klizni-tekst-donji {
+    display: inline-block;
+    padding-left: 100%;
+    animation: tv-setnja-donja 35s linear infinite; /* Donja je malo sporija */
 }
+
+@keyframes tv-setnja { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+@keyframes tv-setnja-donja { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 	</style>
 </head>
 <body>
 <div class="tv-traka">
     <div class="klizni-tekst">
-        Добро дошли на интернет презентацију „Ходочашће на Исток“ — М. Токовић. Све што вас занима, сугестије, коментаре и предлоге пишите на адресе линкова у доњем делу екрана...
+        Ходочашће на Исток — М. Токовић — Путопис са аутентичног 14-дневног поклоничког путовања у светиње Румуније, Украјине, Русије и Белорусије — Публикација садржи 200 страна са око 230 оригиналних фотографија у боји које су начинили сами аутори — Ходочашће на Исток — Добро дошли!
     </div>
+</div>
+
+<div class="tv-traka-donja">
+    <div class="klizni-tekst-donji">Све што Вас занима, Ваше сугестије, коментаре и предлоге можете оставити путем линкова у доњем делу екрана — Хвала на посети!</div>
 </div>
     <div class="mrak"></div>
     <div class="blok-levo"><div class="scena"><div class="lopta"><div class="lopta-lice"></div></div></div><div id="sat-prikaz"></div></div>
@@ -123,9 +136,9 @@
         
         <div id="glavna-sekcija">
             <div id="knjiga-zona">
-    <div class="slika-okvir aktivna"><img src="1.JPG"><div class="tekst-na-knjizi">Путопис са аутентичног 14-дневног поклоничког путовања у светиње Румуније, Украјине, Русије и Белорусије</div></div>
-    <div class="slika-okvir"><img src="2.JPG"><div class="tekst-na-knjizi">Публикација садржи 200 страна са око 230 оригиналних фотографија у боји које су начинили сами аутори</div></div>
-    <div class="slika-okvir"><img src="3.JPG"><div class="tekst-na-knjizi">Ходочашће на Исток - М. Токовић</div></div>
+    <div class="slika-okvir aktivna"><img src="1.JPG"></div>
+    <div class="slika-okvir"><img src="2.JPG"></div>
+    <div class="slika-okvir"><img src="3.JPG"></div>
 </div>
 
             <div id="yt-zona-sredina">
