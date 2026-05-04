@@ -128,7 +128,10 @@
         Све што Вас занима, Ваше сугестије, коментаре и предлоге можете оставити путем ових путоказа у доњем делу екрана — Хвала на посети!
     </div>
 </div>
-    <div class="mrak"></div>
+    <audio id="pozadinska-muzika" loop>
+    <source src="priroda.mp3" type="audio/mpeg">
+</audio>
+	<div class="mrak"></div>
     <div class="blok-levo"><div class="scena"><div class="lopta"><div class="lopta-lice"></div></div></div><div id="sat-prikaz"></div></div>
     
     <div class="blok-desno">
@@ -227,66 +230,100 @@
             if(l[n]) { window.open(l[n], '_blank'); }
         }
 
-                function postaviSve() {
-            const d = new Date();
-            const m = d.getMonth() + 1; 
-            const dan = d.getDate();
+                        function postaviSve() {
+    const d = new Date();
+    const m = d.getMonth() + 1; 
+    const dan = d.getDate();
 
-            // 1. POZADINA PO MESECU
-            document.body.style.backgroundImage = "url('m" + m + ".jpg')";
+    // 1. POZADINA
+    document.body.style.backgroundImage = "url('m" + m + ".jpg')";
+    document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
 
-            // 2. DATUM I SAT (fiksno)
-            document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
+    // 2. PROVERA DATUMA
+    const je289 = (m == 9 && dan == 28);
+    const je710 = (m == 10 && dan == 7);
+    const je95 = (m == 5 && dan == 9); // DAN POBEDE
+    const specijalanDan = (je289 || je710 || je95);
 
-            // 3. PROVERA SPECIJALNIH DANA
-            const je289 = (m == 9 && dan == 28);
-            const je710 = (m == 10 && dan == 7);
-            const je95 = (m == 5 && dan == 9); // ДАН ПОБЕДЕ 9. МАЈ
-            const specijalanDan = (je289 || je710 || je95);
+    // 3. SPECIJALNI REŽIM ZA 9. MAJ
+    const ytSloj = document.getElementById('youtube-sloj');
+    if (je95) {
+        if (!ytSloj) {
+            let sloj = document.createElement('div');
+            sloj.id = 'youtube-sloj';
+            sloj.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:black; z-index:100;";
+            sloj.innerHTML = `<iframe width="100%" height="100%" src="https://rt.rs/livetv/" frameborder="0" allowfullscreen></iframe>`;
+            document.body.appendChild(sloj);
+        }
+        document.querySelector('.sadrzaj').style.display = "none";
+        document.querySelector('.tv-traka-donja').style.display = "none";
+        return; 
+    } else {
+        if (ytSloj) ytSloj.remove();
+    }
 
-            // 4. SPECIJALNI REŽIM ZA 9. MAJ (YouTube preko celog ekrana)
-            if (je95) {
-                // Ovde samo zameniš ID videa (posle embed/) ako nađeš drugi link
-                const ytLink = "https://youtube.com"; 
-                document.body.innerHTML = `<iframe width="100%" height="100vh" src="${ytLink}&autoplay=1" style="position:fixed; top:0; left:0; border:none; z-index:99999;" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
-                return; // Prekida sve ostalo, ostaje samo YouTube
-            }
+    // 4. ODREĐIVANJE TEKSTA
+    let tekst;
+    if (je289) {
+        tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔";
+    } else if (je710) {
+        tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни.";
+    } else {
+        tekst = (misli2026[m] && misli2026[m][dan]) || "Људско битисање се протеже<br>од варања мозга до преварености ума.";
+    }
 
-            // 5. TEKST NA PERGAMENTU
-            let tekst;
-            if (je289) {
-                tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔";
-            } else if (je710) {
-                tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни.";
+    // 5. KONTROLA VIDLJIVOSTI
+    const donjaTraka = document.querySelector('.tv-traka-donja');
+    const videoZona = document.getElementById('video-container');
+    const glavnaZona = document.getElementById('glavna-sekcija');
+    const donjaSekcija = document.getElementById('donja-sekcija');
+
+    if (specijalanDan) {
+        if(videoZona) videoZona.style.display = "block";
+        if(glavnaZona) glavnaZona.style.display = "none";
+        if(donjaSekcija) donjaSekcija.style.display = "none";
+        if(donjaTraka) donjaTraka.style.display = "none";
+        
+        const mojVideo = document.getElementById('mini-video');
+        const noviIzvor = je289 ? "v2.mp4" : "v.mp4";
+        if (mojVideo && !mojVideo.src.includes(noviIzvor)) { mojVideo.src = noviIzvor; }
+    } else {
+        if(videoZona) videoZona.style.display = "none";
+        if(glavnaZona) glavnaZona.style.display = "block";
+        if(donjaSekcija) donjaSekcija.style.display = "flex";
+        if(donjaTraka) donjaTraka.style.display = "block";
+    }
+
+    kucajTekst(document.getElementById('tekst-misli'), tekst);
+}
+
+        let kucaSe = false; // Osigurač da se ne dupliraju slova
+
+function kucajTekst(element, tekst) {
+    // Ako je tekst već otkucan ili je kucanje u toku, prekini
+    if (element.innerText === tekst.replace(/<br>/g, '') || kucaSe) return;
+    
+    kucaSe = true;
+    element.innerHTML = ""; 
+    let i = 0;
+    
+    function tipkaj() {
+        if (i < tekst.length) {
+            if (tekst.substr(i, 4) === "<br>") {
+                element.innerHTML += "<br>";
+                i += 4;
             } else {
-                tekst = (misli2026[m] && misli2026[m][dan]) || "Људско битисање се протеже<br>од варања мозга до преварености ума.";
+                element.innerHTML += tekst.charAt(i);
+                i++;
             }
-
-            // 6. KONTROLA VIDLJIVOSTI ZA OSTALE SPECIJALNE DANE (28.9. i 7.10.)
-            document.getElementById('video-container').style.display = specijalanDan ? "block" : "none";
-            document.getElementById('glavna-sekcija').style.display = specijalanDan ? "none" : "block";
-            document.getElementById('donja-sekcija').style.display = specijalanDan ? "none" : "flex";
-
-            if (specijalanDan && !je95) {
-                const mojVideo = document.getElementById('mini-video');
-                const noviIzvor = je289 ? "v2.mp4" : "v.mp4";
-                if (!mojVideo.src.includes(noviIzvor)) {
-                    mojVideo.src = noviIzvor;
-                }
-            }
-
-            kucajTekst(document.getElementById('tekst-misli'), tekst);
+            setTimeout(tipkaj, 50);
+        } else {
+            kucaSe = false; // Završeno kucanje, oslobodi osigurač
         }
-
-        function kucajTekst(el, txt) {
-            let i = 0; el.innerHTML = "";
-            let intv = setInterval(() => {
-                if (txt[i] === "<") { let k = txt.indexOf(">", i); el.innerHTML += txt.substring(i, k + 1); i = k + 1; }
-                else { el.innerHTML += txt[i]; i++; }
-                if (i >= txt.length) clearInterval(intv);
-            }, 55);
-        }
-        // MOTOR ZA LISTANJE KNJIGE (SLIKE 1, 2, 3)
+    }
+    tipkaj();
+}
+               // MOTOR ZA LISTANJE KNJIGE (SLIKE 1, 2, 3)
         let cur = 0; 
         const f = document.querySelectorAll('.slika-okvir');
         
@@ -301,6 +338,18 @@
         setInterval(listaj, 3000);
         setInterval(() => { document.getElementById('sat-prikaz').innerText = new Date().toLocaleTimeString('sr-RS'); }, 1000);
         postaviSve();
+		window.addEventListener('mousedown', function() {
+    const mzk = document.getElementById('pozadinska-muzika');
+    const d = new Date();
+    const jeSpecijalan = (d.getMonth()+1 == 5 && d.getDate() == 9) || (d.getMonth()+1 == 9 && d.getDate() == 28) || (d.getMonth()+1 == 10 && d.getDate() == 7);
+
+    if (!jeSpecijalan && mzk && mzk.paused) {
+        mzk.volume = 0.3;
+        mzk.play();
+    }
+}, { once: true });
+
+postaviSve(); // Ova linija pokreće sve
     </script>
 </body>
 </html>
