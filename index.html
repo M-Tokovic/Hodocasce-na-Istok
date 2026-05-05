@@ -227,46 +227,62 @@
 #dugme-otvori-svitak.vidljivo { 
     right: 0; 
 }
-	@media screen and (max-width: 600px) {
-    /* 1. Saborište (Gornja traka) - smanjujemo slova */
-    .tv-traka, .tv-traka-donja { 
-        height: 30px !important; 
-        font-size: 13px !important; 
+	/* --- MOBILNA VERZIJA - BETON --- */
+@media screen and (max-width: 600px) {
+    /* 1. Dozvoljavamo skrolovanje prstom nadole */
+    body { 
+        overflow-y: auto !important; 
+        height: auto !important; 
     }
 
-    /* 2. Centralni pergament - širimo ga da zauzme ekran i ne preklapa se */
+    /* 2. Saborište (traka) - fiksna na vrhu, manja slova */
+    .tv-traka { 
+        position: sticky !important; 
+        top: 0; 
+        font-size: 14px !important; 
+        z-index: 9999;
+    }
+
+    /* 3. Centralni pergament - ŠIRIMO GA I STAVLJAMO U CENTAR */
     #glavna-sekcija { 
-        position: relative !important; /* Skidamo ga sa "fiksne" pozicije */
-        top: 80px !important; /* Spuštamo ga ispod gornje trake */
+        position: relative !important;
+        top: 20px !important;
         left: 0 !important;
         transform: none !important;
-        width: 90% !important; 
-        margin: 20px auto !important; /* Centriramo ga */
+        width: 92% !important;
+        margin: 10px auto !important;
         padding: 15px !important;
-        box-shadow: none !important; /* Skidamo senku da ne guši ekran */
+        border-width: 8px !important; /* Tanja ivica za mali ekran */
     }
 
-    /* 3. Svitak (Meni) - prebacujemo ga na dno da ne zaklanja tekst */
+    /* 4. Tekst na pergamentu - da bude krupan i čitak */
+    #tekst-misli { 
+        font-size: 19px !important; 
+        line-height: 1.4 !important;
+    }
+
+    /* 5. Svitak (Meni) - prebacujemo ga ISPOD teksta */
     .svitak-desni { 
         position: relative !important;
         top: 20px !important;
         right: 0 !important;
-        width: 95% !important;
-        margin: 10px auto !important;
-        max-height: none !important; /* Na mobilnom nek bude stalno otvoren ili podesiv */
-    }
-    
-    /* 4. Tekst misli - da bude čitak */
-    #tekst-misli { 
-        font-size: 17px !important; 
-        line-height: 1.4 !important;
+        width: 85% !important;
+        margin: 20px auto !important;
+        max-height: none !important; /* Na mobilnom nek se vidi odmah */
+        display: block !important;
+        visibility: visible !important;
     }
 
-    /* 5. Donje ikonice - slažemo ih da budu pregledne */
+    /* 6. Donja traka i putokazi - na samom dnu */
     #donja-sekcija {
         position: relative !important;
-        bottom: 50px !important;
-        padding: 10px !important;
+        margin-top: 30px !important;
+        justify-content: center !important;
+    }
+    
+    .tv-traka-donja {
+        position: relative !important;
+        margin-top: 20px !important;
     }
 }
 	</style>
