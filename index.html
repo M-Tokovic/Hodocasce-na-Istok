@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <title>М. Токовић - Ходочашће на Исток</title>
     <style>
@@ -227,65 +226,7 @@
 #dugme-otvori-svitak.vidljivo { 
     right: 0; 
 }
-	/* --- MOBILNA VERZIJA - BETON --- */
-@media screen and (max-width: 600px) {
-    /* 1. Dozvoljavamo skrolovanje prstom nadole */
-    body { 
-        overflow-y: auto !important; 
-        height: auto !important; 
-    }
-
-    /* 2. Saborište (traka) - fiksna na vrhu, manja slova */
-    .tv-traka { 
-        position: sticky !important; 
-        top: 0; 
-        font-size: 14px !important; 
-        z-index: 9999;
-    }
-
-    /* 3. Centralni pergament - ŠIRIMO GA I STAVLJAMO U CENTAR */
-    #glavna-sekcija { 
-        position: relative !important;
-        top: 20px !important;
-        left: 0 !important;
-        transform: none !important;
-        width: 92% !important;
-        margin: 10px auto !important;
-        padding: 15px !important;
-        border-width: 8px !important; /* Tanja ivica za mali ekran */
-    }
-
-    /* 4. Tekst na pergamentu - da bude krupan i čitak */
-    #tekst-misli { 
-        font-size: 19px !important; 
-        line-height: 1.4 !important;
-    }
-
-    /* 5. Svitak (Meni) - prebacujemo ga ISPOD teksta */
-    .svitak-desni { 
-        position: relative !important;
-        top: 20px !important;
-        right: 0 !important;
-        width: 85% !important;
-        margin: 20px auto !important;
-        max-height: none !important; /* Na mobilnom nek se vidi odmah */
-        display: block !important;
-        visibility: visible !important;
-    }
-
-    /* 6. Donja traka i putokazi - na samom dnu */
-    #donja-sekcija {
-        position: relative !important;
-        margin-top: 30px !important;
-        justify-content: center !important;
-    }
-    
-    .tv-traka-donja {
-        position: relative !important;
-        margin-top: 20px !important;
-    }
-}
-	</style>
+		</style>
 </head>
 <body>
 <div id="svitak-meni" class="svitak-desni">
