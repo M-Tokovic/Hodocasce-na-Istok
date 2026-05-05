@@ -114,9 +114,140 @@
 
 @keyframes tv-setnja { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 @keyframes tv-setnja-donja { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+	/* --- СТИЛ ЗА СВИTАК КОЈИ СЕ ОДМОТАВА КАО СТАЗА --- */
+.svitak-desni {
+    position: fixed;
+    top: 130px; 
+    right: 15px; 
+    width: 210px;
+    z-index: 8000;
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 3s ease-in-out; 
+    display: none; 
+    visibility: hidden;
+}
+
+.svitak-desni.otvoren {
+    display: block;
+    visibility: visible;
+    max-height: 1200px; /* Довољно велико да обухвати све линкове */
+}
+
+.svitak-sadrzaj {
+    background: #d4b483;
+    border-left: 2px solid #8b5a2b;
+    border-right: 2px solid #8b5a2b;
+    /* ИСКРЗАНЕ ИВИЦЕ ПЕРГАМЕНТА */
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 98% 5%, 100% 10%, 97% 20%, 100% 30%, 98% 45%, 100% 60%, 97% 75%, 100% 90%, 95% 100%, 5% 98%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 0% 40%, 2% 25%, 0% 10%);
+    clip-path: polygon(0% 0%, 100% 0%, 98% 5%, 100% 10%, 97% 20%, 100% 30%, 98% 45%, 100% 60%, 97% 75%, 100% 90%, 95% 100%, 5% 98%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 0% 40%, 2% 25%, 0% 10%);
+    padding: 20px 10px 40px 10px; /* Више простора доле за дугме */
+    text-align: center;
+    box-shadow: 10px 15px 25px rgba(0,0,0,0.5);
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.05) 100%);
+}
+
+.cilim-valjak-vrh { 
+    height: 18px; 
+    background: #5d3a1a; 
+    border-radius: 10px 10px 0 0; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.cilim-valjak-dno { 
+    height: 12px; 
+    background: #5d3a1a; 
+    border-radius: 0 0 10px 10px; 
+    margin-top: -8px; /* Да „ухвати” ивицу папира */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+}
+
+.lista-veza { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.lista-veza li { 
+    padding: 12px 0; 
+    border-bottom: 1px dashed rgba(139, 90, 43, 0.4); 
+    opacity: 0; 
+    transition: opacity 1s ease-in; 
+}
+
+.lista-veza li.vidljiv { 
+    opacity: 1; 
+}
+
+.lista-veza a { 
+    text-decoration: none; 
+    color: #4a2c0f; 
+    font-weight: bold; 
+    font-size: 16px; 
+    font-family: 'Times New Roman', serif;
+}
+
+.dugme-zatvori { 
+    cursor: pointer !important; 
+    font-weight: bold; 
+    color: #8b5a2b; 
+    font-size: 13px; 
+    margin-top: 25px;
+    padding: 10px;
+    position: relative;
+    z-index: 8010; /* Да буде изнад ваљка и ивица */
+    border-top: 1px dashed rgba(139, 90, 43, 0.5);
+    display: inline-block;
+}
+
+.dugme-zatvori:hover {
+    color: #4a2c0f;
+}
+
+#dugme-otvori-svitak {
+    position: fixed; 
+    top: 130px; 
+    right: -60px; 
+    width: 45px; 
+    height: 45px;
+    background: #8b5a2b; 
+    color: #d4b483; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer; 
+    z-index: 7999;
+    transition: right 0.6s ease-in-out; 
+    border-radius: 8px 0 0 8px; 
+    font-size: 22px;
+    box-shadow: -2px 2px 10px rgba(0,0,0,0.4);
+}
+
+#dugme-otvori-svitak.vidljivo { 
+    right: 0; 
+}
 	</style>
 </head>
 <body>
+<div id="svitak-meni" class="svitak-desni">
+    <div class="cilim-valjak-vrh"></div> 
+    <div class="svitak-sadrzaj">
+        <ul id="lista-linkova" class="lista-veza">
+            <li><a href="https://www.rts.rs/vesti.html" target="_blank">Вести</a></li>
+            <li><a href="https://www.hidmet.gov.rs/ciril/prognoza/stanica.php?mp_id=13274" target="_blank">Временска прогноза</a></li>
+			<li><a href="https://www.lastminuteponude.com/first-minute" target="_blank">Путовања</a></li
+			<li><a href="https://www.posted.co.rs/korisno/kursna-lista.html" target="_blank">Курсна листа</a></li>
+		    <li><a href="https://translate.google.rs/?hl=sr&sl=auto&tl=sr&op=translate" target="_blank">Речник</a></li
+            <li><a href="https://www.youtube.com/watch?v=WVElkSFTt8E" target="_blank">Тв Храм</a></li>
+			<li><a href="https://polazak.rs/ci" target="_blank">Аутобуски саобраћај</a></li
+			<li><a href="https://www.srbvoz.rs/red-voznje/" target="_blank">Железнички саобраћај</a></li
+        </ul>
+        <!-- Dugme je sada fiksirano unutar pergamenta -->
+        <div class="dugme-zatvori" onclick="skloniSvitak()">▲ ЗАТВОРИ</div>
+    </div>
+    <div class="cilim-valjak-dno"></div>
+</div>
+<div id="dugme-otvori-svitak" onclick="spustiSvitak()">📜</div>
 <div class="tv-traka">
     <div class="klizni-tekst">
         Добро дошли на интернет сабориште „Ходочашће на Исток“ — М. Токовић — Комуницирајмо јавно, а контемплирајмо у самоћи!
@@ -193,7 +324,6 @@
                 "31": "<span onclick='idi(3105)' style='color:#8b0000; cursor:pointer; text-decoration:underline;'>Тројице</span>"
             },
             "6": { 
-                "3": "Друга срећа – М. Т.<br><br>Прва слава – глава. Друга слава – кила. Понекад вам бело запоседне тело. Трећа слава – ко зна шта би била.", 
                 "28": "Видели су Виду како на острву Виду Видоја вида." 
             },
             "7": { 
@@ -242,7 +372,14 @@
     // 2. PROVERA DATUMA
     const je289 = (m == 9 && dan == 28);
     const je710 = (m == 10 && dan == 7);
-    const je95 = (m == 5 && dan == 9); // DAN POBEDE
+        // Dodajemo ove tri linije za satnicu
+    const sati = d.getHours();
+    const minuti = d.getMinutes();
+    const trenutnoVreme = sati + minuti / 60;
+
+    // Menjamo tvoj red da uključimo vreme (8.5 je 8:30h, 21 je 21:00h)
+    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 7 && trenutnoVreme < 23);
+    
     const specijalanDan = (je289 || je710 || je95);
 
     // 3. SPECIJALNI REŽIM ZA 9. MAJ
@@ -350,6 +487,37 @@ function kucajTekst(element, tekst) {
 }, { once: true });
 
 postaviSve(); // Ova linija pokreće sve
+function spustiSvitak() {
+    const d = new Date();
+    const m = d.getMonth() + 1;
+    const dan = d.getDate();
+    const jeSpecijalan = (m == 5 && dan == 9) || (m == 9 && dan == 28) || (m == 10 && dan == 7);
+    if (jeSpecijalan) return; 
+
+    const svitak = document.getElementById('svitak-meni');
+    const dugme = document.getElementById('dugme-otvori-svitak');
+    
+    svitak.style.display = "block";
+    // Trik: Mali timeout da browser "shvati" da treba da prikaže svitak pre odmotavanja
+    setTimeout(() => { 
+        svitak.classList.add('otvoren'); 
+        const linkovi = document.querySelectorAll('.lista-veza li');
+        linkovi.forEach((l, i) => setTimeout(() => l.classList.add('vidljiv'), i * 800 + 1000));
+    }, 50);
+    dugme.classList.remove('vidljivo');
+}
+
+function skloniSvitak() {
+    const svitak = document.getElementById('svitak-meni');
+    const dugme = document.getElementById('dugme-otvori-svitak');
+    svitak.classList.remove('otvoren');
+    setTimeout(() => { 
+        svitak.style.display = "none";
+        dugme.classList.add('vidljivo');
+        document.querySelectorAll('.lista-veza li').forEach(l => l.classList.remove('vidljiv'));
+    }, 3000); 
+}
+setTimeout(spustiSvitak, 4000);
     </script>
 </body>
 </html>
