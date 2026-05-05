@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <title>М. Токовић - Ходочашће на Исток</title>
     <style>
@@ -228,24 +228,46 @@
     right: 0; 
 }
 	@media screen and (max-width: 600px) {
-    /* Smanjujemo i pomeramo pergament da ne udara u svitak */
+    /* 1. Saborište (Gornja traka) - smanjujemo slova */
+    .tv-traka, .tv-traka-donja { 
+        height: 30px !important; 
+        font-size: 13px !important; 
+    }
+
+    /* 2. Centralni pergament - širimo ga da zauzme ekran i ne preklapa se */
     #glavna-sekcija { 
-        width: 85% !important; 
-        padding: 15px !important; 
-        top: 55% !important; 
+        position: relative !important; /* Skidamo ga sa "fiksne" pozicije */
+        top: 80px !important; /* Spuštamo ga ispod gornje trake */
+        left: 0 !important;
+        transform: none !important;
+        width: 90% !important; 
+        margin: 20px auto !important; /* Centriramo ga */
+        padding: 15px !important;
+        box-shadow: none !important; /* Skidamo senku da ne guši ekran */
     }
-    /* Smanjujemo slova teksta na pergamentu */
-    #tekst-misli { font-size: 18px !important; }
-    
-    /* Sužavamo svitak-ćilim da ne ide preko pola ekrana */
+
+    /* 3. Svitak (Meni) - prebacujemo ga na dno da ne zaklanja tekst */
     .svitak-desni { 
-        width: 160px !important; 
-        right: 5px !important; 
-        top: 140px !important; 
+        position: relative !important;
+        top: 20px !important;
+        right: 0 !important;
+        width: 95% !important;
+        margin: 10px auto !important;
+        max-height: none !important; /* Na mobilnom nek bude stalno otvoren ili podesiv */
     }
     
-    /* Smanjujemo trake da ne pojedu ekran */
-    .tv-traka, .tv-traka-donja { height: 30px !important; font-size: 14px !important; }
+    /* 4. Tekst misli - da bude čitak */
+    #tekst-misli { 
+        font-size: 17px !important; 
+        line-height: 1.4 !important;
+    }
+
+    /* 5. Donje ikonice - slažemo ih da budu pregledne */
+    #donja-sekcija {
+        position: relative !important;
+        bottom: 50px !important;
+        padding: 10px !important;
+    }
 }
 	</style>
 </head>
