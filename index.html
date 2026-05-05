@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>М. Токовић - Ходочашће на Исток</title>
     <style>
@@ -226,6 +227,26 @@
 #dugme-otvori-svitak.vidljivo { 
     right: 0; 
 }
+	@media screen and (max-width: 600px) {
+    /* Smanjujemo i pomeramo pergament da ne udara u svitak */
+    #glavna-sekcija { 
+        width: 85% !important; 
+        padding: 15px !important; 
+        top: 55% !important; 
+    }
+    /* Smanjujemo slova teksta na pergamentu */
+    #tekst-misli { font-size: 18px !important; }
+    
+    /* Sužavamo svitak-ćilim da ne ide preko pola ekrana */
+    .svitak-desni { 
+        width: 160px !important; 
+        right: 5px !important; 
+        top: 140px !important; 
+    }
+    
+    /* Smanjujemo trake da ne pojedu ekran */
+    .tv-traka, .tv-traka-donja { height: 30px !important; font-size: 14px !important; }
+}
 	</style>
 </head>
 <body>
@@ -348,19 +369,22 @@
                 "https://www.pravoslavnikalendar.rs/", // 1
                 "https://saint.gr/",                     // 2
                 "https://days.pravoslavie.ru/",          // 3
-                "mailto:topaz032@gmail.com",             // 4
-                "viber://chat?number=%2B381645330444",   // 5
+                "mailto:topaz032@gmail.com", // 4 (Email)
+                "viber://contact?number=%2B381645330444", // 5 (Viber za mobilni)
                 "https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B", // 6
                 "https://www.youtube.com/@marko32t/videos", // 7
                 "https://www.instagram.com/markotokovic/", // 8
                 "https://www.facebook.com/markotokovic",    // 9
-                "https://wa.me"              // 10
+                "https://wa.me" // 10 (WhatsApp sa brojem)
             ];
             if(n==3105) { window.open("https://youtu.be", '_blank'); return; }
             if(n==710) { window.open("v.mp4", '_blank'); return; }
-            if(l[n]) { window.open(l[n], '_blank'); }
-        }
 
+            // Otvaranje linka iz liste l u novom prozoru
+            if(l[n]) { 
+                window.open(l[n], '_blank'); 
+            }
+        }
                         function postaviSve() {
     const d = new Date();
     const m = d.getMonth() + 1; 
