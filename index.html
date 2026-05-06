@@ -226,9 +226,67 @@
 #dugme-otvori-svitak.vidljivo { 
     right: 0; 
 }
+	/* STIL ZA LEVI SVITAK U RAVNI SA SLIKAMA 1, 2, 3 */
+.svitak-levo {
+    display: none; /* DODAJ OVO OBAVEZNO */
+    position: fixed;
+    top: 50%;
+    display: none; /* DODAJ OVO OBAVEZNO */
+    position: fixed;
+    top: 50%;
+    position: fixed;
+    /* Ово га поставља на средину висине екрана */
+    top: 50%; 
+    left: 20px;
+    /* Померамо га мало наниже да би се гађао са линијом слика 123 */
+    transform: translateY(20px); 
+    width: 210px;
+    z-index: 8500;
+    font-family: 'Times New Roman', serif;
+    text-align: center;
+}
+
+.svitak-sadrzaj-najava {
+    background: #d4b483;
+    border-left: 2px solid #8b5a2b;
+    border-right: 2px solid #8b5a2b;
+    padding: 15px 10px;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+    /* Искрзане ивице */
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 98% 5%, 100% 10%, 97% 20%, 100% 30%, 98% 45%, 100% 60%, 97% 75%, 100% 90%, 95% 100%, 5% 98%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 0% 40%, 2% 25%, 0% 10%);
+    clip-path: polygon(0% 0%, 100% 0%, 98% 5%, 100% 10%, 97% 20%, 100% 30%, 98% 45%, 100% 60%, 97% 75%, 100% 90%, 95% 100%, 5% 98%, 0% 100%, 2% 85%, 0% 70%, 3% 55%, 0% 40%, 2% 25%, 0% 10%);
+}
+
+.pulsirajuci-tekst {
+    color: #4a2c0f;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: bold;
+    animation: pulsiranje 2s infinite ease-in-out;
+}
+
+@keyframes pulsiranje {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); } /* Blago uvećanje ka korisniku */
+    100% { transform: scale(1); }
+	display: none; /* DODAJ OVO - da se ne vidi odmah pri učitavanju */
+}
 		</style>
 </head>
 <body>
+<!-- NOVI LEVI SVITAK -->
+<div id="najava-svitak" class="svitak-levo">
+    <div class="cilim-valjak-vrh"></div>
+    <div class="svitak-sadrzaj-najava">
+        <div class="pulsirajuci-tekst" style="color: black; font-weight: bold; line-height: 1.3;">
+    <strong>Субота 9. мај</strong> <br>
+    <strong>9:00</strong> <br>
+    <strong style="color: black; font-size: 19px;">Парада победе</strong> <br>
+    <strong>УЖИВО</strong>
+</div>
+    </div>
+    <div class="cilim-valjak-dno"></div>
+</div>
 <div id="svitak-meni" class="svitak-desni">
     <div class="cilim-valjak-vrh"></div> 
     <div class="svitak-sadrzaj">
@@ -495,20 +553,46 @@ function spustiSvitak() {
     const d = new Date();
     const m = d.getMonth() + 1;
     const dan = d.getDate();
-    const jeSpecijalan = (m == 5 && dan == 9) || (m == 9 && dan == 28) || (m == 10 && dan == 7);
-    if (jeSpecijalan) return; 
+    const sati = d.getHours();
+    const minuti = d.getMinutes();
+    const trenutnoVreme = sati + minuti / 60;
 
+    // 1. Provera za 9. maj (8:30h - 21:00h) i ostale dane
+    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 21);
+    const jeSpecijalan = je95 || (m == 9 && dan == 28) || (m == 10 && dan == 7);
+
+    // Ako je specijalan dan, osiguraj da su oba svitka ugašena i stani (return)
+    if (jeSpecijalan) {
+        // Sakrivamo sve, obavezno i levi svitak!
+        if (document.getElementById('najava-svitak')) {
+            document.getElementById('najava-svitak').style.display = "none";
+        }
+        if (document.getElementById('najava-svitak')) document.getElementById('najava-svitak').style.display = "none";
+        if (document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.display = "none";
+        return;
+    }
+
+    // 2. AKO NIJE SPECIJALAN DAN, AKTIVIRAJ SVITKE:
+    
+    // Upali LEVI svitak odmah (ako postoji)
+    const levi = document.getElementById('najava-svitak');
+    if (levi) {
+        levi.style.display = "block";
+    }
+
+    // Upali DESNI svitak sa efektom odmotavanja
     const svitak = document.getElementById('svitak-meni');
     const dugme = document.getElementById('dugme-otvori-svitak');
     
-    svitak.style.display = "block";
-    // Trik: Mali timeout da browser "shvati" da treba da prikaže svitak pre odmotavanja
-    setTimeout(() => { 
-        svitak.classList.add('otvoren'); 
-        const linkovi = document.querySelectorAll('.lista-veza li');
-        linkovi.forEach((l, i) => setTimeout(() => l.classList.add('vidljiv'), i * 800 + 1000));
-    }, 50);
-    dugme.classList.remove('vidljivo');
+    if (svitak) {
+        svitak.style.display = "block";
+        setTimeout(() => { 
+            svitak.classList.add('otvoren'); 
+            const linkovi = document.querySelectorAll('.lista-veza li');
+            linkovi.forEach((l, i) => setTimeout(() => l.classList.add('vidljiv'), i * 800 + 1000));
+        }, 50);
+        if (dugme) dugme.classList.remove('vidljivo');
+    }
 }
 
 function skloniSvitak() {
