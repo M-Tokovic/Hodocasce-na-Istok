@@ -274,18 +274,14 @@
 		</style>
 </head>
 <body>
-<!-- NOVI LEVI SVITAK -->
+<!-- ЛЕВИ СВИТАК -->
 <div id="najava-svitak" class="svitak-levo">
     <div class="cilim-valjak-vrh"></div>
     <div class="svitak-sadrzaj-najava">
-    <!-- ЦЕО ТЕКСТ У ПРАВОЈ ЈАРКО ЦРВЕНОЈ БОЈИ -->
-    <div class="pulsirajuci-tekst" style="color: red; font-weight: bold; line-height: 1.2; font-size: 22px;">
-        <strong>Субота 9. мај</strong><br>
-        <strong>9:00</strong><br>
-        <strong>ПАРАДА ПОБЕДЕ</strong><br>
-        <strong>Уживо</strong>
+        <!-- Овде је празно, скрипта ће сама уписати текст -->
+        <div id="tekst-najave" class="pulsirajuci-tekst" style="color: red; font-weight: bold; line-height: 1.2; font-size: 22px;">
+        </div>
     </div>
-</div>
     <div class="cilim-valjak-dno"></div>
 </div>
 <div id="svitak-meni" class="svitak-desni">
@@ -441,12 +437,14 @@
     const trenutnoVreme = sati + minuti / 60;
 
     // Menjamo tvoj red da uključimo vreme (8.5 je 8:30h, 21 je 21:00h)
-    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 7 && trenutnoVreme < 23);
+    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 21);
     
     const specijalanDan = (je289 || je710 || je95);
 
     // 3. SPECIJALNI REŽIM ZA 9. MAJ
     const ytSloj = document.getElementById('youtube-sloj');
+    const leviSvitak = document.getElementById('najava-svitak'); // Dodajemo ovo
+
     if (je95) {
         if (!ytSloj) {
             let sloj = document.createElement('div');
@@ -455,13 +453,17 @@
             sloj.innerHTML = `<iframe width="100%" height="100%" src="https://rt.rs/livetv/" frameborder="0" allowfullscreen></iframe>`;
             document.body.appendChild(sloj);
         }
-        document.querySelector('.sadrzaj').style.display = "none";
-        document.querySelector('.tv-traka-donja').style.display = "none";
+        // SAKRIVAMO SVE:
+        if (document.querySelector('.sadrzaj')) document.querySelector('.sadrzaj').style.display = "none";
+        if (document.querySelector('.tv-traka-donja')) document.querySelector('.tv-traka-donja').style.display = "none";
+        if (leviSvitak) leviSvitak.style.display = "none"; // Sakriva levi svitak
+        if (document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.display = "none"; // Sakriva desni
         return; 
     } else {
         if (ytSloj) ytSloj.remove();
+        if (leviSvitak) leviSvitak.style.display = "block"; // Vraća levi svitak posle 21h
     }
-
+	
     // 4. ODREĐIVANJE TEKSTA
     let tekst;
     if (je289) {
@@ -479,6 +481,9 @@
     const donjaSekcija = document.getElementById('donja-sekcija');
 
     if (specijalanDan) {
+        // Sakrivamo levi svitak za bilo koji specijalni dan (9.5, 28.9, 7.10)
+        if (leviSvitak) leviSvitak.style.display = "none";
+		
         if(videoZona) videoZona.style.display = "block";
         if(glavnaZona) glavnaZona.style.display = "none";
         if(donjaSekcija) donjaSekcija.style.display = "none";
@@ -488,12 +493,16 @@
         const noviIzvor = je289 ? "v2.mp4" : "v.mp4";
         if (mojVideo && !mojVideo.src.includes(noviIzvor)) { mojVideo.src = noviIzvor; }
     } else {
+        // Vraćamo sve u normalu ako NIJE specijalan dan
+        if (leviSvitak) leviSvitak.style.display = "block";
         if(videoZona) videoZona.style.display = "none";
         if(glavnaZona) glavnaZona.style.display = "block";
         if(donjaSekcija) donjaSekcija.style.display = "flex";
         if(donjaTraka) donjaTraka.style.display = "block";
     }
 
+    kucajTekst(document.getElementById('tekst-misli'), tekst);
+	azurirajNajavu(); // Ovo će samo menjati tekst u "365 dana"
     kucajTekst(document.getElementById('tekst-misli'), tekst);
 }
 
@@ -607,7 +616,35 @@ function skloniSvitak() {
     }, 3000); 
 }
 setTimeout(spustiSvitak, 4000);
-    </script>
+    function azurirajNajavu() {
+    const d = new Date();
+    const m = d.getMonth() + 1; // Мај је 5
+    const dan = d.getDate();
+    const sati = d.getHours();
+    const minuti = d.getMinutes();
+    const vreme = sati + minuti / 60;
+
+    const el = document.getElementById('tekst-najave');
+    if (!el) return;
+
+    // ПРОВЕРА: Да ли је пре суботе 9. маја у 08:30ч?
+    const доПараде = (m < 5) || (m == 5 && dan < 9) || (m == 5 && dan == 9 && vreme < 8.5);
+
+    if (доПараде) {
+        // Ово стоји до сутра ујутру
+        el.innerHTML = "Субота 9. мај<br>9:00<br>ПАРАДА ПОБЕДЕ<br>Уживо";
+    } else {
+        // Ово се само појављује сутра увече и надаље
+        el.innerHTML = "365<br>(366)<br>дана и ноћи";
+    }
+}
+
+// Покрени ово одмах
+azurirajNajavu();
+// Нека проверава сваког минута да сам промени текст
+setInterval(azurirajNajavu, 60000);
+
+	</script>
 </body>
 </html>
 
