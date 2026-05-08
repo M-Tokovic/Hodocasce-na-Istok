@@ -401,13 +401,18 @@
         };
 
         function idi(n) {
+    // 1. POSEBNA PROVERA ZA VIBER (da bi radio na svim telefonima)
+    if(n==5) { 
+        window.open("viber://contact?number=%2B381645330444", '_blank'); 
+        return; 
+    }
             const l = [
                 "",
                 "https://www.pravoslavnikalendar.rs/", // 1
                 "https://saint.gr/",                     // 2
                 "https://days.pravoslavie.ru/",          // 3
                 "mailto:topaz032@gmail.com", // 4 (Email)
-                "viber://contact?number=%2B381645330444", // 5 (Viber za mobilni)
+                "viber://contact?number=%2B381645330444", // 5 (Viber за мобилни)
                 "https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B", // 6
                 "https://www.youtube.com/@marko32t/videos", // 7
                 "https://www.instagram.com/markotokovic/", // 8
