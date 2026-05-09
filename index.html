@@ -631,8 +631,9 @@ function skloniSvitak() {
 setTimeout(spustiSvitak, 4000);
     function azurirajNajavu() {
     const d = new Date();
-    const m = d.getMonth() + 1; // Мај је 5
+    const m = d.getMonth() + 1;
     const dan = d.getDate();
+    const godina = d.getFullYear(); // DODAJEMO GODINU
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const vreme = sati + minuti / 60;
@@ -640,14 +641,13 @@ setTimeout(spustiSvitak, 4000);
     const el = document.getElementById('tekst-najave');
     if (!el) return;
 
-    // ПРОВЕРА: Да ли је пре суботе 9. маја у 08:30ч?
-    const доПараде = (m < 5) || (m == 5 && dan < 9) || (m == 5 && dan == 9 && vreme < 8.5);
+    // USLOV: Parada se najavljuje SAMO 2026. godine, do 9. maja u 08:30h
+    const doParade2026 = (godina == 2026) && ((m < 5) || (m == 5 && dan < 9) || (m == 5 && dan == 9 && vreme < 8.5));
 
-    if (доПараде) {
-        // Ово стоји до сутра ујутру
+    if (doParade2026) {
         el.innerHTML = "Субота 9. мај<br>9:00<br>ПАРАДА ПОБЕДЕ<br>Уживо";
     } else {
-        // Ово се само појављује сутра увече и надаље
+        // Čim prođe taj termin ili čim nastupi 2027. godina, piše ovo:
         el.innerHTML = "365<br>(366)<br>дана и ноћи";
     }
 }
