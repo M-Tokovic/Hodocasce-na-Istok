@@ -436,86 +436,76 @@
     const d = new Date();
     const m = d.getMonth() + 1; 
     const dan = d.getDate();
+    const godina = d.getFullYear(); 
 
-    // 1. POZADINA
+    // 1. POZADINA I DATUM
     document.body.style.backgroundImage = "url('m" + m + ".jpg')";
-    document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
+    if (document.getElementById('datum-prikaz')) {
+        document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
+    }
 
-    // 2. PROVERA DATUMA
-    const je289 = (m == 9 && dan == 28);
-    const je710 = (m == 10 && dan == 7);
-        // Dodajemo ove tri linije za satnicu
+    // 2. KONTROLA VREMENA (Isključili smo bioskop za večeras)
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const trenutnoVreme = sati + minuti / 60;
-
-    // Menjamo tvoj red da uključimo vreme (8.5 je 8:30h, 21 je 21:00h)
-    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 21);
     
-    const specijalanDan = (je289 || je710 || je95);
+    // Pošto je Parada prošla, stavljamo da je ovaj uslov uvek lažan (false)
+    const je95 = false; 
+    const je289 = (godina == 2026 && m == 9 && dan == 28); // Specijalno samo za 2026.
+    const je710 = (godina == 2026 && m == 10 && dan == 7); // Specijalno samo za 2026.
+    const specijalanDan = (je289 || je710 || je95); 
 
-    // 3. SPECIJALNI REŽIM ZA 9. MAJ
+    // 3. UKLANJANJE BIOSKOPA
     const ytSloj = document.getElementById('youtube-sloj');
-    const leviSvitak = document.getElementById('najava-svitak'); // Dodajemo ovo
+    if (ytSloj) ytSloj.remove();
 
-    if (je95) {
-        if (!ytSloj) {
-            let sloj = document.createElement('div');
-            sloj.id = 'youtube-sloj';
-            sloj.style = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:black; z-index:100;";
-            sloj.innerHTML = `<iframe width="100%" height="100%" src="https://rt.rs/livetv/" frameborder="0" allowfullscreen></iframe>`;
-            document.body.appendChild(sloj);
-        }
-        // SAKRIVAMO SVE:
-        if (document.querySelector('.sadrzaj')) document.querySelector('.sadrzaj').style.display = "none";
-        if (document.querySelector('.tv-traka-donja')) document.querySelector('.tv-traka-donja').style.display = "none";
-        if (leviSvitak) leviSvitak.style.display = "none"; // Sakriva levi svitak
-        if (document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.display = "none"; // Sakriva desni
-        return; 
-    } else {
-        if (ytSloj) ytSloj.remove();
-        if (leviSvitak) leviSvitak.style.display = "block"; // Vraća levi svitak posle 21h
-    }
-	
-    // 4. ODREĐIVANJE TEKSTA
-    let tekst;
-    if (je289) {
+    // 4. BEZBEDNA SKRETNICA ZA TEKST NA PERGAMENTU (2026 - 2027)
+    let tekst = "Људско битисање се протеже<br>од варања мозга до преварености ума."; // Fabrički tekst
+
+    // Specijalni dani само за 2026. годину
+    if (godina == 2026 && m == 9 && dan == 28) {
         tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔";
-    } else if (je710) {
+    } else if (godina == 2026 && m == 10 && dan == 7) {
         tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни.";
-    } else {
-        tekst = (misli2026[m] && misli2026[m][dan]) || "Људско битисање се протеже<br>од варања мозга до преварености ума.";
+    } 
+    // Redovne misli za 2026. godinu
+    else if (godina == 2026) {
+        if (typeof misli2026 !== 'undefined' && misli2026[m] && misli2026[m][dan]) {
+            tekst = misli2026[m][dan];
+        }
+    } 
+    // Redovne misli za 2027. godinu
+    else if (godina == 2027) {
+        if (typeof misli2027 !== 'undefined' && misli2027[m] && misli2027[m][dan]) {
+            tekst = misli2027[m][dan];
+        }
     }
 
-    // 5. KONTROLA VIDLJIVOSTI
+    // 5. KONTROLA VIDLJIVOSTI ZA REDOVAN IZGLED (SVI СВЕ ОСТАЛЕ ГОДИНЕ И ДАНИ)
     const donjaTraka = document.querySelector('.tv-traka-donja');
     const videoZona = document.getElementById('video-container');
     const glavnaZona = document.getElementById('glavna-sekcija');
     const donjaSekcija = document.getElementById('donja-sekcija');
+    const leviSvitak = document.getElementById('najava-svitak');
 
     if (specijalanDan) {
-        // Sakrivamo levi svitak za bilo koji specijalni dan (9.5, 28.9, 7.10)
-        if (leviSvitak) leviSvitak.style.display = "none";
-		
+        // Kada je specijalan dan (2026), sakriva se sve redovno, uključujući donju traku i levi svitak
         if(videoZona) videoZona.style.display = "block";
         if(glavnaZona) glavnaZona.style.display = "none";
         if(donjaSekcija) donjaSekcija.style.display = "none";
         if(donjaTraka) donjaTraka.style.display = "none";
-        
-        const mojVideo = document.getElementById('mini-video');
-        const noviIzvor = je289 ? "v2.mp4" : "v.mp4";
-        if (mojVideo && !mojVideo.src.includes(noviIzvor)) { mojVideo.src = noviIzvor; }
+        if(leviSvitak) leviSvitak.style.display = "none"; 
     } else {
-        // Vraćamo sve u normalu ako NIJE specijalan dan
-        if (leviSvitak) leviSvitak.style.display = "block";
+        // Redovan rad za sve dane i sve godine (prikazuje se levi svitak i donja traka)
         if(videoZona) videoZona.style.display = "none";
         if(glavnaZona) glavnaZona.style.display = "block";
         if(donjaSekcija) donjaSekcija.style.display = "flex";
         if(donjaTraka) donjaTraka.style.display = "block";
+        if(leviSvitak) leviSvitak.style.display = "block"; 
     }
 
-    kucajTekst(document.getElementById('tekst-misli'), tekst);
-	azurirajNajavu(); // Ovo će samo menjati tekst u "365 dana"
+    // 6. POKRETANJE
+    azurirajNajavu();
     kucajTekst(document.getElementById('tekst-misli'), tekst);
 }
 
@@ -581,7 +571,7 @@ function spustiSvitak() {
     const trenutnoVreme = sati + minuti / 60;
 
     // 1. Provera za 9. maj (8:30h - 21:00h) i ostale dane
-    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 21);
+    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 20);
     const jeSpecijalan = je95 || (m == 9 && dan == 28) || (m == 10 && dan == 7);
 
     // Ako je specijalan dan, osiguraj da su oba svitka ugašena i stani (return)
@@ -633,11 +623,31 @@ setTimeout(spustiSvitak, 4000);
     const d = new Date();
     const m = d.getMonth() + 1;
     const dan = d.getDate();
-    const godina = d.getFullYear(); // DODAJEMO GODINU
+    const godina = d.getFullYear(); 
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const vreme = sati + minuti / 60;
 
+    // 1. KONTROLA SPECIJALNIH DANA (Kao u prvoj skripti)
+    const je95 = false; 
+    const je289 = (godina == 2026 && m == 9 && dan == 28); 
+    const je710 = (godina == 2026 && m == 10 && dan == 7); 
+    const specijalanDan = (je289 || je710 || je95);
+
+    // Pronalazimo desni svitak (ako se u HTML-u zove npr. 'program-svitak' ili 'desni-svitak')
+    // Zamenio sam sa najčešćim ID-jem, proveri da li je kod tebe 'desni-svitak' ili 'desna-najava'
+    const desniSvitak = document.getElementById('desni-svitak'); 
+
+    // Ako je specijalan dan, sakrij ceo desni svitak, u suprotnom ga prikaži
+    if (desniSvitak) {
+        if (specijalanDan) {
+            desniSvitak.style.display = "none";
+        } else {
+            desniSvitak.style.display = "block";
+        }
+    }
+
+    // 2. KONTROLA TEKSTA UNUTAR SVITKA
     const el = document.getElementById('tekst-najave');
     if (!el) return;
 
@@ -652,9 +662,9 @@ setTimeout(spustiSvitak, 4000);
     }
 }
 
-// Покрени ово одмах
+// Pokreni ovo odmah
 azurirajNajavu();
-// Нека проверава сваког минута да сам промени текст
+// Neka proverava svakog minuta da sam promeni tekst
 setInterval(azurirajNajavu, 60000);
 
 	</script>
