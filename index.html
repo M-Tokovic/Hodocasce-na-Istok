@@ -373,14 +373,15 @@
 				"6": "Чудио се зашто стално жури, као мећава — док <br>није схватио да га је ђаво узјахао па копитама <br>удара о слабине, а роговима га туче за врат.",
                 "8": "Није исто Q10 и IQ10.",
                 "10": "Гледају унакрсно, а нису разроки,<br>да би што више „похватали“.",
-                "12": "Један њаче, други гаче, трећи њишти, четврти пишти, пети скаче…",
-                "17": "Знам човека који је имао захват на мозгу, знам и другога који је имао интервенцију на задњици. – Свакоме страда оно што највише користи.",
+                "12": "Један њаче, други гаче, трећи њишти, <br>четврти пишти, пети скаче…<br>- јасно вам је да није реч о животињама.",
+                "17": "Знам човека који је имао захват на мозгу, <br>знам и другога који је имао интервенцију на задњици. <br>– Свакоме страда оно што највише користи.",
                 "19": "Капетана Куку нису пробадали кукови.",
                 "21": "Он је неутралан, чак је неопредељен и по питању самог себе.",
                 "22": "Да ниси отишла у бели свет, ne bi shvatila koliko je život u Srbiji lep.",
                 "24": "На свако питање има одговор, али филозофски, мада на нека и философски.",
-                "30": "Имам гробно место, на прелепом месту, испод тује, одакле se vidi moj grad... Покој нам душама, ускоро, Боже здравља!",
-                "31": "<span onclick='idi(3105)' style='color:#8b0000; cursor:pointer; text-decoration:underline;'>Тројице</span>"
+                "30": "Имам гробно место, на прелепом месту, испод тује, <br>одакле се види мој град... <br>Покој нам душама, ускоро, Боже здравља!",
+                31: '<span onclick="idi(3105)" style="color:#8b0000; cursor:pointer; text-decoration:underline;">Тројице</span>'
+
             },
             "6": { 
                 "1": "Кад уђеш у очи, изашао си из свега; а кад изађеш из очију, ушао си у све — посебно ако су буљаве.",
@@ -504,36 +505,58 @@
         if(leviSvitak) leviSvitak.style.display = "block"; 
     }
 
+        // ПРИВРЕМЕНИ ТЕСТ: Насилно убацујемо линк директно пред куцање текста
+    if (godina == 2026 && m == 5 && dan == 31) {
+        tekst = '<a href="javascript:void(0)" onclick="if(typeof idi===\'function\'){idi(3105);}else{alert(\'Funkcija idi ne postoji!\');}" style="color:#8b0000; text-decoration:underline; cursor:pointer; font-weight:bold;">Тројице</a>';
+    }
+
     // 6. POKRETANJE
     azurirajNajavu();
     kucajTekst(document.getElementById('tekst-misli'), tekst);
 }
 
         let kucaSe = false; // Osigurač da se ne dupliraju slova
+let globalniTajmerTipkanja = null; // Pratimo tajmer globalno
 
 function kucajTekst(element, tekst) {
-    // Ako je tekst već otkucan ili je kucanje u toku, prekini
-    if (element.innerText === tekst.replace(/<br>/g, '') || kucaSe) return;
+    if (!element) return;
     
-    kucaSe = true;
+    // Ako se tekst već kuca, prekidamo stari tajmer i resetujemo sve
+    if (globalniTajmerTipkanja) {
+        clearInterval(globalniTajmerTipkanja);
+    }
+    
     element.innerHTML = ""; 
     let i = 0;
     
-    function tipkaj() {
+    globalniTajmerTipkanja = setInterval(function() {
         if (i < tekst.length) {
+            // 1. Provera za <br> tag
             if (tekst.substr(i, 4) === "<br>") {
                 element.innerHTML += "<br>";
                 i += 4;
-            } else {
+            } 
+            // 2. Provera za HTML tagove (poput <span...)
+            else if (tekst.charAt(i) === '<') {
+                let zatvorenTag = tekst.indexOf('>', i);
+                if (zatvorenTag !== -1) {
+                    element.innerHTML += tekst.substring(i, zatvorenTag + 1);
+                    i = zatvorenTag + 1;
+                } else {
+                    element.innerHTML += tekst.charAt(i);
+                    i++;
+                }
+            } 
+            // 3. Obična slova
+            else {
                 element.innerHTML += tekst.charAt(i);
                 i++;
             }
-            setTimeout(tipkaj, 50);
         } else {
-            kucaSe = false; // Završeno kucanje, oslobodi osigurač
+            clearInterval(globalniTajmerTipkanja);
+            globalniTajmerTipkanja = null;
         }
-    }
-    tipkaj();
+    }, 50); 
 }
                // MOTOR ZA LISTANJE KNJIGE (SLIKE 1, 2, 3)
         let cur = 0; 
