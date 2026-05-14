@@ -332,7 +332,7 @@
     <div class="sadrzaj">
         <h1>М. Токовић</h1>
         <h2>Ходочашће на Исток</h2>
-        <div id="video-container"><video id="mini-video" autoplay muted loop onclick="idi(710)" style="width:100%"><source src="v.mp4" type="video/mp4"></video></div>
+        <div id="video-container" style="display:none; margin: 20px auto; width: 800px; max-width: 90%; border: 5px solid #8b5a2b; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8);"><video id="mini-video" autoplay muted loop style="width:100%"></video></div>
         <div class="hartija"><div id="tekst-misli"></div></div>
         
         <div id="glavna-sekcija">
@@ -366,333 +366,398 @@
     </div>
 
     <script>
-                const misli2026 = {
-            "5": { 
+                // 1. GLAVNA BAZA MISLI I SPECIJALNIH DANA (2026 - 2100)
+const misli2026 = {
+    "2026": {
+        "мисли": {
+            "5": {
                 "3": "Кљун се заглавио у решетку канализационог одвода.<br>Уместо да смирено затвори кљун и извуче се, он је све више гордо зевао и усисавао канализацију у себе.",
                 "5": "У Кући цвећа многи нису били, <br>док у кући смећа већина борави.",
-				"6": "Чудио се зашто стално жури, као мећава — док <br>није схватио да га је ђаво узјахао па копитама <br>удара о слабине, а роговима га туче за врат.",
+                "6": "Чудио се зашто стално жури, као мећава — док <br>није схватио да га је ђаво узјахао па копитама <br>удара о слабине, а роговима га туче за врат.",
                 "8": "Није исто Q10 и IQ10.",
                 "10": "Гледају унакрсно, а нису разроки,<br>да би што више „похватали“.",
                 "12": "Један њаче, други гаче, трећи њишти, <br>четврти пишти, пети скаче…<br>- јасно вам је да није реч о животињама.",
                 "17": "Знам човека који је имао захват на мозгу, <br>знам и другога који је имао интервенцију на задњици. <br>– Свакоме страда оно што највише користи.",
                 "19": "Капетана Куку нису пробадали кукови.",
-                "21": "Он је неутралан, чак је неопредељен и по питању самог себе.",
+                "21": "Он је неутралан, чак је неопредељен i po pitanju samog sebe.",
                 "22": "Да ниси отишла у бели свет, ne bi shvatila koliko je život u Srbiji lep.",
                 "24": "На свако питање има одговор, али филозофски, мада на нека и философски.",
                 "30": "Имам гробно место, на прелепом месту, испод тује, <br>одакле се види мој град... <br>Покој нам душама, ускоро, Боже здравља!",
-                31: '<span onclick="idi(3105)" style="color:#8b0000; cursor:pointer; text-decoration:underline;">Тројице</span>'
-
+                "31": "Тројице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
             },
-            "6": { 
+            "6": {
                 "1": "Кад уђеш у очи, изашао си из свега; а кад изађеш из очију, ушао си у све — посебно ако су буљаве.",
-				"2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
-				"7": "Били су угледна породица, све док једног њиховог потомка нису „опили“ гени једног њиховог далеког претка.",
-				"14": "Бог постоји за оне који верују, а не постоји за оне који не верују...",
-				"21": "Просечан човек шта год види или осети неизоставно му се активира, у складу са опажајном асоцијацијом, промишљање.",
-				"28": "Видели су Виду како на острву Виду Видоја вида." 
+                "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
+                "7": "Били су угледна породица, све док једног њиховог потомка нису „опили“ гени једног њиховог далеког претка.",
+                "14": "Бог постоји за оне који верују, а не постоји за оне који не верују...",
+                "21": "Просечан човек шта год види или осети неизоставно му се активира, у складу са опажајном асоцијацијом, промишљање.",
+                "28": "Видели су Виду како на острву Виду Видоја вида."
             },
-            "7": { 
-                "30": "Ако математика не лаже — данас у 16:16:40 навршава ми се свега: 1 600 000 000 секунди." 
+            "7": {
+                "30": "Ако математика не лаже — данас у 16:16:40 навршава ми се свега: 1 600 000 000 секунди."
             },
             "9": {
-                "28": "Не преферирам вештачку интелигенцију. 🫣<br>А ви?! 🤔"
+                "28": "Не преферирам вештачку интелигенцију. <br>А ви?!  🤔"
             },
-            "10": { 
-                "7": "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни." 
+            "10": {
+                "7": "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни."
             },
-            "11": { 
-                "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…", 
-                "24": "24 године, са свега 24 минута i 24 sekunde pauze u toku 24 sata…" 
+            "11": {
+                "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…",
+                "24": "24 године, са свега 24 минута и 24 секунде паузе у току 24 сата…"
             }
-        };
-
-        function idi(n) {
-    // 1. POSEBNA PROVERA ZA VIBER (da bi radio na svim telefonima)
-    if(n==5) { 
-        window.open("viber://contact?number=%2B381645330444", '_blank'); 
-        return; 
-    }
-            const l = [
-                "",
-                "https://www.pravoslavnikalendar.rs/", // 1
-                "https://saint.gr/",                     // 2
-                "https://days.pravoslavie.ru/",          // 3
-                "mailto:topaz032@gmail.com", // 4 (Email)
-                "viber://contact?number=%2B381645330444", // 5 (Viber за мобилни)
-                "https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B", // 6
-                "https://www.youtube.com/@marko32t/videos", // 7
-                "https://www.instagram.com/markotokovic/", // 8
-                "https://www.facebook.com/markotokovic",    // 9
-                "https://wa.me" // 10 (WhatsApp sa brojem)
-            ];
-            if(n==3105) { window.open("https://youtu.be", '_blank'); return; }
-            if(n==710) { window.open("v.mp4", '_blank'); return; }
-
-            // Otvaranje linka iz liste l u novom prozoru
-            if(l[n]) { 
-                window.open(l[n], '_blank'); 
-            }
+        },
+        "специјални": {
+            "5": { "9": { "aktivno": false, "video": "v.mp4", "klik": 710 } },
+            "9": { "28": { "aktivno": true, "video": "v2.mp4", "klik": 289 } },
+            "10": { "7": { "aktivno": true, "video": "v.mp4", "klik": 710 } }
         }
-                        function postaviSve() {
-    const d = new Date();
-    const m = d.getMonth() + 1; 
-    const dan = d.getDate();
-    const godina = d.getFullYear(); 
+    },
+    "2027": { "мисли": {}, "специјални": {} } // Prostor za naredne godine slobodan do 2100.
+};
 
-    // 1. POZADINA I DATUM
+// 2. TVOJA ORIGINALNA IDI FUNKCIJA SA SVIM ORIGINALNIM LINKOVIMA (Betonirano)
+function idi(n) {
+    if(n==5) {
+        window.open("viber://contact?number=%2B381645330444", '_blank');
+        return;
+    }
+    const l = [
+        "",
+        "https://www.pravoslavnikalendar.rs/", // 1 (Srpska zastavica)
+        "https://saint.gr/", // 2 (Grčka zastavica)
+        "https://days.pravoslavie.ru/", // 3 (Ruska zastavica)
+        "mailto:topaz032@gmail.com", // 4 (Email ikonica dole levo)
+        "viber://contact?number=%2B381645330444", // 5 (Viber ikonica dole levo)
+        "https://www.youtube.com/@%D0%9C.%D0%A2%D0%BE%D0%BA%D0%BE%D0%B2%D0%B8%D1%9B", // 6 (YouTube 1 - Kanal M. Toković - ISPRAVLJENO SPOJENO)
+        "https://www.youtube.com/@marko32t/videos", // 7 (YouTube 2 - Video snimci)
+        "https://www.instagram.com/markotokovic/", // 8 (Instagram ikonica dole desno)
+        "https://www.facebook.com/markotokovic", // 9 (Facebook ikonica dole desno)
+        "wa.me", // 10 (WhatsApp sa tvojim brojem telefona)
+        
+        // Zasebni indeksi za knjigu (Tačne kopije tvojih originalnih linkova sa zastavica - ISPRAVLJENO)
+        "https://www.pravoslavnikalendar.rs/", // 11 (Klik na prvu sliku u knjizi)
+        "https://saint.gr/", // 12 (Klik na drugu sliku u knjizi)
+        "https://days.pravoslavie.ru/" // 13 (Klik na treću sliku u knjizi)
+    ];
+    if(n==3105) { window.open("https://youtu.be", '_blank'); return; }
+    if(n==710) { window.open("v.mp4", '_blank'); return; }
+    if(n==289) { window.open("v2.mp4", '_blank'); return; }
+
+    if(l[n]) {
+        window.open(l[n], '_blank');
+    }
+}
+
+// 3. GLAVNI KONTROLNI MOTOR SAJTA
+function postaviSve() {
+    const d = new Date();
+    const m = d.getMonth() + 1;
+    const dan = d.getDate();
+    const godina = d.getFullYear();
+    const sati = d.getHours();
+    const minuti = d.getMinutes();
+    const trenutnoVreme = sati + minuti / 60;
+
+    // Pozadina i datum
     document.body.style.backgroundImage = "url('m" + m + ".jpg')";
     if (document.getElementById('datum-prikaz')) {
         document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
     }
 
-    // 2. KONTROLA VREMENA (Isključili smo bioskop za večeras)
-    const sati = d.getHours();
-    const minuti = d.getMinutes();
-    const trenutnoVreme = sati + minuti / 60;
-    
-    // Pošto je Parada prošla, stavljamo da je ovaj uslov uvek lažan (false)
-    const je95 = false; 
-    const je289 = (godina == 2026 && m == 9 && dan == 28); // Specijalno samo za 2026.
-    const je710 = (godina == 2026 && m == 10 && dan == 7); // Specijalno samo za 2026.
-    const specijalanDan = (je289 || je710 || je95); 
-
-    // 3. UKLANJANJE BIOSKOPA
+    // Uklanjanje starog bioskopa ako postoji
     const ytSloj = document.getElementById('youtube-sloj');
     if (ytSloj) ytSloj.remove();
 
-    // 4. BEZBEDNA SKRETNICA ZA TEKST NA PERGAMENTU (2026 - 2027)
-    let tekst = "Људско битисање се протеже<br>од варања мозга до преварености ума."; // Fabrički tekst
+    // Univerzalni fabrički tekst za pergament
+    let tekst = "Људско битисање се протеже<br>од варања мозга до преварености ума.";
 
-    // Specijalni dani само за 2026. годину
-    if (godina == 2026 && m == 9 && dan == 28) {
-        tekst = "Не преферирам вештачку интелигенцију. 🤭<br>А ви?! 🤔";
-    } else if (godina == 2026 && m == 10 && dan == 7) {
-        tekst = "У данашње време могуће су свакакве преваре.<br>Истина је да смо обојица грдни.";
-    } 
-    // Redovne misli za 2026. godinu
-    else if (godina == 2026) {
-        if (typeof misli2026 !== 'undefined' && misli2026[m] && misli2026[m][dan]) {
-            tekst = misli2026[m][dan];
-        }
-    } 
-    // Redovne misli za 2027. godinu
-    else if (godina == 2027) {
-        if (typeof misli2027 !== 'undefined' && misli2027[m] && misli2027[m][dan]) {
-            tekst = misli2027[m][dan];
-        }
+    // Čitanje redovnih tekstova iz baze
+    if (misli2026[godina] && misli2026[godina]["мисли"] && misli2026[godina]["мисли"][m] && misli2026[godina]["мисли"][m][dan]) {
+        tekst = misli2026[godina]["мисли"][m][dan];
     }
 
-    // 5. KONTROLA VIDLJIVOSTI ZA REDOVAN IZGLED (SVI СВЕ ОСТАЛЕ ГОДИНЕ И ДАНИ)
-    const donjaTraka = document.querySelector('.tv-traka-donja');
+    // Provera i aktivacija specijalnih dana iz baze
+    let jeSpecijalanDan = false;
+    let trenutniSpecijalan = null;
+
+    if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
+        trenutniSpecijalan = misli2026[godina]["специјални"][m][dan];
+                // 9. мај - Специјалан режим за све године (2026-2100) од 8 до 12 часова
+        if (m == 5 && dan == 9) {
+            jeSpecijalanDan = (trenutnoVreme >= 8 && trenutnoVreme < 12);
+        } else {
+            jeSpecijalanDan = trenutniSpecijalan ? trenutniSpecijalan["aktivno"] : false;
+        }
+    } else if (m == 5 && dan == 9) {
+        // Сигурносни услов ако за неку будућу годину уопште немаш уписан 9. мај у бази
+        jeSpecijalanDan = (trenutnoVreme >= 8 && trenutnoVreme < 12);
+    }
+
+    // Selektovanje svih elemenata na ekranu
     const videoZona = document.getElementById('video-container');
+    const miniVideo = document.getElementById('mini-video');
+    const donjaTraka = document.querySelector('.tv-traka-donja');
     const glavnaZona = document.getElementById('glavna-sekcija');
     const donjaSekcija = document.getElementById('donja-sekcija');
     const leviSvitak = document.getElementById('najava-svitak');
+    const desniSvitak = document.getElementById('svitak-meni');
+    const dugmeOtvoriSvitak = document.getElementById('dugme-otvori-svitak');
 
-    if (specijalanDan) {
-        // Kada je specijalan dan (2026), sakriva se sve redovno, uključujući donju traku i levi svitak
-        if(videoZona) videoZona.style.display = "block";
-        if(glavnaZona) glavnaZona.style.display = "none";
-        if(donjaSekcija) donjaSekcija.style.display = "none";
-        if(donjaTraka) donjaTraka.style.display = "none";
-        if(leviSvitak) leviSvitak.style.display = "none"; 
+        const gornjeZastave = document.querySelector('.blok-desno');
+
+    if (jeSpecijalanDan) {
+    // 1. Сакривање СВИХ елемената са екрана
+    if(glavnaZona) glavnaZona.style.display = "none";
+    if(donjaSekcija) donjaSekcija.style.display = "none";
+    if(donjaTraka) donjaTraka.style.display = "none";
+    if(leviSvitak) leviSvitak.style.display = "none";
+    if(desniSvitak) { 
+        desniSvitak.style.display = "none";
+        desniSvitak.style.visibility = "hidden"; 
+    }
+    if(dugmeOtvoriSvitak) dugmeOtvoriSvitak.style.display = "none";
+    if(gornjeZastave) gornjeZastave.style.display = "none";
+    
+    // ГОРЊА ТВ ТРАКА СЕ НЕ САКРИВА — ОНА ОСТАЈЕ ДА РАДИ НА ВРХУ ЕКРАНА
+
+    // 2. Специјални режим за 9. мај (Парада Победе од 8 до 12 часова за све године)
+    if (m == 5 && dan == 9) {
+        if(videoZona) videoZona.style.display = "none"; // Гасимо обичан мали видео
+        
+        // Проверавамо да ли је већ убачен пренос уживо да га не бисмо дуплирали
+        if (!document.getElementById('rt-uzivo-strim')) {
+            const iframeStrim = document.createElement('iframe');
+            iframeStrim.id = 'rt-uzivo-strim';
+            iframeStrim.src = "https://rt.rs/livetv/"; // Линк за ТВ пренос уживо
+            
+            // Стилизовање да буде преко целог екрана испод горње ТВ траке
+            iframeStrim.style.position = 'fixed';
+            iframeStrim.style.top = '35px'; // Померамо испод горње ТВ траке да је не преклопи
+            iframeStrim.style.left = '0';
+            iframeStrim.style.width = '100vw';
+            iframeStrim.style.height = 'calc(100vh - 35px)';
+            iframeStrim.style.border = 'none';
+            iframeStrim.style.zIndex = '9998'; // Један ниво испод горње траке која има z-index 9999
+            
+            document.body.appendChild(iframeStrim);
+        }
+        return; // Заустављамо даљи рад обичног видео режима
+    }
+
+    // 3. Динамичко убацивање обичног локалног видеа (Ово важи за ОСТАЛЕ специјалне дане у бази)
+    // Прво уклањамо РТ стрим ако је остао у меморији претраживача
+    const стариСтрим = document.getElementById('rt-uzivo-strim');
+    if(стариСтрим) стариСтрим.remove();
+
+    if (videoZona && miniVideo) {
+        videoZona.style.display = "block"; // Приказује обичан уоквирени видео из базе
+            
+            // 1. Direktno menjamo izvor videa na samom plejeru radi sigurnog učitavanja
+            miniVideo.src = trenutniSpecijalan["video"];
+            
+            // 2. Ručno vezujemo tačne ID brojeve za funkciju idi(n) na osnovu baze
+            if (trenutniSpecijalan["video"] === "v2.mp4") {
+                miniVideo.onclick = function() { idi(289); }; // Pokreće v2.mp4 na klik za 28.09.
+            } else if (trenutniSpecijalan["video"] === "v.mp4") {
+                miniVideo.onclick = function() { idi(710); }; // Pokreće v.mp4 na klik za 07.10. i 09.05.
+            }
+            
+            miniVideo.load();
+        }
     } else {
-        // Redovan rad za sve dane i sve godine (prikazuje se levi svitak i donja traka)
+        // Redovan izgled sajta - Sve se prikazuje, a svici čekaju svoj tajmer od 4 sekunde
         if(videoZona) videoZona.style.display = "none";
         if(glavnaZona) glavnaZona.style.display = "block";
         if(donjaSekcija) donjaSekcija.style.display = "flex";
         if(donjaTraka) donjaTraka.style.display = "block";
-        if(leviSvitak) leviSvitak.style.display = "block"; 
     }
 
-        // ПРИВРЕМЕНИ ТЕСТ: Насилно убацујемо линк директно пред куцање текста
-    if (godina == 2026 && m == 5 && dan == 31) {
-        tekst = '<a href="javascript:void(0)" onclick="if(typeof idi===\'function\'){idi(3105);}else{alert(\'Funkcija idi ne postoji!\');}" style="color:#8b0000; text-decoration:underline; cursor:pointer; font-weight:bold;">Тројице</a>';
-    }
-
-    // 6. POKRETANJE
+    // Pokretanje kucanja teksta i aktivacija linka za Trojice
     azurirajNajavu();
-    kucajTekst(document.getElementById('tekst-misli'), tekst);
+    
+    if (godina == 2026 && m == 5 && dan == 31) {
+        kucajTekst(document.getElementById('tekst-misli'), "Тројице");
+        setTimeout(() => {
+            const el = document.getElementById('tekst-misli');
+            if(el) {
+                el.style.color = "#8b0000"; el.style.textDecoration = "underline";
+                el.style.cursor = "pointer"; el.style.fontWeight = "bold";
+                el.onclick = function() { window.open("https://youtu.be/i9HRfH6EMCM?si=lKI-9nYX71hZQ-F1", '_blank'); };
+            }
+        }, 600);
+    } else {
+        const el = document.getElementById('tekst-misli');
+        if(el) el.onclick = null;
+        kucajTekst(document.getElementById('tekst-misli'), tekst);
+    }
 }
 
-        let kucaSe = false; // Osigurač da se ne dupliraju slova
-let globalniTajmerTipkanja = null; // Pratimo tajmer globalno
+// 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO
+let kucaSe = false;
+let globalniTajmerTipkanja = null;
 
 function kucajTekst(element, tekst) {
     if (!element) return;
-    
-    // Ako se tekst već kuca, prekidamo stari tajmer i resetujemo sve
-    if (globalniTajmerTipkanja) {
-        clearInterval(globalniTajmerTipkanja);
-    }
-    
-    element.innerHTML = ""; 
+    if (globalniTajmerTipkanja) { clearInterval(globalniTajmerTipkanja); }
+    element.innerHTML = "";
     let i = 0;
-    
+
     globalniTajmerTipkanja = setInterval(function() {
         if (i < tekst.length) {
-            // 1. Provera za <br> tag
             if (tekst.substr(i, 4) === "<br>") {
-                element.innerHTML += "<br>";
-                i += 4;
-            } 
-            // 2. Provera za HTML tagove (poput <span...)
-            else if (tekst.charAt(i) === '<') {
+                element.innerHTML += "<br>"; i += 4;
+            } else if (tekst.charAt(i) === '<') {
                 let zatvorenTag = tekst.indexOf('>', i);
                 if (zatvorenTag !== -1) {
-                    element.innerHTML += tekst.substring(i, zatvorenTag + 1);
-                    i = zatvorenTag + 1;
+                    element.innerHTML += tekst.substring(i, zatvorenTag + 1); i = zatvorenTag + 1;
                 } else {
-                    element.innerHTML += tekst.charAt(i);
-                    i++;
+                    element.innerHTML += tekst.charAt(i); i++;
                 }
-            } 
-            // 3. Obična slova
-            else {
-                element.innerHTML += tekst.charAt(i);
-                i++;
+            } else {
+                element.innerHTML += tekst.charAt(i); i++;
             }
         } else {
-            clearInterval(globalniTajmerTipkanja);
-            globalniTajmerTipkanja = null;
+            clearInterval(globalniTajmerTipkanja); globalniTajmerTipkanja = null;
         }
-    }, 50); 
+    }, 50);
 }
-               // MOTOR ZA LISTANJE KNJIGE (SLIKE 1, 2, 3)
-        let cur = 0; 
-        const f = document.querySelectorAll('.slika-okvir');
-        
-        function listaj() { 
-            if(!f.length) return; 
-            f[cur].classList.remove('aktivna'); 
-            cur = (cur + 1) % f.length; 
-            f[cur].classList.add('aktivna'); 
-        }
-        
-        // Ovo pokreće listanje svake 3 sekunde
-        setInterval(listaj, 3000);
-        setInterval(() => { document.getElementById('sat-prikaz').innerText = new Date().toLocaleTimeString('sr-RS'); }, 1000);
-        postaviSve();
-		window.addEventListener('mousedown', function() {
+
+// 5. LISTANJE SLIKA KNJIGE I DODELA LINKOVA
+let cur = 0;
+const f = document.querySelectorAll('.slika-okvir');
+
+function listaj() {
+    if(!f.length) return;
+    f[cur].classList.remove('aktivna');
+    cur = (cur + 1) % f.length;
+    f[cur].classList.add('aktivna');
+    f[cur].onclick = function() { idi(cur + 11); };
+}
+if(f.length > 0) { f.onclick = function() { idi(11); }; }
+
+setInterval(listaj, 3000);
+setInterval(() => { 
+    if(document.getElementById('sat-prikaz')) {
+        document.getElementById('sat-prikaz').innerText = new Date().toLocaleTimeString('sr-RS'); 
+    }
+}, 1000);
+
+// Ambijentalni zvuk na prvi klik miša
+window.addEventListener('mousedown', function() {
     const mzk = document.getElementById('pozadinska-muzika');
     const d = new Date();
-    const jeSpecijalan = (d.getMonth()+1 == 5 && d.getDate() == 9) || (d.getMonth()+1 == 9 && d.getDate() == 28) || (d.getMonth()+1 == 10 && d.getDate() == 7);
+    const m = d.getMonth() + 1;
+    const dan = d.getDate();
+    const godina = d.getFullYear();
+    
+    let jeSpecijalan = false;
+    if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
+        jeSpecijalan = misli2026[godina]["специјални"][m][dan]["aktivno"];
+    }
 
     if (!jeSpecijalan && mzk && mzk.paused) {
-        mzk.volume = 0.3;
-        mzk.play();
+        mzk.volume = 0.3; mzk.play();
     }
 }, { once: true });
 
-postaviSve(); // Ova linija pokreće sve
+// 6. FUNKCIJA KOJA SPREMA I ODMATА SVITKE NAKON 4 SEKUNDE
 function spustiSvitak() {
     const d = new Date();
     const m = d.getMonth() + 1;
     const dan = d.getDate();
+    const godina = d.getFullYear();
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const trenutnoVreme = sati + minuti / 60;
 
-    // 1. Provera za 9. maj (8:30h - 21:00h) i ostale dane
-    const je95 = (m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 20);
-    const jeSpecijalan = je95 || (m == 9 && dan == 28) || (m == 10 && dan == 7);
+    const je95 = (godina == 2026 && m == 5 && dan == 9 && trenutnoVreme >= 8.5 && trenutnoVreme < 20);
+    let jeSpecijalan = je95;
+    if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
+        jeSpecijalan = je95 || misli2026[godina]["специјални"][m][dan]["aktivno"];
+    }
 
-    // Ako je specijalan dan, osiguraj da su oba svitka ugašena i stani (return)
     if (jeSpecijalan) {
-        // Sakrivamo sve, obavezno i levi svitak!
-        if (document.getElementById('najava-svitak')) {
-            document.getElementById('najava-svitak').style.display = "none";
-        }
         if (document.getElementById('najava-svitak')) document.getElementById('najava-svitak').style.display = "none";
-        if (document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.display = "none";
+        if (document.getElementById('svitak-meni')) {
+            document.getElementById('svitak-meni').style.display = "none";
+            document.getElementById('svitak-meni').style.visibility = "hidden";
+        }
+        if (document.getElementById('dugme-otvori-svitak')) document.getElementById('dugme-otvori-svitak').style.display = "none";
         return;
     }
 
-    // 2. AKO NIJE SPECIJALAN DAN, AKTIVIRAJ SVITKE:
-    
-    // Upali LEVI svitak odmah (ako postoji)
     const levi = document.getElementById('najava-svitak');
-    if (levi) {
-        levi.style.display = "block";
-    }
+    if (levi) levi.style.display = "block";
 
-    // Upali DESNI svitak sa efektom odmotavanja
     const svitak = document.getElementById('svitak-meni');
     const dugme = document.getElementById('dugme-otvori-svitak');
-    
+
     if (svitak) {
         svitak.style.display = "block";
-        setTimeout(() => { 
-            svitak.classList.add('otvoren'); 
+        svitak.style.visibility = "visible";
+        setTimeout(() => {
+            svitak.classList.add('otvoren');
             const linkovi = document.querySelectorAll('.lista-veza li');
             linkovi.forEach((l, i) => setTimeout(() => l.classList.add('vidljiv'), i * 800 + 1000));
         }, 50);
-        if (dugme) dugme.classList.remove('vidljivo');
+        if (dugme) { dugme.style.display = "none"; dugme.classList.remove('vidljivo'); }
     }
 }
 
 function skloniSvitak() {
     const svitak = document.getElementById('svitak-meni');
     const dugme = document.getElementById('dugme-otvori-svitak');
-    svitak.classList.remove('otvoren');
-    setTimeout(() => { 
-        svitak.style.display = "none";
-        dugme.classList.add('vidljivo');
+    if(svitak) svitak.classList.remove('otvoren');
+    setTimeout(() => {
+        if(svitak) { svitak.style.display = "none"; svitak.style.visibility = "hidden"; }
+        if(dugme) { dugme.style.display = "flex"; dugme.classList.add('vidljivo'); }
         document.querySelectorAll('.lista-veza li').forEach(l => l.classList.remove('vidljiv'));
-    }, 3000); 
+    }, 3000);
 }
+
 setTimeout(spustiSvitak, 4000);
-    function azurirajNajavu() {
+
+// 7. NAJAVA LEVOG SVITKA
+function azurirajNajavu() {
     const d = new Date();
     const m = d.getMonth() + 1;
     const dan = d.getDate();
-    const godina = d.getFullYear(); 
+    const godina = d.getFullYear();
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const vreme = sati + minuti / 60;
 
-    // 1. KONTROLA SPECIJALNIH DANA (Kao u prvoj skripti)
-    const je95 = false; 
-    const je289 = (godina == 2026 && m == 9 && dan == 28); 
-    const je710 = (godina == 2026 && m == 10 && dan == 7); 
-    const specijalanDan = (je289 || je710 || je95);
-
-    // Pronalazimo desni svitak (ako se u HTML-u zove npr. 'program-svitak' ili 'desni-svitak')
-    // Zamenio sam sa najčešćim ID-jem, proveri da li je kod tebe 'desni-svitak' ili 'desna-najava'
-    const desniSvitak = document.getElementById('desni-svitak'); 
-
-    // Ako je specijalan dan, sakrij ceo desni svitak, u suprotnom ga prikaži
-    if (desniSvitak) {
-        if (specijalanDan) {
-            desniSvitak.style.display = "none";
-        } else {
-            desniSvitak.style.display = "block";
-        }
+    const je95 = (godina == 2026 && m == 5 && dan == 9 && vreme >= 8.5 && vreme < 20);
+    let jeSpecijalan = je95;
+    if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
+        jeSpecijalan = je95 || misli2026[godina]["специјални"][m][dan]["aktivno"];
     }
 
-    // 2. KONTROLA TEKSTA UNUTAR SVITKA
+    const desniSvitak = document.getElementById('svitak-meni');
+    if (desniSvitak && jeSpecijalan) {
+        desniSvitak.style.display = "none"; desniSvitak.style.visibility = "hidden";
+    }
+
     const el = document.getElementById('tekst-najave');
     if (!el) return;
 
-    // USLOV: Parada se najavljuje SAMO 2026. godine, do 9. maja u 08:30h
     const doParade2026 = (godina == 2026) && ((m < 5) || (m == 5 && dan < 9) || (m == 5 && dan == 9 && vreme < 8.5));
 
     if (doParade2026) {
         el.innerHTML = "Субота 9. мај<br>9:00<br>ПАРАДА ПОБЕДЕ<br>Уживо";
     } else {
-        // Čim prođe taj termin ili čim nastupi 2027. godina, piše ovo:
         el.innerHTML = "365<br>(366)<br>дана и ноћи";
     }
 }
 
-// Pokreni ovo odmah
-azurirajNajavu();
-// Neka proverava svakog minuta da sam promeni tekst
+// JEDINSTVENO POKRETANJE CELOG SISTEMA NA KRAJU STRANICE
+postaviSve();
 setInterval(azurirajNajavu, 60000);
-
-	</script>
+</script>
 </body>
 </html>
+
 
 
 
