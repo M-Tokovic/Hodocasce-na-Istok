@@ -411,16 +411,28 @@ const misli2026 = {
                 "специјални": {
             "9": { "28": { "aktivno": true, "video": "v2.mp4", "klik": 289 } },
             "10": { "7": { "aktivno": true, "video": "v.mp4", "klik": 710 } }
-        }
-    },
-    "2027": {
+            },
+			// --- OVDE UPISUJETE NAJAVE ZA LEVI SVITAK ZA 2026. GODINU ---
+"најаве": {
+    "6": {
+        "8": "Тек си на почетку,<br>али много лепше звучи<br>20-40-70-100,<br>него 18. годиница. 🥰"
+    }
+}
+},
+"2027": {
         "мисли": {
             "3": {
                 "6": "Није доживео ни корону, ни рат у Украјини, ни рат на Блиском истоку — и шта све не."                
             }
         },
-        "специјални": {}
+        "специјални": {},
+    // --- OVDE UPISUJETE NAJave ZA LEVI SVITAK ZA 2027. GODINU ---
+    "најаве": {
+        "5": {
+            "16": "Овај текст ће се видети<br>тек 16. маја 2027. године."
+        }
     }
+}
 };
 // 2. TVOJA ORIGINALNA IDI FUNKCIJA SA SVIM ORIGINALNIM LINKOVIMA (Betonirano)
 function idi(n) {
@@ -734,12 +746,14 @@ function azurirajNajavu() {
     const minuti = d.getMinutes();
     const vreme = sati + minuti / 60;
 
+    // Svi vaši originalni uslovi za specijalne dane ostaju netaknuti
     const je95 = (godina == 2026 && m == 5 && dan == 9 && vreme >= 8 && vreme < 12);
     let jeSpecijalan = je95;
     if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
         jeSpecijalan = je95 || misli2026[godina]["специјални"][m][dan]["aktivno"];
     }
 
+    // Kod koji gasi desni svitak tokom specijalnih dana ostaje isti
     const desniSvitak = document.getElementById('svitak-meni');
     if (desniSvitak && jeSpecijalan) {
         desniSvitak.style.display = "none"; desniSvitak.style.visibility = "hidden";
@@ -753,7 +767,20 @@ function azurirajNajavu() {
     if (doParade2026) {
         el.innerHTML = "Субота 9. мај<br>9:00<br>ПАРАДА ПОБЕДЕ<br>Уживо";
     } else {
-        el.innerHTML = "365<br>(366)<br>дана и ноћи";
+        let tekst = "Рефлексија <br>365 (366) <br>Резоновање";
+        
+        // Аутоматски прорачун поглавља за Марков рођендан (17.11.) на основу године рођења 1975.
+        if (m === 11 && dan === 17) {
+            const poglavlje = godina - 1974; 
+            tekst = `Под окриљем тајанственог новембра, Марко отвара ${poglavlje}. поглавље своје животне приче — Путовање се наставља. 📜`;
+        } 
+        // Ако није рођендан, проверава да ли постоји друга ручна најава у твојој бази (мисли2026)
+        else if (misli2026[godina] && misli2026[godina]["најаве"] && misli2026[godina]["најаве"][m] && misli2026[godina]["најаве"][m][dan]) {
+            tekst = misli2026[godina]["најаве"][m][dan];
+        }
+        
+        // Уписивање финалног текста у леви свитак
+        el.innerHTML = tekst;
     }
 }
 
