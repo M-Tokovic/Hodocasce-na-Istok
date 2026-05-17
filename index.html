@@ -390,7 +390,8 @@ const misli2026 = {
                 "1": "Кад уђеш у очи, изашао си из свега; а кад изађеш из очију, ушао си у све — посебно ако су буљаве.",
                 "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
                 "7": "Били су угледна породица, све док једног њиховог потомка нису „опили“ гени једног њиховог далеког претка.",
-                "14": "У нашој земљи, као у свакој прашуми, има свега — само ум шуми.",
+                "8": "Тек си на почетку, али много лепше звучи<br>20-40-70-100,<br>него 18. годиница. 🥰",
+				"14": "У нашој земљи, као у свакој прашуми, има свега — само ум шуми.",
                 "21": "Просечан човек шта год види или осети неизоставно му се активира, у складу са опажајном асоцијацијом, промишљање.",
                 "28": "Видели су Виду како на острву Виду Видоја вида."
             },
@@ -409,13 +410,14 @@ const misli2026 = {
             }
         },
                 "специјални": {
+				"6": { "8": { "aktivno": true, "video": "v3.mp4", "klik": 86 } },
             "9": { "28": { "aktivno": true, "video": "v2.mp4", "klik": 289 } },
             "10": { "7": { "aktivno": true, "video": "v.mp4", "klik": 710 } }
             },
 			// --- OVDE UPISUJETE NAJAVE ZA LEVI SVITAK ZA 2026. GODINU ---
 "најаве": {
     "6": {
-        "8": "Тек си на почетку,<br>али много лепше звучи<br>20-40-70-100,<br>него 18. годиница. 🥰"
+        "8": ""
     }
 }
 },
@@ -461,6 +463,7 @@ function idi(n) {
     if(n==3105) { window.open("https://youtu.be", '_blank'); return; }
     if(n==710) { window.open("v.mp4", '_blank'); return; }
     if(n==289) { window.open("v2.mp4", '_blank'); return; }
+	if(n==86) { window.open("v3.mp4", '_blank'); return; }
 
     if(l[n]) {
         window.open(l[n], '_blank');
@@ -571,6 +574,27 @@ function postaviSve() {
     if (videoZona && miniVideo) {
         videoZona.style.display = "block"; // Приказује обичан уоквирени видео из базе
             
+                                    // 1. Direktno menjamo izvor videa na samom plejeru radi sigurnog učitavanja
+            miniVideo.src = trenutniSpecijalan["video"];
+            
+            // ============================================================
+            // FINO PODEŠAVANJE: Video ne pokriva pergament i ne pravi skrol
+            // ============================================================
+                    if (videoZona && miniVideo) {
+            videoZona.style.display = "block"; // Приказује обичан уоквирени видео из базе
+            
+            // ============================================================
+            // FINO PODEŠAVANJE ZA SPECIJALNE DANE: Video ne pravi skrol
+            // ============================================================
+            videoZona.style.position = "relative";
+            videoZona.style.width = "750px";       
+            videoZona.style.maxWidth = "85%";      
+            videoZona.style.margin = "10px auto";  
+            
+            miniVideo.style.maxHeight = "55vh";    
+            miniVideo.style.objectFit = "contain"; 
+            // ============================================================
+
             // 1. Direktno menjamo izvor videa na samom plejeru radi sigurnog učitavanja
             miniVideo.src = trenutniSpecijalan["video"];
             
@@ -578,11 +602,35 @@ function postaviSve() {
             if (trenutniSpecijalan["video"] === "v2.mp4") {
                 miniVideo.onclick = function() { idi(289); }; // Pokreće v2.mp4 na klik za 28.09.
             } else if (trenutniSpecijalan["video"] === "v.mp4") {
-                miniVideo.onclick = function() { idi(710); }; // Pokreće v.mp4 na klik za 07.10. i 09.05.
+                miniVideo.onclick = function() { idi(710); }; // Pokreće v.mp4 na klik za 07.10.
+            } else if (trenutniSpecijalan["video"] === "v3.mp4") {
+                miniVideo.onclick = function() { idi(86); }; // Pokreće v3.mp4 na klik za 08.06.
             }
             
             miniVideo.load();
         }
+    } else {
+        // ============================================================
+        // FABRIČKO RESETOVANJE ZA OBIČNE DANE (Da se ne pokvari sajt)
+        // ============================================================
+        if(videoZona) {
+            videoZona.style.display = "none";
+            videoZona.style.position = ""; // Vraća na fabrički CSS
+            videoZona.style.width = "";     // Vraća na fabrički CSS (800px iz stila)
+            videoZona.style.maxWidth = "";  // Vraća na fabrički CSS
+            videoZona.style.margin = "";    // Vraća na fabrički CSS
+        }
+        if(miniVideo) {
+            miniVideo.style.maxHeight = ""; // Poništava ograničenje visine
+            miniVideo.style.objectFit = "";  // Poništava stil
+        }
+        // ============================================================
+        
+        // Redovan izgled sajta - Sve se prikazuje, a svici čekaju svoj tajmer od 4 sekunde
+        if(glavnaZona) glavnaZona.style.display = "block";
+        if(donjaSekcija) donjaSekcija.style.display = "flex";
+        if(donjaTraka) donjaTraka.style.display = "block";
+    }
     } else {
         // Redovan izgled sajta - Sve se prikazuje, a svici čekaju svoj tajmer od 4 sekunde
         if(videoZona) videoZona.style.display = "none";
