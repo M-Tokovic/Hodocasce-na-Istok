@@ -279,7 +279,9 @@
     <div class="cilim-valjak-vrh"></div>
     <div class="svitak-sadrzaj-najava">
         <!-- Овде је празно, скрипта ће сама уписати текст -->
-        <div id="tekst-najave" class="pulsirajuci-tekst" style="color: red; font-weight: bold; line-height: 1.2; font-size: 22px;">
+        <div id="tekst-najave" class="pulsirajuci-tekst" style="color: red; font-weight: bold; line-height: 1.2; font-size: 22px;"></div>
+<!-- DODAJEMO OVAJ RED ISPOD ZA ROĐENDANSKI SAT -->
+<div id="rodjendanski-sat" style="color: #4a2c0f; font-size: 16px; font-weight: bold; margin-top: 10px; font-family: 'Times New Roman', serif;"></div>
         </div>
     </div>
     <div class="cilim-valjak-dno"></div>
@@ -382,7 +384,7 @@ const misli2026 = {
                 "16": "Какав дан за свађу, отказ, развод...<br>И наравно преговоре са поленском кијавицом.",
 				"17": "Знам човека који је имао захват на мозгу, <br>знам и другога који је имао интервенцију на задњици. <br>– Свакоме страда оно што највише користи.",
                 "19": "Капетана Куку нису пробадали кукови.",
-                "21": "Он је неутралан, чак је неопредељен и по питању самог себе.",
+                "21": "Он је неутралан, чак је неопредељен <br>и по питању самог себе.",
                 "22": "Да ниси отишла у бели свет, не би схватила колико је живот у Србији леп.",
                 "24": "На свако питање има одговор, али филозофски, мада на нека и философски.",
                 "30": "Имам гробно место, на прелепом месту, испод тује, одакле се види мој град...<br>Нит нешто стичем, нит сам спреман за онамо...<br>А овде неки боље уживају, а неки не — у ићу и пићу...<br>Покој нам душама, ускоро, Боже здравља!",
@@ -501,77 +503,79 @@ function postaviSve() {
     }
 
     // Provera i aktivacija specijalnih dana iz baze
-    let jeSpecijalanDan = false;
-    let trenutniSpecijalan = null;
+let jeSpecijalanDan = false;
+let trenutniSpecijalan = null;
 
-    if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
-        trenutniSpecijalan = misli2026[godina]["специјални"][m][dan];
-                // 9. мај - Специјалан режим за све године (2026-2100) од 8 до 12 часова
-        if (m == 5 && dan == 9) {
-            jeSpecijalanDan = (trenutnoVreme >= 8 && trenutnoVreme < 12);
-        } else {
-            jeSpecijalanDan = trenutniSpecijalan ? trenutniSpecijalan["aktivno"] : false;
-        }
-    } else if (m == 5 && dan == 9) {
-        // Сигурносни услов ако за неку будућу годину уопште немаш уписан 9. мај у бази
+if (misli2026[godina] && misli2026[godina]["специјални"] && misli2026[godina]["специјални"][m] && misli2026[godina]["специјални"][m][dan]) {
+    trenutniSpecijalan = misli2026[godina]["специјални"][m][dan];
+    // 9. мај - Специјалан режим за све године (2026-2100) од 8 до 12 часова
+    if (m == 5 && dan == 9) {
         jeSpecijalanDan = (trenutnoVreme >= 8 && trenutnoVreme < 12);
+    } else {
+        jeSpecijalanDan = trenutniSpecijalan ? trenutniSpecijalan["aktivno"] : false;
     }
+} else if (m == 5 && dan == 9) {
+    // Сигурносни услов ако за неку будућу годину уопште немаш уписан 9. мај у бази
+    jeSpecijalanDan = (trenutnoVreme >= 8 && trenutnoVreme < 12);
+}
 
-    // Selektovanje svih elemenata na ekranu
-    const videoZona = document.getElementById('video-container');
-    const miniVideo = document.getElementById('mini-video');
-    const donjaTraka = document.querySelector('.tv-traka-donja');
-    const glavnaZona = document.getElementById('glavna-sekcija');
-    const donjaSekcija = document.getElementById('donja-sekcija');
-    const leviSvitak = document.getElementById('najava-svitak');
-    const desniSvitak = document.getElementById('svitak-meni');
-    const dugmeOtvoriSvitak = document.getElementById('dugme-otvori-svitak');
+// Selektovanje svih elemenata na ekranu
+const videoZona = document.getElementById('video-container');
+const miniVideo = document.getElementById('mini-video');
+const donjaTraka = document.querySelector('.tv-traka-donja');
+const glavnaZona = document.getElementById('glavna-sekcija');
+const donjaSekcija = document.getElementById('donja-sekcija');
+const leviSvitak = document.getElementById('najava-svitak');
+const desniSvitak = document.getElementById('svitak-meni');
+const dugmeOtvoriSvitak = document.getElementById('dugme-otvori-svitak');
+// KAKO TREBA DA IZGLEDA NAKON TVOJE IZMENE:
+const gornjeZastave = document.querySelector('.blok-desno');
 
-        const gornjeZastave = document.querySelector('.blok-desno');
-
-    if (jeSpecijalanDan) {
+if (jeSpecijalanDan && !(m == 11 && dan == 17)) {
     // 1. Сакривање СВИХ елемената са екрана
     if(glavnaZona) glavnaZona.style.display = "none";
     if(donjaSekcija) donjaSekcija.style.display = "none";
     if(donjaTraka) donjaTraka.style.display = "none";
     if(leviSvitak) leviSvitak.style.display = "none";
-    if(desniSvitak) { 
+    if(desniSvitak) {
         desniSvitak.style.display = "none";
-        desniSvitak.style.visibility = "hidden"; 
+        desniSvitak.style.visibility = "hidden";
     }
     if(dugmeOtvoriSvitak) dugmeOtvoriSvitak.style.display = "none";
     if(gornjeZastave) gornjeZastave.style.display = "none";
-    
+
     // ГОРЊА ТВ ТРАКА СЕ НЕ САКРИВА — ОНА ОСТАЈЕ ДА РАДИ НА ВРХУ ЕКРАНА
 
-    // 2. Специјални режим за 9. мај (Парада Победе од 8 до 12 часова за све године)
+        // 2. Специјални режим за 9. мај (Парада Победе од 8 до 12 часова за све године)
     if (m == 5 && dan == 9) {
-        if(videoZona) videoZona.style.display = "none"; // Гасимо обичан мали видео
+        if(videoZona) videoZona.style.display = "none"; 
         
-        // Проверавамо да ли је већ убачен пренос уживо да га не бисмо дуплирали
         if (!document.getElementById('rt-uzivo-strim')) {
             const iframeStrim = document.createElement('iframe');
             iframeStrim.id = 'rt-uzivo-strim';
-            iframeStrim.src = "https://rt.rs/livetv/"; // Линк за ТВ пренос уживо
+            iframeStrim.src = "https://rt.rs/livetv/"; 
             
-            // Стилизовање да буде преко целог екрана испод горње ТВ траке
-            iframeStrim.style.position = 'fixed';
-            iframeStrim.style.top = '35px'; // Померамо испод горње ТВ траке да је не преклопи
-            iframeStrim.style.left = '0';
-            iframeStrim.style.width = '100vw';
-            iframeStrim.style.height = 'calc(100vh - 35px)';
-            iframeStrim.style.border = 'none';
-            iframeStrim.style.zIndex = '9998'; // Један ниво испод горње траке која има z-index 9999
+            // ISPRAVLJENO ZA 9. MAJ (Pun ekran od ivice do ivice):
+iframeStrim.style.position = 'fixed';
+iframeStrim.style.top = '0';          // Ide od same gornje ivice
+iframeStrim.style.left = '0';
+iframeStrim.style.width = '100vw';    // Puna širina ekrana
+iframeStrim.style.height = '100vh';   // Puna visina ekrana
+iframeStrim.style.border = 'none';
+iframeStrim.style.zIndex = '9998';    // Tik ispod gornje TV trake koja je 9999
             
             document.body.appendChild(iframeStrim);
         }
-        return; // Заустављамо даљи рад обичног видео режима
+        return; 
     }
 
-    // 3. Динамичко убацивање обичног локалног видеа (Ово важи за ОСТАЛЕ специјалне дане у бази)
-    // Прво уклањамо РТ стрим ако је остао у меморији претраживача
-    const стариСтрим = document.getElementById('rt-uzivo-strim');
-    if(стариСтрим) стариСтрим.remove();
+    // 3. Динамичко убацивање обичног локалног видеа
+const стариСтрим = document.getElementById('rt-uzivo-strim');
+if(стариСтрим) стариСтрим.remove();
+
+// DODATO: Uklanjanje YouTube plejera kada prođe specijalni dan
+const stariYTStrim = document.getElementById('yt-specijalni-strim');
+if(stariYTStrim) stariYTStrim.remove();
 
     if (videoZona && miniVideo) {
         videoZona.style.display = "block"; // Приказује обичан уоквирени видео из базе
@@ -644,30 +648,52 @@ function postaviSve() {
     // Pokretanje kucanja teksta i aktivacija linka za Trojice
     azurirajNajavu();
     
-    if (godina == 2026 && m == 5 && dan == 31) {
-        kucajTekst(document.getElementById('tekst-misli'), "Тројице");
+        // 1. SPISAK PRAZNIKA
+    const specijalniLinkovi = {
+        "5-31": { tekst: "Тројице", link: "https://www.youtube.com/watch?si=lKI-9nYX71hZQ-F1&v=i9HRfH6EMCM&feature=youtu.be" },
+        "11-27": { tekst: "Ходочашће на Исток - аутор", link: "https://www.youtube.com/watch?v=YMlDe-dXrZw" }
+    };
+
+    const kljucDana = `${m}-${dan}`;
+
+    // 2. JEDINSTVENA LOGIKA ZA SVE DANE
+    if (godina == 2026 && specijalniLinkovi[kljucDana]) {
+        const podaci = specijalniLinkovi[kljucDana];
+        kucajTekst(document.getElementById('tekst-misli'), podaci.tekst);
         setTimeout(() => {
             const el = document.getElementById('tekst-misli');
             if(el) {
-                el.style.color = "#8b0000"; el.style.textDecoration = "underline";
-                el.style.cursor = "pointer"; el.style.fontWeight = "bold";
-                el.onclick = function() { window.open("https://youtu.be/i9HRfH6EMCM?si=lKI-9nYX71hZQ-F1", '_blank'); };
+                el.style.color = "#8b0000"; 
+                el.style.textDecoration = "underline";
+                el.style.cursor = "pointer"; 
+                el.style.fontWeight = "bold";
+                el.onclick = function() { window.open(podaci.link, '_blank'); };
             }
         }, 600);
     } else {
         const el = document.getElementById('tekst-misli');
-        if(el) el.onclick = null;
+        if(el) {
+            el.onclick = null;
+            el.style.color = "";           
+            el.style.textDecoration = "";  
+            el.style.cursor = "";          
+            el.style.fontWeight = "";      
+        }
         kucajTekst(document.getElementById('tekst-misli'), tekst);
     }
 }
 
-// 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO
-let kucaSe = false;
+// 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO (SA PAMETNIM KRETANJEM U KRUG)
 let globalniTajmerTipkanja = null;
+let globalniTajmerPonavljanja = null;
 
 function kucajTekst(element, tekst) {
     if (!element) return;
-    if (globalniTajmerTipkanja) { clearInterval(globalniTajmerTipkanja); }
+    
+    // Čistimo stare tajmere da sprečimo dupliranje
+    if (globalniTajmerTipkanja) { clearInterval(globalniTajmerTipkanja); globalniTajmerTipkanja = null; }
+    if (globalniTajmerPonavljanja) { clearTimeout(globalniTajmerPonavljanja); globalniTajmerPonavljanja = null; }
+    
     element.innerHTML = "";
     let i = 0;
 
@@ -686,7 +712,20 @@ function kucajTekst(element, tekst) {
                 element.innerHTML += tekst.charAt(i); i++;
             }
         } else {
-            clearInterval(globalniTajmerTipkanja); globalniTajmerTipkanja = null;
+            // Kucanje je završeno
+            clearInterval(globalniTajmerTipkanja);
+            globalniTajmerTipkanja = null;
+            
+            // PROVERAVAMO DA LI JE TEKST LINK ILI SADRŽI ONCLICK AKCIJU
+            // Ako element ima podešen onclick (kao za Trojice) ili tekst sadrži link, NE Kuca se iznova
+            if (element.onclick !== null || tekst.includes("href=") || tekst.includes("onclick=")) {
+                return; // Ovde prekidamo funkciju, tekst ostaje večno na ekranu
+            }
+            
+            // Ako je običan tekst (ili tekst ispod videa), čekamo 5 sekundi i kucamo ponovo
+            globalniTajmerPonavljanja = setTimeout(function() {
+                kucajTekst(element, tekst);
+            }, 5000);
         }
     }, 50);
 }
@@ -745,7 +784,12 @@ let jeSpecijalan = je95;
         jeSpecijalan = je95 || misli2026[godina]["специјални"][m][dan]["aktivno"];
     }
 
-    if (jeSpecijalan) {
+    // Izmenjen deo unutar funkcije spustiSvitak():
+if (jeSpecijalan) {
+    // Ako je 17.11. (novembar je 10), NE SAKRIVAMO svitke, puštamo ih da rade!
+    if (m == 11 && dan == 17) {
+        // Preskačemo gašenje, rođendan ima svitke
+    } else {
         if (document.getElementById('najava-svitak')) document.getElementById('najava-svitak').style.display = "none";
         if (document.getElementById('svitak-meni')) {
             document.getElementById('svitak-meni').style.display = "none";
@@ -754,6 +798,7 @@ let jeSpecijalan = je95;
         if (document.getElementById('dugme-otvori-svitak')) document.getElementById('dugme-otvori-svitak').style.display = "none";
         return;
     }
+}
 
     const levi = document.getElementById('najava-svitak');
     if (levi) levi.style.display = "block";
@@ -819,14 +864,62 @@ function azurirajNajavu() {
     } else {
         let tekst = "Рефлексија <br>365 (366) <br>Резоновање";
         
-        // Аутоматски прорачун поглавља за Марков рођендан (17.11.) на основу године рођења 1975.
+                // 17.11. МАРКОВ РОЂЕНДАН - АКТИВАЦИЈА БРОЈАЧА И ТЕКСТА
         if (m === 11 && dan === 17) {
-            const poglavlje = godina - 1974; 
+            const poglavlje = godina - 1974;
             tekst = `Под окриљем тајанственог новембра, Марко отвара ${poglavlje}. поглавље своје животне приче — Путовање се наставља. 📜`;
-        } 
-        // Ако није рођендан, проверава да ли постоји друга ручна најава у твојој бази (мисли2026)
-        else if (misli2026[godina] && misli2026[godina]["најаве"] && misli2026[godina]["најаве"][m] && misli2026[godina]["најаве"][m][dan]) {
-            tekst = misli2026[godina]["најаве"][m][dan];
+                    // Aktivacija i uživo osvežavanje rođendanskog sata
+        if (!window.tajmerRodjendana) {
+          window.tajmerRodjendana = setInterval(function() {
+            const rodjenje = new Date('1975-11-17T03:50:00');
+            const sada = new Date();
+
+            let godine = sada.getFullYear() - rodjenje.getFullYear();
+            
+            // Određivanje tačnog datuma rođendana u ovoj kalendarskoj godini
+            let ovogodisnjiRodjendan = new Date(sada.getFullYear(), rodjenje.getMonth(), rodjenje.getDate(), rodjenje.getHours(), rodjenje.getMinutes(), rodjenje.getSeconds());
+            
+            // Ako rođendan ove godine još nije nastupio, koristi se prošlogodišnji kao baza za ostatak dana
+            if (sada < ovogodisnjiRodjendan) {
+              godine--;
+              ovogodisnjiRodjendan.setFullYear(sada.getFullYear() - 1);
+            }
+
+            // Ostatak vremena u milisekundama od poslednjeg pravog rođendana
+            let razlika = sada - ovogodisnjiRodjendan;
+
+            // Pretvaranje u dane, sate, minute i sekunde
+            const dani = Math.floor(razlika / (24 * 60 * 60 * 1000));
+            razlika %= (24 * 60 * 60 * 1000);
+
+            const sati = Math.floor(razlika / (60 * 60 * 1000));
+            razlika %= (60 * 60 * 1000);
+
+            const minuti = Math.floor(razlika / (60 * 1000));
+            razlika %= (60 * 1000);
+
+            const sekunde = Math.floor(razlika / 1000);
+
+            const satEl = document.getElementById('rodjendanski-sat');
+            if (satEl) {
+              satEl.innerText = `${godine} г, ${dani} д, ${sati} с, ${minuti} м, ${sekunde} с`;
+            }
+          }, 1000);
+        }
+     
+	 } else {
+            // Ako nije 17.11, gasimo tajmer i praznimo prostor za sat
+            if (window.tajmerRodjendana) {
+                clearInterval(window.tajmerRodjendana);
+                window.tajmerRodjendana = null;
+            }
+            const satEl = document.getElementById('rodjendanski-sat');
+            if (satEl) satEl.innerText = "";
+
+            // Ako nije rođendan, proverava da li postoji druga ručna najava u tvojoj bazi
+            if (misli2026[godina] && misli2026[godina]["најаве"] && misli2026[godina]["најаве"][m] && misli2026[godina]["најаве"][m][dan]) {
+                tekst = misli2026[godina]["најаве"][m][dan];
+            }
         }
         
         // Уписивање финалног текста у леви свитак
@@ -836,7 +929,7 @@ function azurirajNajavu() {
 
 // JEDINSTVENO POKRETANJE CELOG SISTEMA NA KRAJU STRANICE
 postaviSve();
-setInterval(azurirajNajavu, 60000);
+setInterval(azurirajNajavu, 1000);
 </script>
 </body>
 </html>
