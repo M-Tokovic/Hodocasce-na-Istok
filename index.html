@@ -41,8 +41,31 @@
         h2 { color: #ccff00; font-style: italic; margin: 0 0 10px 0; text-shadow: 2px 2px 10px #000; }
         
         /* PERGAMENT - SMANJEN BOTTOM MARGIN DA NE SMETA YT DUGMADIMA */
-        .hartija { display: inline-block; background: #d4b483; padding: 45px 65px; position: relative; background-image: url('https://transparenttextures.com'); box-shadow: inset 0 0 80px #8b5a2b; border: 1px solid rgba(0,0,0,0.1); max-width: 75%; min-height: 100px; clip-path: polygon(2% 5%, 15% 1%, 38% 6%, 62% 2%, 82% 7%, 95% 2%, 100% 18%, 97% 42%, 100% 62%, 98% 82%, 100% 97%, 85% 100%, 65% 97%, 42% 100%, 25% 98%, 4% 100%, 1% 85%, 5% 65%, 2% 45%, 6% 25%, 0% 8%); margin-bottom: 10px; }
-        #tekst-misli { color: #8b0000; font-size: 2.1em; font-weight: bold; line-height: 1.4; min-height: 1.5em; }
+        .hartija { 
+    display: inline-block; 
+    background: #d4b483; 
+    padding: 45px 65px; 
+    position: relative; 
+    z-index: 6; 
+    background-image: url('https://transparenttextures.com'); 
+    box-shadow: inset 0 0 80px #8b5a2b; 
+    border: 1px solid rgba(0,0,0,0.1); 
+    max-width: 50%; 
+    white-space: normal; /* Омогућава тексту да се природно прелама */
+    word-wrap: normal;   /* Враћа нормално понашање речи */
+    word-break: normal;  /* Спречава насилно кидање речи на половини */
+    min-height: 100px; 
+    clip-path: polygon(2% 5%, 15% 1%, 38% 6%, 62% 2%, 82% 7%, 95% 2%, 100% 18%, 97% 42%, 100% 62%, 98% 82%, 100% 97%, 85% 100%, 65% 97%, 42% 100%, 25% 98%, 4% 100%, 1% 85%, 5% 65%, 2% 45%, 6% 25%, 0% 8%); 
+    margin-bottom: 10px; 
+}
+        #tekst-misli { 
+    color: #8b0000; 
+    font-size: 2.1em; 
+    font-weight: bold; 
+    line-height: 1.4; 
+    min-height: 1.5em; 
+    text-align: center; /* Текст је уредно у средини, без вештачких размака међу речима */
+}
 
         /* VIDEO */
         #video-container { display: none; margin: 20px auto; width: 800px; max-width: 90%; border: 5px solid #8b5a2b; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
@@ -56,7 +79,19 @@
         .tekst-na-knjizi { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.8em; padding: 6px; text-align: center; font-weight: bold; line-height: 1.2; }
 
         /* YOUTUBE SEKCIJA U SREDINI - SADA POTPUNO PROHODNA */
-        #yt-zona-sredina { display: flex; flex-direction: column; gap: 40px; align-items: center; margin: 40px auto; position: relative; z-index: 1000; width: fit-content; }
+#yt-zona-sredina { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 25px; 
+    align-items: center; 
+    
+    /* САВРШЕНО ПОДЕШАВАЊЕ ПОЗИЦИЈЕ */
+    margin: -190px 320px 0 auto; /* Први број (-10px) диже дугмад горе, а други (180px) их помера десно */
+    align-self: flex-end; 
+    
+    z-index: 1000; 
+    width: fit-content; 
+}
         .ikona-kontejner { position: relative; display: flex; flex-direction: column; align-items: center; }
         .prozor { visibility: hidden; position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background: #000; border: 1px solid silver; border-radius: 5px; padding: 5px 12px; color: #ccff00; font-weight: bold; font-size: 0.85em; white-space: nowrap; opacity: 0; transition: 0.2s; z-index: 2000; pointer-events: none; }
         .ikona-kontejner:hover .prozor { visibility: visible; opacity: 1; }
@@ -120,7 +155,7 @@
     top: 130px; 
     right: 15px; 
     width: 210px;
-    z-index: 8000;
+    z-index: 9000; /* Повећано са 8000 на 9000 да пергамент не би ишао преко њега */
     max-height: 0; 
     overflow: hidden; 
     transition: max-height 3s ease-in-out; 
@@ -172,11 +207,17 @@
     padding: 12px 0; 
     border-bottom: 1px dashed rgba(139, 90, 43, 0.4); 
     opacity: 0; 
-    transition: opacity 1s ease-in; 
+    transition: opacity 1s ease-in, transform 0.25s ease-in-out; /* Додата глаткоћа за ширење */
+    transform-origin: center; 
 }
 
 .lista-veza li.vidljiv { 
     opacity: 1; 
+}
+
+/* На ховер се ред протегне само једном и стоји тако */
+.lista-veza li:hover {
+    transform: scale(1.1); /* Једнократно глатко увећање за 10% */
 }
 
 .lista-veza a { 
@@ -185,6 +226,14 @@
     font-weight: bold; 
     font-size: 16px; 
     font-family: 'Times New Roman', serif;
+    display: block; 
+    width: 100%;
+    transition: color 0.2s ease-in-out;
+}
+
+/* Промена боје слова у тамноцрвену док је миш изнад реда */
+.lista-veza li:hover a {
+    color: #8b0000; 
 }
 
 .dugme-zatvori { 
@@ -228,20 +277,13 @@
 }
 	/* STIL ZA LEVI SVITAK U RAVNI SA SLIKAMA 1, 2, 3 */
 .svitak-levo {
-    display: none; /* DODAJ OVO OBAVEZNO */
+    display: none; 
     position: fixed;
     top: 50%;
-    display: none; /* DODAJ OVO OBAVEZNO */
-    position: fixed;
-    top: 50%;
-    position: fixed;
-    /* Ово га поставља на средину висине екрана */
-    top: 50%; 
     left: 20px;
-    /* Померамо га мало наниже да би се гађао са линијом слика 123 */
     transform: translateY(-10px); 
     width: 250px;
-    z-index: 8500;
+    z-index: 5; /* Спуштено на 5 да би пергамент (који је 6) ишао преко њега */
     font-family: 'Times New Roman', serif;
     text-align: center;
 }
@@ -270,6 +312,13 @@
     50% { transform: scale(1.05); } /* Blago uvećanje ka korisniku */
     100% { transform: scale(1); }
 	display: none; /* DODAJ OVO - da se ne vidi odmah pri učitavanju */
+}
+#glavna-sekcija {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
 }
 		</style>
 </head>
@@ -681,7 +730,7 @@ if(stariYTStrim) stariYTStrim.remove();
         }
         kucajTekst(document.getElementById('tekst-misli'), tekst);
     }
-}
+	}
 
 // 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO (SA PAMETNIM KRETANJEM U KRUG)
 let globalniTajmerTipkanja = null;
