@@ -65,24 +65,27 @@
     line-height: 1.4; 
     min-height: 1.5em; 
     text-align: center; 
-}
-
-//* Закључава савршен изглед и спречава било какво смањивање текста */
-.aktiviran-link-papir {
-    display: inline-block !important;
-    color: #8b0000 !important; /* Тамноцрвена боја */
-    font-family: inherit !important; /* Наслеђује оригиналан фонт пергамента */
-    font-size: 1em !important; /* Спречава смањивање слова и чува тачну величину сајта */
-    font-weight: bold !important;
-    cursor: pointer;
+    display: inline-block;
     transition: transform 0.25s ease-in-out, color 0.25s ease-in-out !important;
     transform-origin: center;
+    text-decoration: none !important; /* УДАВЉЕНА ЛИНИЈА НА НИВОУ ЦЕЛОГ ТЕКСТА */
 }
 
-/* На прелаз миша се нежно и глатко протеже за 10% */
-.aktiviran-link-papir:hover {
-    transform: scale(1.1) !important; 
-    color: #ff0000 !important; /* Благо засија црвено */
+/* СТИЛ КОЈИ ОМОГУЋАВА ГЛАТКО ПРОТЕЗАЊЕ РЕЧИ И УКИДА СВЕ ЛИНИЈЕ И ИВИЦЕ */
+.aktiviran-link-papir,
+#tekst-misli.aktiviran-link-papir {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    outline: none !important;
+}
+
+/* НА ПРЕЛАЗ МИША СЕ ЦЕО ТЕКСТ (РЕЧ) НЕЖНО ПРОТЕЖЕ ЗА 10% И ЗАСИЈА */
+.aktiviran-link-papir:hover,
+#tekst-misli.aktiviran-link-papir:hover {
+    transform: scale(1.1) !important; /* Исто глатко увеличавање за 10% */
+    color: #ff0000 !important;         /* Реч нежно засија у светлоцрвену */
+    text-decoration: none !important;  /* Потпуна блокада линије на ховеру */
+    border-bottom: none !important;
 }
         /* VIDEO */
         #video-container { display: none; margin: 20px auto; width: 800px; max-width: 90%; border: 5px solid #8b5a2b; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
@@ -723,30 +726,36 @@ if(stariYTStrim) stariYTStrim.remove();
     const kljucDana = `${m}-${dan}`;
 
     // 2. JEDINSTVENA LOGIKA ZA SVE DANE
-    if (godina == 2026 && specijalniLinkovi[kljucDana]) {
-        const podaci = specijalniLinkovi[kljucDana];
-        kucajTekst(document.getElementById('tekst-misli'), podaci.tekst);
-        setTimeout(() => {
-            const el = document.getElementById('tekst-misli');
-            if(el) {
-                el.style.color = "#8b0000"; 
-                el.style.textDecoration = "underline";
-                el.style.cursor = "pointer"; 
-                el.style.fontWeight = "bold";
-                el.onclick = function() { window.open(podaci.link, '_blank'); };
-            }
-        }, 600);
-    } else {
-        const el = document.getElementById('tekst-misli');
-        if(el) {
-            el.onclick = null;
-            el.style.color = "";           
-            el.style.textDecoration = "";  
-            el.style.cursor = "";          
-            el.style.fontWeight = "";      
-        }
-        kucajTekst(document.getElementById('tekst-misli'), tekst);
+if (godina == 2026 && specijalniLinkovi[kljucDana]) {
+    const podaci = specijalniLinkovi[kljucDana];
+    
+    // Прво куцамо чист, обичан текст да скрипта не би баговала са ХТМЛ таговима
+    kucajTekst(document.getElementById('tekst-misli'), podaci.tekst);
+    
+    // Тек када се покрене куцање, везујемо сигуран клик за цео пергамент
+    const el = document.getElementById('tekst-misli');
+    if(el) {
+        el.style.color = "#8b0000";
+        el.style.textDecoration = "none"; // САД СМО И ОВДЕ ИСКЉУЧИЛИ ПОДВЛАЧЕЊЕ
+        el.style.cursor = "pointer";
+        el.style.fontWeight = "bold";
+        el.onclick = function() { window.open(podaci.link, '_blank'); };
+        
+        // Додајемо класу која ће натерати ЦСС да нежно протегне реч на ховер
+        el.classList.add('aktiviran-link-papir');
     }
+} else {
+    const el = document.getElementById('tekst-misli');
+    if(el) {
+        el.onclick = null;
+        el.style.color = "";
+        el.style.textDecoration = "";
+        el.style.cursor = "";
+        el.style.fontWeight = "";
+        el.classList.remove('aktiviran-link-papir');
+    }
+    kucajTekst(document.getElementById('tekst-misli'), tekst);
+}
 	}
 
 // 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO (SA PAMETNIM KRETANJEM U KRUG)
