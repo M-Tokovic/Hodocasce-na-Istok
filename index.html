@@ -64,9 +64,26 @@
     font-weight: bold; 
     line-height: 1.4; 
     min-height: 1.5em; 
-    text-align: center; /* Текст је уредно у средини, без вештачких размака међу речима */
+    text-align: center; 
 }
 
+//* Закључава савршен изглед и спречава било какво смањивање текста */
+.aktiviran-link-papir {
+    display: inline-block !important;
+    color: #8b0000 !important; /* Тамноцрвена боја */
+    font-family: inherit !important; /* Наслеђује оригиналан фонт пергамента */
+    font-size: 1em !important; /* Спречава смањивање слова и чува тачну величину сајта */
+    font-weight: bold !important;
+    cursor: pointer;
+    transition: transform 0.25s ease-in-out, color 0.25s ease-in-out !important;
+    transform-origin: center;
+}
+
+/* На прелаз миша се нежно и глатко протеже за 10% */
+.aktiviran-link-papir:hover {
+    transform: scale(1.1) !important; 
+    color: #ff0000 !important; /* Благо засија црвено */
+}
         /* VIDEO */
         #video-container { display: none; margin: 20px auto; width: 800px; max-width: 90%; border: 5px solid #8b5a2b; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
 
@@ -764,9 +781,22 @@ function kucajTekst(element, tekst) {
             // Kucanje je završeno
             clearInterval(globalniTajmerTipkanja);
             globalniTajmerTipkanja = null;
+
+            /* ПАМЕТНО АКТИВИРАЊЕ УВЕЛИЧАВАЊА ЗА СПЕЦИЈАЛНЕ ДАНЕ И ЛИНКОВЕ */
+            const linkoviNaPapiru = element.getElementsByTagName('a');
+            if (linkoviNaPapiru.length > 0) {
+                for (let lnk of linkoviNaPapiru) {
+                    lnk.classList.add('aktiviran-link-papir');
+                }
+            } else if (element.onclick !== null || tekst.includes("onclick=")) {
+                // Ako ceo element reaguje na klik (kao za Trojice), dodajemo mu klasu da se uveličava ceo tekst
+                element.classList.add('aktiviran-link-papir');
+            } else {
+                // Ako je običan dan, skidamo klasu da se tekst slučajno ne bi uvećavao
+                element.classList.remove('aktiviran-link-papir');
+            }
             
             // PROVERAVAMO DA LI JE TEKST LINK ILI SADRŽI ONCLICK AKCIJU
-            // Ako element ima podešen onclick (kao za Trojice) ili tekst sadrži link, NE Kuca se iznova
             if (element.onclick !== null || tekst.includes("href=") || tekst.includes("onclick=")) {
                 return; // Ovde prekidamo funkciju, tekst ostaje večno na ekranu
             }
