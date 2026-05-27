@@ -440,15 +440,21 @@
     </div>
 
     <script>
-	// --- КЉУЧНИ КАТАНАЦ: ПРЕСРЕТАЊЕ ДАТУМА НА САМОМ ПОЧЕТКУ САЈТА ---
+	// --- ИНСТАНТ УРЛ ПРЕСРЕТАЧ СА ПОДРШКОМ ЗА САТЕ И МИНУТЕ ---
 (function() {
-    let sDan = localStorage.getItem('varkis_dan');
-    let sMesec = localStorage.getItem('varkis_mesec');
-    let sGodina = localStorage.getItem('varkis_godina');
+    const urlParams = new URLSearchParams(window.location.search);
+    let sDan = urlParams.get('v_dan');
+    let sMesec = urlParams.get('v_mesec');
+    let sGodina = urlParams.get('v_godina');
+    let sSat = urlParams.get('v_sat');
+    let sMin = urlParams.get('v_min');
     
     if (sDan && sMesec && sGodina) {
-        let t = new Date();
-        window.virtuelniSat = new Date(parseInt(sGodina), parseInt(sMesec) - 1, parseInt(sDan), t.getHours(), t.getMinutes(), t.getSeconds());
+        // Учитавамо изабране сате и минуте, секунде крећу од 0
+        let h = sSat ? parseInt(sSat) : 12;
+        let min = sMin ? parseInt(sMin) : 0;
+        
+        window.virtuelniSat = new Date(parseInt(sGodina), parseInt(sMesec) - 1, parseInt(sDan), h, min, 0);
         
         setInterval(function() {
             if (window.virtuelniSat) window.virtuelniSat.setSeconds(window.virtuelniSat.getSeconds() + 1);
@@ -477,6 +483,7 @@
         };
     }
 })();
+
                 // 1. GLAVNA BAZA MISLI I SPECIJALNIH DANA (2026 - 2100)
 const misli2026 = {
     "2026": {
@@ -507,7 +514,7 @@ const misli2026 = {
                 "28": "Видели су Виду како на острву Виду Видоја вида."
             },
             "7": {
-                "30": "Ако математика не лаже — данас у 16:16:40 навршава ми се свега: 1 600 000 000 секунди."
+                "30": "Ако математика не лаже — данас у 16:16:40 је тренутак када бележим свега: 1.600.000.000 секунди."
             },
             "9": {
                 "28": "Не преферирам вештачку интелигенцију. А ви?!  🤔"
@@ -612,12 +619,27 @@ function postaviSve() {
     const ytSloj = document.getElementById('youtube-sloj');
     if (ytSloj) ytSloj.remove();
 
-    // Univerzalni fabrički tekst za pergament
+            // Универзални фабрички текст за пергамент
     let tekst = "Људско битисање се протеже од варања мозга до преварености ума.";
 
-    // Čitanje redovnih tekstova iz baze
-    if (misli2026[godina] && misli2026[godina]["мисли"] && misli2026[godina]["мисли"][m] && misli2026[godina]["мисли"][m][dan]) {
-        tekst = misli2026[godina]["мисли"][m][dan];
+    // Посебна математика за 17. новембар и јубиларне године
+    if (m === 11 && dan === 17) {
+        if (godina % 10 === 5) {
+            // За 2025, 2035, 2045... до 2095. уписујемо тачан рођендански текст директно на пергамент
+            tekst = "Стижу педесете... седамдесете... али деведесете никад нису прошле…";
+        } else if (godina === 2026) {
+            // За 17.11.2026. остаје фабрички текст ("Људско битисање...")
+        } else {
+            // За све остале године 17. новембра чита се редован текст из базе ако постоји
+            if (misli2026[godina] && misli2026[godina]["мисли"] && misli2026[godina]["мисли"][m] && misli2026[godina]["мисли"][m][dan]) {
+                tekst = misli2026[godina]["мисли"][m][dan];
+            }
+        }
+    } else {
+        // Редовно читање текстова из базе за све остале дане у години
+        if (misli2026[godina] && misli2026[godina]["мисли"] && misli2026[godina]["мисли"][m] && misli2026[godina]["мисли"][m][dan]) {
+            tekst = misli2026[godina]["мисли"][m][dan];
+        }
     }
 
     // Provera i aktivacija specijalnih dana iz baze
@@ -774,37 +796,36 @@ if(stariYTStrim) stariYTStrim.remove();
 
     const kljucDana = `${m}-${dan}`;
 
-    // 2. JEDINSTVENA LOGIKA ZA SVE DANE
-if (godina == 2026 && specijalniLinkovi[kljucDana]) {
-    const podaci = specijalniLinkovi[kljucDana];
-    
-    // Прво куцамо чист, обичан текст да скрипта не би баговала са ХТМЛ таговима
-    kucajTekst(document.getElementById('tekst-misli'), podaci.tekst);
-    
-    // Тек када се покрене куцање, везујемо сигуран клик за цео пергамент
-    const el = document.getElementById('tekst-misli');
-    if(el) {
-        el.style.color = "#8b0000";
-        el.style.textDecoration = "none"; // САД СМО И ОВДЕ ИСКЉУЧИЛИ ПОДВЛАЧЕЊЕ
-        el.style.cursor = "pointer";
-        el.style.fontWeight = "bold";
-        el.onclick = function() { window.open(podaci.link, '_blank'); };
-        
-        // Додајемо класу која ће натерати ЦСС да нежно протегне реч на ховер
-        el.classList.add('aktiviran-link-papir');
+        // 2. JEDINSTVENA LOGIKA ZA SVE DANE (ИСПРАВЉЕНО ЗА 17.11.2026)
+    if (godina == 2026 && specijalniLinkovi[kljucDana] && !(m === 11 && dan === 17)) {
+        const podaci = specijalniLinkovi[kljucDana];
+
+        // Прво куцамо чист, обичан текст да скрипта не би баговала са ХТМЛ таговима
+        kucajTekst(document.getElementById('tekst-misli'), podaci.tekst);
+
+        // Тек када се покрене куцање, везујемо сигуран клик за цео пергамент
+        const el = document.getElementById('tekst-misli');
+        if(el) {
+            el.style.color = "#8b0000";
+            el.style.textDecoration = "none";
+            el.style.cursor = "pointer";
+            el.style.fontWeight = "bold";
+            el.onclick = function() { window.open(podaci.link, '_blank'); };
+            el.classList.add('aktiviran-link-papir');
+        }
+    } else {
+        const el = document.getElementById('tekst-misli');
+        if(el) {
+            el.onclick = null;
+            el.style.color = "";
+            el.style.textDecoration = "";
+            el.style.cursor = "";
+            el.style.fontWeight = "";
+            el.classList.remove('aktiviran-link-papir');
+        }
+        // Овде сигурно исписујемо текст који смо горе припремили
+        kucajTekst(document.getElementById('tekst-misli'), tekst);
     }
-} else {
-    const el = document.getElementById('tekst-misli');
-    if(el) {
-        el.onclick = null;
-        el.style.color = "";
-        el.style.textDecoration = "";
-        el.style.cursor = "";
-        el.style.fontWeight = "";
-        el.classList.remove('aktiviran-link-papir');
-    }
-    kucajTekst(document.getElementById('tekst-misli'), tekst);
-}
 	}
 
 // 4. FUNKCIJA ZA SVEKOLIKO KUCANJE TEKSTA SLOVO PO SLOVO (SA PAMETNIM KRETANJEM U KRUG)
@@ -1012,46 +1033,51 @@ if (m === 11 && dan === 17) {
 
     if (!window.tajmerRodjendana) {
         window.tajmerRodjendana = setInterval(function() {
-            // Početni trenutak rođenja u UTC formatu (10 je novembar)
             const rodjenjeUTC = Date.UTC(1975, 10, 17, 3, 50, 0);
             const sada = new Date();
             
             let aktivnaGodina = sada.getFullYear();
             if (typeof godina !== 'undefined') { aktivnaGodina = godina; }
+            
+            // Свака година која се завршава на 5 (2025, 2035...) повлачи исти текст као за 2026. годину
+            let godinaZaTekst = aktivnaGodina;
+            if (godinaZaTekst % 10 === 5) {
+                godinaZaTekst = 2026;
+            }
+            
             const zivoPoglavlje = aktivnaGodina - 1974;
             
-            // Hvatanje tačnog virtuelnog ili realnog trenutka
-            const sadaUTC = Date.UTC(sada.getFullYear(), sada.getMonth(), sada.getDate(), sada.getHours(), sada.getMinutes(), sada.getSeconds());
+            let trenutniTekstZaSvitak = `Под окриљем тајанственог новембра, Марко отвара ${zivoPoglavlje}. поглавље своје животне приче — Путовање се наставља. 📜`;
+            if (misli2026[godinaZaTekst] && misli2026[godinaZaTekst]["најаве"] && misli2026[godinaZaTekst]["најаве"][m] && misli2026[godinaZaTekst]["најаве"][m][dan]) {
+                trenutniTekstZaSvitak = misli2026[godinaZaTekst]["најаве"][m][dan];
+            }
             
+            const sadaUTC = Date.UTC(sada.getFullYear(), sada.getMonth(), sada.getDate(), sada.getHours(), sada.getMinutes(), sada.getSeconds());
             let razlika = sadaUTC - rodjenjeUTC;
             if (razlika < 0) razlika = 0;
             
-            // Čista matematička konverzija ukupnog vremena u format g, d, s, m, s
             const milisekundiUGodini = 365.25 * 24 * 60 * 60 * 1000;
             const godine = Math.floor(razlika / milisekundiUGodini);
             razlika %= milisekundiUGodini;
             
             const dani = Math.floor(razlika / (24 * 60 * 60 * 1000));
             razlika %= (24 * 60 * 60 * 1000);
-            
             const sati = Math.floor(razlika / (60 * 60 * 1000));
             razlika %= (60 * 60 * 1000);
-            
             const minuti = Math.floor(razlika / (60 * 1000));
             razlika %= (60 * 1000);
-            
             const sekunde = Math.floor(razlika / 1000);
             
             el.innerHTML = 
-                `<span style='color: red; font-weight: bold;'>Под окриљем тајанственог новембра, Марко отвара ${zivoPoglavlje}. поглавље своје животне приче — Путовање се наставља. 📜</span><br><br>` +
+                `<span style='color: red; font-weight: bold;'>${trenutniTekstZaSvitak}</span><br><br>` +
                 `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${godine} г, ${dani} д, ${sati} с, ${minuti} м, ${sekunde} с</span>`;
         }, 1000);
     }
 
-// --- ŽIVI BROJAČ U SEKUNDAMA SAMO ZA 30. JUL 2026. ---
+// --- ЖИВИ БРОЈАЧ У СЕКУНДАМА ЗА 30. ЈУЛ 2026. ---
 } else if (godina === 2026 && (m === 7 || m === 6) && dan === 30) {
     if (window.tajmerRodjendana) {
-        clearInterval(window.tajmerRodjendana);
+        clearInterval(window.tajnumaRodjendana);
         window.tajmerRodjendana = null;
     }
     const satEl = document.getElementById('rodjendanski-sat');
@@ -1089,15 +1115,12 @@ if (m === 11 && dan === 17) {
 }
 }
 
-// JEDINSTVENO POKRETANJE CELOG SISTEMA NA KRAJU STRANICE
 postaviSve();
-
 setInterval(azurirajNajavu, 1000);
-
 </script>
 </body>
 
-<!-- ПОТПУНО БЕЗБЕДАН И ЗАЦЕМЕНТИРАН ИНТЕРФЕЈС ВРЕМЕНСКЕ МАШИНЕ -->
+<!-- МИНИМАЛИСТИЧКИ ЋИРИЛИЧНИ ВРЕМЕНСКИ ПУТОКАЗ (ДАН, МЕСЕЦ, ГОДИНА, САТ, МИНУТ) -->
 <style>
     .zlatni-putokaz-tekst {
         font-size: 14px; 
@@ -1109,46 +1132,73 @@ setInterval(azurirajNajavu, 1000);
         transform-origin: left center; 
         display: inline-block;
     }
-    .zlatok-putokaz-tekst:hover {
+    .zlatni-putokaz-tekst:hover {
         transform: scale(1.1);
         color: #ff0000 !important;
+    }
+    .mini-izbornik-element {
+        padding: 1px 2px; 
+        font-size: 11px; 
+        font-weight: bold; 
+        color: #333; 
+        background: #fff; 
+        border: 1px solid #8b5a2b; 
+        border-radius: 4px;
+        cursor: pointer;
     }
 </style>
 
 <div style="position: fixed; top: 85px; left: 165px; z-index: 100000; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; font-family: sans-serif;">
     <span class="zlatni-putokaz-tekst" onclick="let m = document.getElementById('kutija-konacnog-izbora'); m.style.display = (m.style.display === 'none' || m.style.display === '') ? 'flex' : 'none';">Временски путоказ</span>
     
-    <div id="kutija-konacnog-izbora" style="display: none; background: #fffdf9; border: 2px solid #8b5a2b; border-radius: 6px; padding: 4px; gap: 4px; box-shadow: 2px 2px 10px #000; align-items: center; margin-top: 2px;">
-        <select id="novi-ar-dan" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;"></select>
-        <select id="novi-ar-mesec" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;">
-            <option value="1">Јануар</option><option value="2">Фебруар</option><option value="3">Март</option><option value="4">Април</option>
-            <option value="5">Мај</option><option value="6">Јун</option><option value="7">Јул</option><option value="8">Август</option>
-            <option value="9">Септембар</option><option value="10">Октобар</option><option value="11">Новембар</option><option value="12">Децембар</option>
+    <div id="kutija-konacnog-izbora" style="display: none; background: #fffdf9; border: 1px solid #8b5a2b; border-radius: 6px; padding: 3px; gap: 3px; box-shadow: 2px 2px 10px #000; align-items: center; margin-top: 2px;">
+        <select id="novi-ar-dan" class="mini-izbornik-element"></select>
+        <select id="novi-ar-mesec" class="mini-izbornik-element">
+            <option value="1">Јан</option><option value="2">Феб</option><option value="3">Мар</option><option value="4">Апр</option>
+            <option value="5">Мај</option><option value="6">Јун</option><option value="7">Јул</option><option value="8">Авг</option>
+            <option value="9">Сеп</option><option value="10">Окт</option><option value="11">Нов</option><option value="12">Дец</option>
         </select>
-        <select id="novi-ar-god" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;"></select>
-        <button onclick="izvrsiInstantSkok()" style="padding: 2px 8px; font-size: 11px; background: #8b5a2b; color: #fffdf9; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Иди</button>
+        <select id="novi-ar-god" class="mini-izbornik-element"></select>
+        
+        <span style="font-size: 10px; font-weight: bold; color: #8b5a2b;">у</span>
+        <select id="novi-ar-sat" class="mini-izbornik-element"></select>
+        <span style="font-size: 10px; font-weight: bold; color: #8b5a2b;">:</span>
+        <select id="novi-ar-min" class="mini-izbornik-element"></select>
+        
+        <button onclick="izvrsiInstantSkok()" style="padding: 1px 6px; font-size: 11px; background: #8b5a2b; color: #fffdf9; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Иди</button>
     </div>
     <span id="novi-veza-danas" onclick="obrisiKolaciceIPovratak()" style="font-size: 13px; color: #ff0000; font-weight: bold; text-shadow: 2px 2px 5px #000; cursor: pointer; border-bottom: 1px dashed red; padding-bottom: 1px; display: none; margin-top: 2px;">Данас</span>
 </div>
 
 <script>
-    // Пуњење менија свим данима и свим годинама (2026-2100) редом
     (function() {
         let dSel = document.getElementById('novi-ar-dan');
         let gSel = document.getElementById('novi-ar-god');
-        if (dSel && gSel) {
+        let sSel = document.getElementById('novi-ar-sat');
+        let mSel = document.getElementById('novi-ar-min');
+        
+        if (dSel && gSel && sSel && mSel) {
             for (let d = 1; d <= 31; d++) { dSel.options[dSel.options.length] = new Option(d + ".", d); }
             for (let g = 2026; g <= 2100; g++) { gSel.options[gSel.options.length] = new Option(g + ".", g); }
+            for (let s = 0; s <= 23; s++) { sSel.options[sSel.options.length] = new Option((s < 10 ? '0' : '') + s, s); }
+            for (let m = 0; m <= 59; m++) { mSel.options[mSel.options.length] = new Option((m < 10 ? '0' : '') + m, m); }
             
-            let sDan = localStorage.getItem('varkis_dan') || new window.GlavniFabrickiDate().getDate();
-            let sMesec = localStorage.getItem('varkis_mesec') || (new window.GlavniFabrickiDate().getMonth() + 1);
-            let sGodina = localStorage.getItem('varkis_godina') || new window.GlavniFabrickiDate().getFullYear();
+            const urlParams = new URLSearchParams(window.location.search);
+            let фабричкиСад = (typeof window.GlavniFabrickiDate !== 'undefined') ? new window.GlavniFabrickiDate() : new Date();
+            
+            let sDan = urlParams.get('v_dan') || фабричкиСад.getDate();
+            let sMesec = urlParams.get('v_mesec') || (фабричкиСад.getMonth() + 1);
+            let sGodina = urlParams.get('v_godina') || фабричкиСад.getFullYear();
+            let sSat = urlParams.get('v_sat') || фабричкиСад.getHours();
+            let sMin = urlParams.get('v_min') || фабричкиСад.getMinutes();
             
             dSel.value = sDan;
             document.getElementById('novi-ar-mesec').value = sMesec;
             gSel.value = sGodina;
+            sSel.value = sSat;
+            mSel.value = sMin;
             
-            if (localStorage.getItem('varkis_dan')) {
+            if (urlParams.get('v_dan')) {
                 document.getElementById('novi-veza-danas').style.display = 'inline';
             }
         }
@@ -1158,22 +1208,21 @@ setInterval(azurirajNajavu, 1000);
         let d = document.getElementById('novi-ar-dan').value;
         let m = document.getElementById('novi-ar-mesec').value;
         let g = document.getElementById('novi-ar-god').value;
+        let s = document.getElementById('novi-ar-sat').value;
+        let min = document.getElementById('novi-ar-min').value;
         
-        localStorage.setItem('varkis_dan', d);
-        localStorage.setItem('varkis_mesec', m);
-        localStorage.setItem('varkis_godina', g);
-        
-        location.reload();
+        window.location.href = window.location.pathname + `?v_dan=${d}&v_mesec=${m}&v_godina=${g}&v_sat=${s}&v_min=${min}`;
     }
 
     function obrisiKolaciceIPovratak() {
-        localStorage.removeItem('varkis_dan');
-        localStorage.removeItem('varkis_mesec');
-        localStorage.removeItem('varkis_godina');
-        location.reload();
+        window.location.href = window.location.pathname;
     }
 </script>
 </html>
+
+
+
+
 
 
 
