@@ -440,6 +440,43 @@
     </div>
 
     <script>
+	// --- КЉУЧНИ КАТАНАЦ: ПРЕСРЕТАЊЕ ДАТУМА НА САМОМ ПОЧЕТКУ САЈТА ---
+(function() {
+    let sDan = localStorage.getItem('varkis_dan');
+    let sMesec = localStorage.getItem('varkis_mesec');
+    let sGodina = localStorage.getItem('varkis_godina');
+    
+    if (sDan && sMesec && sGodina) {
+        let t = new Date();
+        window.virtuelniSat = new Date(parseInt(sGodina), parseInt(sMesec) - 1, parseInt(sDan), t.getHours(), t.getMinutes(), t.getSeconds());
+        
+        setInterval(function() {
+            if (window.virtuelniSat) window.virtuelniSat.setSeconds(window.virtuelniSat.getSeconds() + 1);
+        }, 1000);
+        
+        window.GlavniFabrickiDate = window.Date;
+        window.Date = class extends window.GlavniFabrickiDate {
+            constructor(...args) {
+                if (args.length === 0) {
+                    const dObj = new window.GlavniFabrickiDate(window.virtuelniSat.getTime());
+                    dObj.setHours(window.virtuelniSat.getHours());
+                    dObj.setMinutes(window.virtuelniSat.getMinutes());
+                    dObj.setSeconds(window.virtuelniSat.getSeconds());
+                    return dObj;
+                }
+                super(...args);
+            }
+            getHours(){return window.virtuelniSat.getHours()}
+            getMinutes(){return window.virtuelniSat.getMinutes()}
+            getSeconds(){return window.virtuelniSat.getSeconds()}
+            getDate(){return window.virtuelniSat.getDate()}
+            getMonth(){return window.virtuelniSat.getMonth()}
+            getFullYear(){return window.virtuelniSat.getFullYear()}
+            getTime(){return window.virtuelniSat.getTime()}
+            valueOf(){return window.virtuelniSat.getTime()}
+        };
+    }
+})();
                 // 1. GLAVNA BAZA MISLI I SPECIJALNIH DANA (2026 - 2100)
 const misli2026 = {
     "2026": {
@@ -559,6 +596,11 @@ function postaviSve() {
     const sati = d.getHours();
     const minuti = d.getMinutes();
     const trenutnoVreme = sati + minuti / 60;
+	
+	// --- UBAČENE TRI LINIJE ZA ŽIVI BROJAČ ---
+    window.trenutniDanZaSvitak = dan;
+    window.trenutniMesecZaSvitak = m;
+    window.trenutnaGodinaZaSvitak = godina;
 
     // Pozadina i datum
     document.body.style.backgroundImage = "url('m" + m + ".jpg')";
@@ -959,75 +1001,218 @@ function azurirajNajavu() {
     } else {
         let tekst = "Рефлексија <br>365 (366) <br>Резоновање";
         
-                // 17.11. МАРКОВ РОЂЕНДАН - АКТИВАЦИЈА БРОЈАЧА И ТЕКСТА
-        if (m === 11 && dan === 17) {
-            const poglavlje = godina - 1974;
-            tekst = `Под окриљем тајанственог новембра, Марко отвара ${poglavlje}. поглавље своје животне приче — Путовање се наставља. 📜`;
-                    // Aktivacija i uživo osvežavanje rođendanskog sata
-        if (!window.tajmerRodjendana) {
-          window.tajmerRodjendana = setInterval(function() {
-            const rodjenje = new Date('1975-11-17T03:50:00');
+                // 17.11. MARKOV ROĐENDAN - AKTIVACIJA BROJAČA I TEKSTA
+if (m === 11 && dan === 17) {
+    if (window.tajmerTridesetiJul) {
+        clearInterval(window.tajmerTridesetiJul);
+        window.tajmerTridesetiJul = null;
+    }
+    const satEl = document.getElementById('rodjendanski-sat');
+    if (satEl) satEl.innerText = "";
+
+    if (!window.tajmerRodjendana) {
+        window.tajmerRodjendana = setInterval(function() {
+            // Početni trenutak rođenja u UTC formatu (10 je novembar)
+            const rodjenjeUTC = Date.UTC(1975, 10, 17, 3, 50, 0);
             const sada = new Date();
-
-            let godine = sada.getFullYear() - rodjenje.getFullYear();
             
-            // Određivanje tačnog datuma rođendana u ovoj kalendarskoj godini
-            let ovogodisnjiRodjendan = new Date(sada.getFullYear(), rodjenje.getMonth(), rodjenje.getDate(), rodjenje.getHours(), rodjenje.getMinutes(), rodjenje.getSeconds());
+            let aktivnaGodina = sada.getFullYear();
+            if (typeof godina !== 'undefined') { aktivnaGodina = godina; }
+            const zivoPoglavlje = aktivnaGodina - 1974;
             
-            // Ako rođendan ove godine još nije nastupio, koristi se prošlogodišnji kao baza za ostatak dana
-            if (sada < ovogodisnjiRodjendan) {
-              godine--;
-              ovogodisnjiRodjendan.setFullYear(sada.getFullYear() - 1);
-            }
-
-            // Ostatak vremena u milisekundama od poslednjeg pravog rođendana
-            let razlika = sada - ovogodisnjiRodjendan;
-
-            // Pretvaranje u dane, sate, minute i sekunde
+            // Hvatanje tačnog virtuelnog ili realnog trenutka
+            const sadaUTC = Date.UTC(sada.getFullYear(), sada.getMonth(), sada.getDate(), sada.getHours(), sada.getMinutes(), sada.getSeconds());
+            
+            let razlika = sadaUTC - rodjenjeUTC;
+            if (razlika < 0) razlika = 0;
+            
+            // Čista matematička konverzija ukupnog vremena u format g, d, s, m, s
+            const milisekundiUGodini = 365.25 * 24 * 60 * 60 * 1000;
+            const godine = Math.floor(razlika / milisekundiUGodini);
+            razlika %= milisekundiUGodini;
+            
             const dani = Math.floor(razlika / (24 * 60 * 60 * 1000));
             razlika %= (24 * 60 * 60 * 1000);
-
+            
             const sati = Math.floor(razlika / (60 * 60 * 1000));
             razlika %= (60 * 60 * 1000);
-
+            
             const minuti = Math.floor(razlika / (60 * 1000));
             razlika %= (60 * 1000);
-
+            
             const sekunde = Math.floor(razlika / 1000);
-
-            const satEl = document.getElementById('rodjendanski-sat');
-            if (satEl) {
-              satEl.innerText = `${godine} г, ${dani} д, ${sati} с, ${minuti} м, ${sekunde} с`;
-            }
-          }, 1000);
-        }
-     
-	 } else {
-            // Ako nije 17.11, gasimo tajmer i praznimo prostor za sat
-            if (window.tajmerRodjendana) {
-                clearInterval(window.tajmerRodjendana);
-                window.tajmerRodjendana = null;
-            }
-            const satEl = document.getElementById('rodjendanski-sat');
-            if (satEl) satEl.innerText = "";
-
-            // Ako nije rođendan, proverava da li postoji druga ručna najava u tvojoj bazi
-            if (misli2026[godina] && misli2026[godina]["најаве"] && misli2026[godina]["најаве"][m] && misli2026[godina]["најаве"][m][dan]) {
-                tekst = misli2026[godina]["најаве"][m][dan];
-            }
-        }
-        
-        // Уписивање финалног текста у леви свитак
-        el.innerHTML = tekst;
+            
+            el.innerHTML = 
+                `<span style='color: red; font-weight: bold;'>Под окриљем тајанственог новембра, Марко отвара ${zivoPoglavlje}. поглавље своје животне приче — Путовање се наставља. 📜</span><br><br>` +
+                `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${godine} г, ${dani} д, ${sati} с, ${minuti} м, ${sekunde} с</span>`;
+        }, 1000);
     }
+
+// --- ŽIVI BROJAČ U SEKUNDAMA SAMO ZA 30. JUL 2026. ---
+} else if (godina === 2026 && (m === 7 || m === 6) && dan === 30) {
+    if (window.tajmerRodjendana) {
+        clearInterval(window.tajmerRodjendana);
+        window.tajmerRodjendana = null;
+    }
+    const satEl = document.getElementById('rodjendanski-sat');
+    if (satEl) satEl.innerText = "";
+
+    if (!window.tajmerTridesetiJul) {
+        const rodjenjeUTC = Date.UTC(1975, 10, 17, 3, 50, 0);
+        window.tajmerTridesetiJul = setInterval(function() {
+            const realnoVreme = new Date();
+            const virtuelnaSadaUTC = Date.UTC(2026, 6, 30, realnoVreme.getHours(), realnoVreme.getMinutes(), realnoVreme.getSeconds());
+            let ukupnaRazlika = virtuelnaSadaUTC - rodjenjeUTC;
+            const ukupnoSekundi = Math.floor(ukupnaRazlika / 1000);
+            const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
+            el.innerHTML = `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${formatiraneSekunde} с</span>`;
+        }, 1000);
+    }
+
+} else {
+    if (window.tajmerRodjendana) {
+        clearInterval(window.tajmerRodjendana);
+        window.tajmerRodjendana = null;
+    }
+    if (window.tajmerTridesetiJul) {
+        clearInterval(window.tajmerTridesetiJul);
+        window.tajmerTridesetiJul = null;
+    }
+    const satEl = document.getElementById('rodjendanski-sat');
+    if (satEl) satEl.innerText = "";
+
+    if (misli2026[godina] && misli2026[godina]["најаве"] && misli2026[godina]["најаве"][m] && misli2026[godina]["најаве"][m][dan]) {
+        tekst = misli2026[godina]["најаве"][m][dan];
+    }
+    el.innerHTML = tekst;
+}
+}
 }
 
 // JEDINSTVENO POKRETANJE CELOG SISTEMA NA KRAJU STRANICE
 postaviSve();
+
 setInterval(azurirajNajavu, 1000);
+
 </script>
 </body>
+
+<!-- ПОТПУНО БЕЗБЕДАН И ЗАЦЕМЕНТИРАН ИНТЕРФЕЈС ВРЕМЕНСКЕ МАШИНЕ -->
+<style>
+    .zlatni-putokaz-tekst {
+        font-size: 14px; 
+        color: #ccff00 !important; 
+        font-weight: bold; 
+        text-shadow: 2px 2px 5px #000; 
+        cursor: pointer; 
+        transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; 
+        transform-origin: left center; 
+        display: inline-block;
+    }
+    .zlatok-putokaz-tekst:hover {
+        transform: scale(1.1);
+        color: #ff0000 !important;
+    }
+</style>
+
+<div style="position: fixed; top: 85px; left: 165px; z-index: 100000; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; font-family: sans-serif;">
+    <span class="zlatni-putokaz-tekst" onclick="let m = document.getElementById('kutija-konacnog-izbora'); m.style.display = (m.style.display === 'none' || m.style.display === '') ? 'flex' : 'none';">Временски путоказ</span>
+    
+    <div id="kutija-konacnog-izbora" style="display: none; background: #fffdf9; border: 2px solid #8b5a2b; border-radius: 6px; padding: 4px; gap: 4px; box-shadow: 2px 2px 10px #000; align-items: center; margin-top: 2px;">
+        <select id="novi-ar-dan" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;"></select>
+        <select id="novi-ar-mesec" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;">
+            <option value="1">Јануар</option><option value="2">Фебруар</option><option value="3">Март</option><option value="4">Април</option>
+            <option value="5">Мај</option><option value="6">Јун</option><option value="7">Јул</option><option value="8">Август</option>
+            <option value="9">Септембар</option><option value="10">Октобар</option><option value="11">Новембар</option><option value="12">Децембар</option>
+        </select>
+        <select id="novi-ar-god" style="padding: 2px; font-size: 12px; font-weight: bold; color: #333; background: #fff; border: 1px solid #8b5a2b; border-radius: 4px;"></select>
+        <button onclick="izvrsiInstantSkok()" style="padding: 2px 8px; font-size: 11px; background: #8b5a2b; color: #fffdf9; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Иди</button>
+    </div>
+    <span id="novi-veza-danas" onclick="obrisiKolaciceIPovratak()" style="font-size: 13px; color: #ff0000; font-weight: bold; text-shadow: 2px 2px 5px #000; cursor: pointer; border-bottom: 1px dashed red; padding-bottom: 1px; display: none; margin-top: 2px;">Данас</span>
+</div>
+
+<script>
+    // Пуњење менија свим данима и свим годинама (2026-2100) редом
+    (function() {
+        let dSel = document.getElementById('novi-ar-dan');
+        let gSel = document.getElementById('novi-ar-god');
+        if (dSel && gSel) {
+            for (let d = 1; d <= 31; d++) { dSel.options[dSel.options.length] = new Option(d + ".", d); }
+            for (let g = 2026; g <= 2100; g++) { gSel.options[gSel.options.length] = new Option(g + ".", g); }
+            
+            let sDan = localStorage.getItem('varkis_dan') || new window.GlavniFabrickiDate().getDate();
+            let sMesec = localStorage.getItem('varkis_mesec') || (new window.GlavniFabrickiDate().getMonth() + 1);
+            let sGodina = localStorage.getItem('varkis_godina') || new window.GlavniFabrickiDate().getFullYear();
+            
+            dSel.value = sDan;
+            document.getElementById('novi-ar-mesec').value = sMesec;
+            gSel.value = sGodina;
+            
+            if (localStorage.getItem('varkis_dan')) {
+                document.getElementById('novi-veza-danas').style.display = 'inline';
+            }
+        }
+    })();
+
+    function izvrsiInstantSkok() {
+        let d = document.getElementById('novi-ar-dan').value;
+        let m = document.getElementById('novi-ar-mesec').value;
+        let g = document.getElementById('novi-ar-god').value;
+        
+        localStorage.setItem('varkis_dan', d);
+        localStorage.setItem('varkis_mesec', m);
+        localStorage.setItem('varkis_godina', g);
+        
+        location.reload();
+    }
+
+    function obrisiKolaciceIPovratak() {
+        localStorage.removeItem('varkis_dan');
+        localStorage.removeItem('varkis_mesec');
+        localStorage.removeItem('varkis_godina');
+        location.reload();
+    }
+</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
