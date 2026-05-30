@@ -629,15 +629,22 @@
 <div id="mejl-prozor-kontejner" class="mejl-modal-pozadina" onclick="zatvoriMejlSpolja(event)">
     <div class="mejl-modal-sadrzaj">
         <span class="mejl-zatvori" onclick="zatvoriMejlProzor()">&times;</span>
+        
+        <!-- ОВДЕ СУ ТВОЈИ ИЗМЕЊЕНИ ЋИРИЛИЧНИ НАСЛОВИ -->
         <h3 style="margin-top:0; color:#8b5a2b; font-family: sans-serif;">Ваше поље</h3>
         
-        <!-- Сигурна скривена форма везана за твој приватни мејл -->
+        <!-- Исправљена званична путања која везује форму за твоју адресу -->
         <form action="https://formsubmit.co" method="POST">
+            <!-- Скривена подешавања која спречавају грешке на серверу -->
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_subject" value="Нови коментар са сајта Ходочашће на Исток!">
             
-            <input type="text" name="Име" placeholder="Ваше име" required>
-            <textarea name="Коментар" placeholder="Ваше поруке и питања" required></textarea>
+            <!-- Повратни корак: Аутоматски враћа човека назад на твоју почетну страницу након објаве -->
+            <input type="hidden" name="_next" value="https://github.io">
+
+            <!-- Твоја ћирилична поља са безбедним латиничним именима за интернет сервер -->
+            <input type="text" name="Ime_Posetioca" placeholder="Ваше име" required>
+            <textarea name="Poruka_I_Pitanje" placeholder="Ваше поруке и питања" required></textarea>
             
             <button type="submit" class="mejl-posalji-bttn">Објави коментар</button>
         </form>
