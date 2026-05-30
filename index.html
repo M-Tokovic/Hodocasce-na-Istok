@@ -151,6 +151,69 @@
     pointer-events: none;
 }
 
+/* === ОВДЕ ЈЕ УБАЧЕН ПРВИ ДЕО === */
+/* Трећа ТВ трака - Савршено успорена и фиксирана */
+.tv-traka-srednja-nova {
+    position: fixed;
+    bottom: 30px;                /* Горња ивица доње црне траке */
+    left: 280px;                 /* Сигурно после Вацап иконице */
+    right: 215px;                /* Велики размак пре Инстаграма */
+    height: 22px;                /* Танка висина */
+    background: rgba(0, 0, 0, 0.95);
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 22px;           /* Центрира слова вертикално */
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 13px;             /* Читак фонт */
+    pointer-events: none;
+    border: 1px solid #8b5a2b;   /* Златна бордура */
+    border-radius: 4px;
+    box-sizing: border-box;
+    z-index: 9998;
+    perspective: 800px;          /* Дубина за 3Д ефекат */
+}
+
+/* СЛОЈ 1: Потпуно константно линеарно кретање текста */
+.tekst-puls-3d {
+    display: inline-block;
+    padding-left: 0;             
+    animation: kretanjeKrozSredinu 38s linear infinite;
+}
+
+/* СЛОЈ 2: Умирено пулсирање слова - Успорено на 4 секунде */
+.slova-3d-izlazak {
+    display: inline-block;
+    /* Ритам пулсирања је успорен са 2.5s на 4.0s за смирен излазак слова */
+    animation: jaceProtezanje3D 4.0s infinite ease-in-out;
+    transform-origin: center;
+    transform-style: preserve-3d;
+}
+
+/* Константно кретање без убрзања */
+@keyframes kretanjeKrozSredinu {
+    0% { transform: translateX(450px); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Пријатно 3Д протезање са отменијим ритмом */
+@keyframes jaceProtezanje3D {
+    0% { 
+        transform: translateZ(0px) scale(1);
+        text-shadow: 0 0 2px rgba(255,255,255,0);
+    }
+    50% { 
+        transform: translateZ(30px) scale(1.12); /* Благо и природније протезање ка гледаоцу */
+        text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 12px rgba(139, 90, 43, 1), 0 0 15px rgba(255, 255, 255, 0.8);
+        color: #fffef5;
+    }
+    100% { 
+        transform: translateZ(0px) scale(1);
+        text-shadow: 0 0 2px rgba(255,255,255,0);
+    }
+}
+
 /* POZICIJE */
 .tv-traka { top: 0; border-bottom: 1px solid #8b5a2b; z-index: 9999; }
 .tv-traka-donja { bottom: 0; border-top: 1px solid #8b5a2b; z-index: 9999; }
@@ -450,18 +513,31 @@
 </div> <!-- OVDE TREBA DA BUDE KRAJ -->
 
         <div id="donja-sekcija" class="donja-zona">
-        <div style="display: flex; gap: 15px;">
-            <div class="ikona-kontejner" onclick="idi(4)"><div class="prozor">topaz032@gmail.com</div><div class="ikona-baza mail">✉</div></div>
-            <div class="ikona-kontejner" onclick="idi(5)"><div class="prozor">Viber</div><div class="ikona-baza viber">📞</div></div>
-            <div class="ikona-kontejner" onclick="idi(10)"><div class="prozor">WhatsApp</div><div class="ikona-baza wa" style="background:#25D366; color:white; font-size:32px;">✆</div></div>
+    <!-- ЛЕВИ БЛОК -->
+    <div style="display: flex; gap: 15px;">
+        <div class="ikona-kontejner" onclick="idi(4)"><div class="prozor">topaz032@gmail.com</div><div class="ikona-baza mail">✉</div></div>
+        <div class="ikona-kontejner" onclick="idi(5)"><div class="prozor">Viber</div><div class="ikona-baza viber">📞</div></div>
+        <div class="ikona-kontejner" onclick="idi(10)"><div class="prozor">WhatsApp</div><div class="ikona-baza wa" style="background:#25D366; color:white; font-size:32px;">✆</div></div>
+    </div>
+
+            <!-- ТРЕЋА ТВ ТРАКА ТАЧНО У СРЕДИНИ -->
+    <div id="treca-tv-traka" class="tv-traka-srednja-nova">
+        <div class="tekst-puls-3d">
+            <div class="slova-3d-izlazak">
+                ПРОДАЈЕ СЕ: Двособан стан у Чачку. Близу хотела Морава. Површина 54 м2, четврти спрат, зграда са лифтом и подрумом. У непосредној близини налазе се основна школа, вртић и дечије игралиште. Власништво 1/1 без терета. ЦЕНА: 13.000.000 динара.
+            </div>
         </div>
+    </div>
+
+                    <!-- ДЕСНИ БЛОК: Инстаграм, Фејсбук -->
         <div style="display: flex; gap: 20px;">
             <div class="ikona-kontejner" onclick="idi(8)"><div class="prozor">Instagram</div><div class="ikona-baza insta">回</div></div>
             <div class="ikona-kontejner" onclick="idi(9)"><div class="prozor">Facebook</div><div class="ikona-baza fb">f</div></div>
         </div>
-    </div>
+    </div> <!-- Ово је крај доње секције иконица -->
 
-    <script>
+    <script> /* Одавде почиње твоја постојећа скрипта */
+
 	// --- ИНСТАНТ УРЛ ПРЕСРЕТАЧ СА ПОДРШКОМ ЗА САТЕ И МИНУТЕ ---
 (function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -525,7 +601,7 @@ const misli2026 = {
                 "24": "На свако питање има одговор, али филозофски, мада на нека и философски.",
 				"28": "Чачак је ових дана тотално копно.<br>— Морава вади просек…<br>— Да ли ће овог месеца делити рачуне за воду?<br>— Да ли роботи пију воду?",
                 "29": "Вода жива увек тече...", // Čist tekst spreman za kucanje, link se dodaje naknadno dole
-				"30": "Имам гробно место, на прелепом месту, испод тује, одакле се види мој град... Нит нешто стичем, нит сам спреман за онамо... А овде неки боље уживају, а неки не — у ићу и пићу...Покој нам душама, ускоро, Боже здравља!",
+				"30": "Имам гробно место, на прелепом месту, испод тује, одакле се види мој град... Нит нешто стичем, нит сам спреман за онамо... А овде неки боље уживају, а неки не — у ићу и пићу... Покој нам душама, ускоро, Боже здравља!",
                 "31": "Тројице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
             },
             "6": {
@@ -892,8 +968,24 @@ if(стварниПутоказРесет) {
     if(donjaTraka) donjaTraka.style.display = "block";
 }
 
-    // Pokretanje kucanja teksta i aktivacija linka za Trojice
+        // Pokretanje kucanja teksta i aktivacija linka za Trojice
     azurirajNajavu();
+
+    // --- AUTOMATSKO PALJENJE TREĆE TV TRAKE U SREDINI (PON-PET, 00-06č) ---
+    const trenutniDanNedelje = d.getDay(); 
+    const trecaTraka = document.getElementById('treca-tv-traka');
+
+    if (trecaTraka) {
+        if (trenutniDanNedelje >= 1 && trenutniDanNedelje <= 5 && sati >= 0 && sati < 6) {
+            if (typeof jeSpecijalanDan !== 'undefined' && jeSpecijalanDan) {
+                trecaTraka.style.display = "none";
+            } else {
+                trecaTraka.style.display = "block";
+            }
+        } else {
+            trecaTraka.style.display = "none";
+        }
+    }
     
         // 1. SPISAK PRAZNIKA
     const specijalniLinkovi = {
@@ -1248,9 +1340,9 @@ if (m === 11 && dan === 17) {
 
 postaviSve();
 setInterval(azurirajNajavu, 1000);
+
 </script>
 </body>
-
 <!-- МИНИМАЛИСТИЧКИ ЋИРИЛИЧНИ ВРЕМЕНСКИ ПУТОКАЗ (ДАН, МЕСЕЦ, ГОДИНА, САТ, МИНУТ) -->
 <style>
     .zlatni-putokaz-tekst {
@@ -1262,6 +1354,7 @@ setInterval(azurirajNajavu, 1000);
         transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; 
         transform-origin: left center; 
         display: inline-block;
+    }<!-- МАЛО БРАОН ДУГМЕ
     }
     .zlatni-putokaz-tekst:hover {
         transform: scale(1.1);
