@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta name="viewport" content="width=1280" />
+    <meta name="viewport" content="width=1280" />
     <meta charset="UTF-8">
     <title>М. Токовић - Ходочашће на Исток</title>
+
+    <!-- ГУГЛ ОПТИМИЗАЦИЈА И КЉУЧНЕ РЕЧИ (SEO) -->
+    <meta name="description" content="Интернет сабориште Ходочашће на Исток - М. Токовић. Комуницирајмо јавно, а контемплирајмо у самоћи. Пратите најаве и мисли на пергаменту.">
+    <meta name="keywords" content="Ходочашће на Исток, Ходочасце на Исток, М. Токовић, М. Токовиц, Токовић, Токовиц, интернет сабориште, контемплирајмо у самоћи, духовне мисли, пергамент">
+    <meta name="author" content="М. Токовић">
+
     <style>
         body {
     margin: 0;
@@ -213,6 +219,83 @@
         text-shadow: 0 0 2px rgba(255,255,255,0);
     }
 }
+/* МАЛО БРАОН ДУГМЕ - ЦЕНТРИРАНО НА СРЕДИНИ ТИК ИСПОД ГОРЊЕ ТРАКЕ */
+.komentari-centrirano-dugme {
+    position: fixed; 
+    top: 31px;              /* Седа тачно на доњу ивицу горње ТВ траке */
+    left: 0; 
+    width: 100%; 
+    text-align: center; 
+    z-index: 9999; 
+    pointer-events: none;
+}
+.komentari-centrirano-dugme button {
+    background: #8b5a2b; 
+    color: white; 
+    border: 1px solid #ffffff; 
+    padding: 4px 12px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 12px;
+    pointer-events: auto;
+}
+
+/* ЗА ТАМЊЕНА ПОЗАДИНА ИСКАЧУЋЕГ ПРОЗОРА */
+.mejl-modal-pozadina {
+    display: none;          /* Скривено по дефолту, пали га ЈаваСкрипт */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000; 
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;      /* Спушта велики прозор тачно испод горње траке */
+    box-sizing: border-box;
+}
+
+/* ВЕЛИКИ ПРОЗОР ВАШЕ ПОЉЕ */
+.mejl-modal-sadrzaj {
+    background: #0d0d0d;
+    border: 2px solid #8b5a2b; 
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    color: #ffffff;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(139, 90, 43, 0.6);
+}
+
+/* ДУГМЕ ЗА ЗАТВАРАЊЕ (X) */
+.mejl-zatvori {
+    position: absolute;
+    top: 8px; right: 12px;
+    color: #8b5a2b;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.mejl-zatvori:hover { color: #ffffff; }
+
+/* КУТИЈЕ ЗА КУЦАЊЕ БЕЗ ТРИ ТАЧКЕ */
+.mejl-modal-sadrzaj input, .mejl-modal-sadrzaj textarea {
+    width: 100%; background: #111111;
+    border: 1px solid #8b5a2b; color: #ffffff;
+    padding: 10px; margin-bottom: 12px;
+    border-radius: 4px; box-sizing: border-box;
+}
+.mejl-modal-sadrzaj textarea { height: 90px; resize: none; }
+
+/* ДУГМЕ ЗА СЛАЊЕ */
+.mejl-posalji-bttn {
+    background: #8b5a2b; color: #ffffff; border: none;
+    padding: 10px 20px; border-radius: 4px;
+    cursor: pointer; font-weight: bold; width: 100%;
+}
+.mejl-posalji-bttn:hover { background: #a06c3a; }
 
 /* POZICIJE */
 .tv-traka { top: 0; border-bottom: 1px solid #8b5a2b; z-index: 9999; }
@@ -512,7 +595,7 @@
     </div>
 </div> <!-- OVDE TREBA DA BUDE KRAJ -->
 
-        <div id="donja-sekcija" class="donja-zona">
+<div id="donja-sekcija" class="donja-zona">
     <!-- ЛЕВИ БЛОК -->
     <div style="display: flex; gap: 15px;">
         <div class="ikona-kontejner" onclick="idi(4)"><div class="prozor">topaz032@gmail.com</div><div class="ikona-baza mail">✉</div></div>
@@ -520,7 +603,7 @@
         <div class="ikona-kontejner" onclick="idi(10)"><div class="prozor">WhatsApp</div><div class="ikona-baza wa" style="background:#25D366; color:white; font-size:32px;">✆</div></div>
     </div>
 
-            <!-- ТРЕЋА ТВ ТРАКА ТАЧНО У СРЕДИНИ -->
+    <!-- ТРЕЋА ТВ ТРАКА ТАЧНО У СРЕДИНИ -->
     <div id="treca-tv-traka" class="tv-traka-srednja-nova">
         <div class="tekst-puls-3d">
             <div class="slova-3d-izlazak">
@@ -529,14 +612,40 @@
         </div>
     </div>
 
-                    <!-- ДЕСНИ БЛОК: Инстаграм, Фејсбук -->
-        <div style="display: flex; gap: 20px;">
-            <div class="ikona-kontejner" onclick="idi(8)"><div class="prozor">Instagram</div><div class="ikona-baza insta">回</div></div>
-            <div class="ikona-kontejner" onclick="idi(9)"><div class="prozor">Facebook</div><div class="ikona-baza fb">f</div></div>
-        </div>
-    </div> <!-- Ово је крај доње секције иконица -->
+    <!-- ДЕСНИ БЛОК: Инстаграм, Фејсбук -->
+    <div style="display: flex; gap: 20px;">
+        <div class="ikona-kontejner" onclick="idi(8)"><div class="prozor">Instagram</div><div class="ikona-baza insta">回</div></div>
+        <div class="ikona-kontejner" onclick="idi(9)"><div class="prozor">Facebook</div><div class="ikona-baza fb">f</div></div>
+    </div>
+</div> <!-- Ово је крај доње секције иконица -->
 
-    <script> /* Одавде почиње твоја постојећа скрипта */
+<!-- === ОВДЕ СУ УБАЧЕНИ ХТМЛ ЕЛЕМЕНТИ ЗА МЕЈЛ КЊИГУ УТИСАКА === -->
+<!-- МАЛО БРАОН ДУГМЕ ТИК ИСПОД ГОРЊЕ ТРАКЕ НА СРЕДИНИ -->
+<div class="komentari-centrirano-dugme">
+    <button onclick="otvoriMejlProzor()">💬 Ваши коментари и сугестије</button>
+</div>
+
+<!-- ВЕЛИКИ ИСКАЧУЋИ ПРОЗОР КОЈИ СЕ ОТВАРА НА СРЕДИНИ ИСПОД ТВ ТРАКЕ -->
+<div id="mejl-prozor-kontejner" class="mejl-modal-pozadina" onclick="zatvoriMejlSpolja(event)">
+    <div class="mejl-modal-sadrzaj">
+        <span class="mejl-zatvori" onclick="zatvoriMejlProzor()">&times;</span>
+        <h3 style="margin-top:0; color:#8b5a2b; font-family: sans-serif;">Ваше поље</h3>
+        
+        <!-- Сигурна скривена форма везана за твој приватни мејл -->
+        <form action="https://formsubmit.co" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Нови коментар са сајта Ходочашће на Исток!">
+            
+            <input type="text" name="Име" placeholder="Ваше име" required>
+            <textarea name="Коментар" placeholder="Ваше поруке и питања" required></textarea>
+            
+            <button type="submit" class="mejl-posalji-bttn">Објави коментар</button>
+        </form>
+    </div>
+</div>
+<!-- ========================================================== -->
+
+<script> /* Одавде почиње твоја постојећа скрипта */
 
 	// --- ИНСТАНТ УРЛ ПРЕСРЕТАЧ СА ПОДРШКОМ ЗА САТЕ И МИНУТЕ ---
 (function() {
@@ -711,10 +820,15 @@ function postaviSve() {
     window.trenutniMesecZaSvitak = m;
     window.trenutnaGodinaZaSvitak = godina;
 
-    // Pozadina i datum
+            // Pozadina i datum
     document.body.style.backgroundImage = "url('m" + m + ".jpg')";
     if (document.getElementById('datum-prikaz')) {
-        document.getElementById('datum-prikaz').innerText = d.toLocaleDateString('sr-RS');
+        // Извлачење назива дана на српском, који је по дефолту већ малим словима
+        const opcijeZaDan = { weekday: 'long' };
+        const nazivDana = d.toLocaleDateString('sr-RS', opcijeZaDan);
+        
+        // Спајање: чист дан малим словима, само размак, па датум (нпр. субота 30.5.2026.)
+        document.getElementById('datum-prikaz').innerText = nazivDana + " " + d.toLocaleDateString('sr-RS');
     }
 
     // Uklanjanje starog bioskopa ako postoji
@@ -1341,6 +1455,20 @@ if (m === 11 && dan === 17) {
 postaviSve();
 setInterval(azurirajNajavu, 1000);
 
+// --- ФУНКЦИЈЕ ЗА ОТВАРАЊЕ И ЗАТВАРАЊЕ ПРОЗОРА ЗА МЕЈЛ ---
+function otvoriMejlProzor() {
+    document.getElementById('mejl-prozor-kontejner').style.display = 'flex';
+}
+
+function zatvoriMejlProzor() {
+    document.getElementById('mejl-prozor-kontejner').style.display = 'none';
+}
+
+function zatvoriMejlSpolja(e) {
+    if (e.target.id === 'mejl-prozor-kontejner') {
+        zatvoriMejlProzor();
+    }
+}
 </script>
 </body>
 <!-- МИНИМАЛИСТИЧКИ ЋИРИЛИЧНИ ВРЕМЕНСКИ ПУТОКАЗ (ДАН, МЕСЕЦ, ГОДИНА, САТ, МИНУТ) -->
