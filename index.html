@@ -219,83 +219,6 @@
         text-shadow: 0 0 2px rgba(255,255,255,0);
     }
 }
-/* МАЛО БРАОН ДУГМЕ - ЦЕНТРИРАНО НА СРЕДИНИ ТИК ИСПОД ГОРЊЕ ТРАКЕ */
-.komentari-centrirano-dugme {
-    position: fixed; 
-    top: 31px;              /* Седа тачно на доњу ивицу горње ТВ траке */
-    left: 0; 
-    width: 100%; 
-    text-align: center; 
-    z-index: 9999; 
-    pointer-events: none;
-}
-.komentari-centrirano-dugme button {
-    background: #8b5a2b; 
-    color: white; 
-    border: 1px solid #ffffff; 
-    padding: 4px 12px; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    font-size: 12px;
-    pointer-events: auto;
-}
-
-/* ЗА ТАМЊЕНА ПОЗАДИНА ИСКАЧУЋЕГ ПРОЗОРА */
-.mejl-modal-pozadina {
-    display: none;          /* Скривено по дефолту, пали га ЈаваСкрипт */
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 10000; 
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 60px;      /* Спушта велики прозор тачно испод горње траке */
-    box-sizing: border-box;
-}
-
-/* ВЕЛИКИ ПРОЗОР ВАШЕ ПОЉЕ */
-.mejl-modal-sadrzaj {
-    background: #0d0d0d;
-    border: 2px solid #8b5a2b; 
-    border-radius: 8px;
-    padding: 20px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    color: #ffffff;
-    font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(139, 90, 43, 0.6);
-}
-
-/* ДУГМЕ ЗА ЗАТВАРАЊЕ (X) */
-.mejl-zatvori {
-    position: absolute;
-    top: 8px; right: 12px;
-    color: #8b5a2b;
-    font-size: 26px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.mejl-zatvori:hover { color: #ffffff; }
-
-/* КУТИЈЕ ЗА КУЦАЊЕ БЕЗ ТРИ ТАЧКЕ */
-.mejl-modal-sadrzaj input, .mejl-modal-sadrzaj textarea {
-    width: 100%; background: #111111;
-    border: 1px solid #8b5a2b; color: #ffffff;
-    padding: 10px; margin-bottom: 12px;
-    border-radius: 4px; box-sizing: border-box;
-}
-.mejl-modal-sadrzaj textarea { height: 90px; resize: none; }
-
-/* ДУГМЕ ЗА СЛАЊЕ */
-.mejl-posalji-bttn {
-    background: #8b5a2b; color: #ffffff; border: none;
-    padding: 10px 20px; border-radius: 4px;
-    cursor: pointer; font-weight: bold; width: 100%;
-}
-.mejl-posalji-bttn:hover { background: #a06c3a; }
 
 /* POZICIJE */
 .tv-traka { top: 0; border-bottom: 1px solid #8b5a2b; z-index: 9999; }
@@ -612,45 +535,12 @@
         </div>
     </div>
 
-    <!-- ДЕСНИ БЛОК: Инстаграм, Фејсбук -->
+        <!-- ДЕСНИ БЛОК: Инстаграм, Фејсбук -->
     <div style="display: flex; gap: 20px;">
         <div class="ikona-kontejner" onclick="idi(8)"><div class="prozor">Instagram</div><div class="ikona-baza insta">回</div></div>
         <div class="ikona-kontejner" onclick="idi(9)"><div class="prozor">Facebook</div><div class="ikona-baza fb">f</div></div>
     </div>
 </div> <!-- Ово је крај доње секције иконица -->
-
-<!-- === ОВДЕ СУ УБАЧЕНИ ХТМЛ ЕЛЕМЕНТИ ЗА МЕЈЛ КЊИГУ УТИСАКА === -->
-<!-- МАЛО БРАОН ДУГМЕ ТИК ИСПОД ГОРЊЕ ТРАКЕ НА СРЕДИНИ -->
-<div class="komentari-centrirano-dugme">
-    <button onclick="otvoriMejlProzor()">💬 Ваши коментари и сугестије</button>
-</div>
-
-<!-- ВЕЛИКИ ИСКАЧУЋИ ПРОЗОР КОЈИ СЕ ОТВАРА НА СРЕДИНИ ИСПОД ТВ ТРАКЕ -->
-<div id="mejl-prozor-kontejner" class="mejl-modal-pozadina" onclick="zatvoriMejlSpolja(event)">
-    <div class="mejl-modal-sadrzaj">
-        <span class="mejl-zatvori" onclick="zatvoriMejlProzor()">&times;</span>
-        
-        <!-- ОВДЕ СУ ТВОЈИ ИЗМЕЊЕНИ ЋИРИЛИЧНИ НАСЛОВИ -->
-        <h3 style="margin-top:0; color:#8b5a2b; font-family: sans-serif;">Ваше поље</h3>
-        
-        <!-- Исправљена званична путања која везује форму за твоју адресу -->
-        <form action="https://formsubmit.co" method="POST">
-            <!-- Скривена подешавања која спречавају грешке на серверу -->
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_subject" value="Нови коментар са сајта Ходочашће на Исток!">
-            
-            <!-- Повратни корак: Аутоматски враћа човека назад на твоју почетну страницу након објаве -->
-            <input type="hidden" name="_next" value="https://github.io">
-
-            <!-- Твоја ћирилична поља са безбедним латиничним именима за интернет сервер -->
-            <input type="text" name="Ime_Posetioca" placeholder="Ваше име" required>
-            <textarea name="Poruka_I_Pitanje" placeholder="Ваше поруке и питања" required></textarea>
-            
-            <button type="submit" class="mejl-posalji-bttn">Објави коментар</button>
-        </form>
-    </div>
-</div>
-<!-- ========================================================== -->
 
 <script> /* Одавде почиње твоја постојећа скрипта */
 
@@ -720,9 +610,9 @@ const misli2026 = {
 				"30": "Имам гробно место, на прелепом месту, испод тује, одакле се види мој град... Нит нешто стичем, нит сам спреман за онамо... А овде неки боље уживају, а неки не — у ићу и пићу... Покој нам душама, ускоро, Боже здравља!",
                 "31": "Тројице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
             },
-            "6": {
-                "1": "Кад уђеш у очи, изашао си из свега; а кад изађеш из очију, ушао си у све — посебно ако су буљаве.",
-                "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
+                  "6": {
+        "1": "На Крсну славу славски колач, свећа и жито. Под иконама упаљено кадило и мирис тамјана. У дане поста хлеб, со и молитва. На крштењу бела плаштаница и свето миро. На венчању сијају венци и заједничка чаша. Пред спавање крсни знак и благодарност Богу.",
+        "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
                 "7": "Били су угледна породица, све док једног њиховог потомка нису „опили“ гени једног њиховог далеког претка.",
                 "8": "Тек си на почетку, али много лепше звучи<br>20-40-70-100, него 18. годиница. 🥰",
 				"14": "У нашој земљи, као у свакој прашуми, има свега — само ум шуми.",
@@ -1111,7 +1001,7 @@ if(стварниПутоказРесет) {
         // 1. SPISAK PRAZNIKA
     const specijalniLinkovi = {
         "5-29": { tekst: "Са водом кубуримо већ неколико дана, а ни лифт нам није радио, па је требало провозати се пешке до цистерне... Струја још увек тече...<br>П. С. Вода жива увек тече...", link: "https://svetosavlje.org/omilije-2/29/" },
-		"5-31": { tekst: "Тројице", link: "https://www.youtube.com/watch?si=lKI-9nYX71hZQ-F1&v=i9HRfH6EMCM&feature=youtu.be" },
+		"5-31": { tekst: "На Детињце, Материце и Оце везе између деце и родитеља. За Божић храстово дрво илити бадњак. На Богојављење света водица. На Цвети палмина или врбова гранчица. На Васкрс куцање фарбаним јајима. На Тројице венчићи од пољске траве. На Преображење свешта се грожђе.", link: "https://www.youtube.com/watch?si=lKI-9nYX71hZQ-F1&v=i9HRfH6EMCM&feature=youtu.be" },
         "11-27": { tekst: "Ходочашће на Исток - аутор", link: "https://www.youtube.com/watch?v=YMlDe-dXrZw" }
     };
 
@@ -1462,20 +1352,6 @@ if (m === 11 && dan === 17) {
 postaviSve();
 setInterval(azurirajNajavu, 1000);
 
-// --- ФУНКЦИЈЕ ЗА ОТВАРАЊЕ И ЗАТВАРАЊЕ ПРОЗОРА ЗА МЕЈЛ ---
-function otvoriMejlProzor() {
-    document.getElementById('mejl-prozor-kontejner').style.display = 'flex';
-}
-
-function zatvoriMejlProzor() {
-    document.getElementById('mejl-prozor-kontejner').style.display = 'none';
-}
-
-function zatvoriMejlSpolja(e) {
-    if (e.target.id === 'mejl-prozor-kontejner') {
-        zatvoriMejlProzor();
-    }
-}
 </script>
 </body>
 <!-- МИНИМАЛИСТИЧКИ ЋИРИЛИЧНИ ВРЕМЕНСКИ ПУТОКАЗ (ДАН, МЕСЕЦ, ГОДИНА, САТ, МИНУТ) -->
