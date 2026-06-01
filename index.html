@@ -11,17 +11,18 @@
     <meta name="author" content="М. Токовић">
 
     <style>
-        body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden; /* Klizač ostaje sakriven */
-    background-image: url('m5.jpg'); /* Ovo kôd ionako menja sam */
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+       /* OVAKO TREBA DA BUDE (OSLOBOĐENO): */
+body {
+margin: 0;
+padding: 0;
+min-width: 100%;
+min-height: 100%;
+overflow-x: hidden; /* Sprečava samo bočno kvarenje sajta */
+background-image: url('m5.jpg');
+background-size: cover;
+background-position: center center;
+background-attachment: fixed;
+background-repeat: no-repeat;
 }
         .mrak { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; pointer-events: none; }
 
@@ -928,21 +929,27 @@ if (jeSpecijalanDan && !(m === 11 && dan === 17)) {
 if (m == 5 && dan == 9) {
     if(videoZona) videoZona.style.display = "none";
 
-    if (!document.getElementById('rt-uzivo-strim')) {
-        const iframeStrim = document.createElement('iframe');
-        iframeStrim.id = 'rt-uzivo-strim';
-        iframeStrim.src = "https://rt.rs";
+    // ОВАКО ТРЕБА ДА БУДЕ (ОТКЉУЧАН ПУН ЕКРАН И ПЛЕЈЕР):
+if (!document.getElementById('rt-uzivo-strim')) {
+    const iframeStrim = document.createElement('iframe');
+    iframeStrim.id = 'rt-uzivo-strim';
+    iframeStrim.src = "https://rt.rs/livetv/"; // Ту иде твој линк за пренос
+    
+    // ФАБРИЧКЕ ДОЗВОЛЕ ЗА ПРОБОЈ БЛОКАДЕ ПРЕТРАЖИВАЧА
+    iframeStrim.setAttribute("allowfullscreen", "true");
+    iframeStrim.setAttribute("allow", "autoplay; fullscreen; encrypted-media; picture-in-picture");
+    iframeStrim.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-presentation");
 
-        // Pun ekran od ivice do ivice:
-        iframeStrim.style.position = 'fixed';
-        iframeStrim.style.top = '0';
-        iframeStrim.style.left = '0';
-        iframeStrim.style.width = '100vw';
-        iframeStrim.style.height = '100vh';
-        iframeStrim.style.border = 'none';
-        iframeStrim.style.zIndex = '9998';
+    // Форсирање димензија преко целог прозора
+    iframeStrim.style.setProperty("position", "fixed", "important");
+    iframeStrim.style.setProperty("top", "0", "important");
+    iframeStrim.style.setProperty("left", "0", "important");
+    iframeStrim.style.setProperty("width", "100vw", "important");
+    iframeStrim.style.setProperty("height", "100vh", "important");
+    iframeStrim.style.setProperty("border", "none", "important");
+    iframeStrim.style.setProperty("z-index", "1000005", "important"); // Диже га изнад горње траке
 
-        document.body.appendChild(iframeStrim);
+    document.body.appendChild(iframeStrim);
 
         // ============================================================
         // СИГУРНО ПОКРЕТАЊЕ ИЗБОРНИКА НА ОРИГИНАЛНОЈ ЛОКАЦИЈИ
