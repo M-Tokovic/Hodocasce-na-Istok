@@ -929,80 +929,37 @@ if (jeSpecijalanDan && !(m === 11 && dan === 17)) {
 if (m == 5 && dan == 9) {
     if(videoZona) videoZona.style.display = "none";
 
-    // ОВАКО ТРЕБА ДА БУДЕ (ОТКЉУЧАН ПУН ЕКРАН И ПЛЕЈЕР):
-if (!document.getElementById('rt-uzivo-strim')) {
-    const iframeStrim = document.createElement('iframe');
-    iframeStrim.id = 'rt-uzivo-strim';
-    iframeStrim.src = "https://rt.rs/livetv/"; // Ту иде твој линк за пренос
-    
-    // ФАБРИЧКЕ ДОЗВОЛЕ ЗА ПРОБОЈ БЛОКАДЕ ПРЕТРАЖИВАЧА
-    iframeStrim.setAttribute("allowfullscreen", "true");
-    iframeStrim.setAttribute("allow", "autoplay; fullscreen; encrypted-media; picture-in-picture");
-    iframeStrim.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-presentation");
+    // САКРИВАЊЕ КУГЛЕ, САТА, ЗАСТАВИЦА, ДАТУМА И ВРЕМЕНСКОГ ПУТОКАЗА
+    const leviKontrolniBlok = document.querySelector('.blok-levo');
+    const desniKontrolniBlok = document.querySelector('.blok-desno');
+    if(leviKontrolniBlok) leviKontrolniBlok.style.setProperty("display", "none", "important");
+    if(desniKontrolniBlok) desniKontrolniBlok.style.setProperty("display", "none", "important");
 
-    // Форсирање димензија преко целог прозора
-    iframeStrim.style.setProperty("position", "fixed", "important");
-    iframeStrim.style.setProperty("top", "0", "important");
-    iframeStrim.style.setProperty("left", "0", "important");
-    iframeStrim.style.setProperty("width", "100vw", "important");
-    iframeStrim.style.setProperty("height", "100vh", "important");
-    iframeStrim.style.setProperty("border", "none", "important");
-    iframeStrim.style.setProperty("z-index", "1000005", "important"); // Диже га изнад горње траке
+    // ИСКЉУЧИВАЊЕ СТАРОГ ВРЕМЕНСКОГ ПУТОКАЗА СА ЕКРАНА
+    let текстуалниПутоказ = document.querySelector('.zlatni-putokaz-tekst');
+    let стварниПутоказ = текстуалниПутоказ ? текстуалниПутоказ.parentElement : null;
+    if(стварниПутоказ) {
+        стварниПутоказ.style.setProperty("display", "none", "important");
+    }
 
-    document.body.appendChild(iframeStrim);
+    if (!document.getElementById('rt-uzivo-strim')) {
+        const iframeStrim = document.createElement('iframe');
+        iframeStrim.id = 'rt-uzivo-strim';
+        iframeStrim.src = "https://rt.rs/livetv/"; // Твој линк за пренос
 
-        // ============================================================
-        // СИГУРНО ПОКРЕТАЊЕ ИЗБОРНИКА НА ОРИГИНАЛНОЈ ЛОКАЦИЈИ
-        if (typeof kreirajVremenskiPutokaz === 'function') {
-            kreirajVremenskiPutokaz();
-        }
+        iframeStrim.setAttribute("allowfullscreen", "true");
+        iframeStrim.setAttribute("allow", "autoplay; fullscreen; encrypted-media; picture-in-picture");
 
-                        setTimeout(function() {
-            let tekstPutokaza = document.querySelector('.zlatni-putokaz-tekst');
-            let stvarniPutokaz = tekstPutokaza ? tekstPutokaza.parentElement : null;
+        // ПОДЕШАВАЊЕ ДИМЕНЗИЈА: Видео почиње тачно испод чисте ТВ траке
+        iframeStrim.style.setProperty("position", "fixed", "important");
+        iframeStrim.style.setProperty("top", "33px", "important");
+        iframeStrim.style.setProperty("left", "0", "important");
+        iframeStrim.style.setProperty("width", "100vw", "important");
+        iframeStrim.style.setProperty("height", "calc(100vh - 33px)", "important");
+        iframeStrim.style.setProperty("border", "none", "important");
+        iframeStrim.style.setProperty("z-index", "9998", "important"); // Испод ТВ траке која је 9999
 
-            if(stvarniPutokaz) {
-                stvarniPutokaz.style.setProperty("display", "flex", "important");
-                stvarniPutokaz.style.setProperty("position", "fixed", "important");
-                stvarniPutokaz.style.setProperty("z-index", "999999", "important");
-                stvarniPutokaz.style.setProperty("cursor", "pointer", "important");
-
-                stvarniPutokaz.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    let dijalogKalendara = document.querySelector('.vremenski-meni') ||
-                                           document.querySelector('.vremenski-putokaz-meni') ||
-                                           document.getElementById('vremenski-meni') ||
-                                           document.getElementById('putokaz-meni');
-
-                    if(dijalogKalendara) {
-                        document.body.appendChild(dijalogKalendara);
-                        dijalogKalendara.style.setProperty("display", "block", "important");
-                        dijalogKalendara.style.setProperty("visibility", "visible", "important");
-                        dijalogKalendara.style.setProperty("position", "fixed", "important");
-                        dijalogKalendara.style.setProperty("z-index", "999999", "important");
-                        dijalogKalendara.style.setProperty("top", "50%", "important");
-                        dijalogKalendara.style.setProperty("left", "50%", "important");
-                        dijalogKalendara.style.setProperty("transform", "translate(-50%, -50%)", "important");
-                    }
-                };
-            }
-
-            // === ОВДЕ СМО ДОДАЛИ И ДРУГИ ПУТОКАЗ ЗА КОМЕНТАРЕ ===
-            let свиТекстови = document.querySelectorAll('.zlatni-putokaz-tekst');
-            свиТекстови.forEach(function(el) {
-                if (el.textContent.includes("Путоказ од Вас ка нама")) {
-                    let контејнерКoментара = el.parentElement;
-                    if (контејнерКoментара) {
-                        контејнерКoментара.style.setProperty("position", "fixed", "important");
-                        контејнерКoментара.style.setProperty("z-index", "999999", "important");
-                    }
-                }
-            });
-
-        }, 150);
-
+        document.body.appendChild(iframeStrim);
     }
     return;
 }
