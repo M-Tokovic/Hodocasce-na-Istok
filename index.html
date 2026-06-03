@@ -1383,27 +1383,113 @@ if (m === 11 && dan === 17) {
     }, 1000);
 }
 
-// --- ЖИВИ БРОЈАЧ У СЕКУНДАМА ЗА 30. ЈУЛ 2026. ---
-} else if (godina === 2026 && (m === 7 || m === 6) && dan === 30) {
+// --- ЖИВИ БРОЈАЧ И ТАЧНИ СИНХРОНИЗОВАНИ ТЕКСТОВИ ДО 2100. ГОДИНЕ ---
+} else if ((godina === 2023 && m === 5 && dan === 30) || 
+           (godina === 2026 && m === 7 && dan === 30) || 
+           (godina === 2029 && m === 9 && dan === 30) || 
+           (godina === 2032 && m === 11 && dan === 30) || 
+           (godina === 2036 && m === 1 && dan === 31) || 
+           (godina === 2039 && m === 4 && dan === 3) || 
+           (godina === 2042 && m === 6 && dan === 3) || 
+           (godina === 2045 && m === 8 && dan === 4) || 
+           (godina === 2048 && m === 10 && dan === 4) || 
+           (godina === 2051 && m === 12 && dan === 5) || 
+           (godina === 2055 && m === 2 && dan === 5) || 
+           (godina === 2058 && m === 4 && dan === 7) || 
+           (godina === 2061 && m === 6 && dan === 8) || 
+           (godina === 2064 && m === 8 && dan === 8) || 
+           (godina === 2067 && m === 10 && dan === 9) || 
+           (godina === 2070 && m === 12 && dan === 10) || 
+           (godina === 2074 && m === 2 && dan === 9) || 
+           (godina === 2077 && m === 4 && dan === 12) || 
+           (godina === 2080 && m === 6 && dan === 12) || 
+           (godina === 2083 && m === 8 && dan === 14) || 
+           (godina === 2086 && m === 10 && dan === 14) || 
+           (godina === 2089 && m === 12 && dan === 14) || 
+           (godina === 2093 && m === 2 && dan === 14) || 
+           (godina === 2096 && m === 4 && dan === 16) || 
+           (godina === 2099 && m === 6 && dan === 18)) {
+
     if (window.tajmerRodjendana) {
-        clearInterval(window.tajnumaRodjendana);
+        clearInterval(window.tajmerRodjendana);
         window.tajmerRodjendana = null;
     }
     const satEl = document.getElementById('rodjendanski-sat');
     if (satEl) satEl.innerText = "";
 
     if (!window.tajmerTridesetiJul) {
-        const rodjenjeUTC = Date.UTC(1975, 10, 17, 3, 50, 0);
+        const rodjenjeUTC = Date.UTC(1975, 10, 17, 3, 50, 0); // 17.11.1975.
+        window.poslednjaEpoha100M = -1;
+
         window.tajmerTridesetiJul = setInterval(function() {
+            // Динамички хватамо тренутне вредности директно из Ваших улазних поља при сваком такту
+            const v_dan = parseInt(document.getElementById('dan-input')?.value || dan);
+            const v_mesec = parseInt(document.getElementById('mesec-input')?.value || m);
+            const v_godina = parseInt(document.getElementById('godina-input')?.value || godina);
+
             const realnoVreme = new Date();
-            const virtuelnaSadaUTC = Date.UTC(2026, 6, 30, realnoVreme.getHours(), realnoVreme.getMinutes(), realnoVreme.getSeconds());
+            const virtuelnaSadaUTC = Date.UTC(v_godina, v_mesec - 1, v_dan, realnoVreme.getHours(), realnoVreme.getMinutes(), realnoVreme.getSeconds());
+            
             let ukupnaRazlika = virtuelnaSadaUTC - rodjenjeUTC;
             const ukupnoSekundi = Math.floor(ukupnaRazlika / 1000);
+            
+            if(ukupnoSekundi < 0) return;
+
+            // Мапа са тачним, провереним подацима за сваки датум како не би било математичких одступања
+            let tacnaSatnica = "16:16:40";
+            let tacanBrojZaPled = "1 600 000 000";
+
+            if (v_godina === 2023) { tacnaSatnica = "6:30:00"; tacanBrojZaPled = "1 500 000 000"; }
+            else if (v_godina === 2026) { tacnaSatnica = "16:16:40"; tacanBrojZaPled = "1 600 000 000"; }
+            else if (v_godina === 2029) { tacnaSatnica = "2:03:20"; tacanBrojZaPled = "1 700 000 000"; }
+            else if (v_godina === 2032) { tacnaSatnica = "11:50:00"; tacanBrojZaPled = "1 800 000 000"; }
+            else if (v_godina === 2036) { tacnaSatnica = "21:36:40"; tacanBrojZaPled = "1 900 000 000"; }
+            else if (v_godina === 2039) { tacnaSatnica = "7:23:20"; tacanBrojZaPled = "2 000 000 000"; }
+            else if (v_godina === 2042) { tacnaSatnica = "17:10:00"; tacanBrojZaPled = "2 100 000 000"; }
+            else if (v_godina === 2045) { tacnaSatnica = "2:56:40"; tacanBrojZaPled = "2 200 000 000"; }
+            else if (v_godina === 2048) { tacnaSatnica = "12:43:20"; tacanBrojZaPled = "2 300 000 000"; }
+            else if (v_godina === 2051) { tacnaSatnica = "22:30:00"; tacanBrojZaPled = "2 400 000 000"; }
+            else if (v_godina === 2055) { tacnaSatnica = "8:16:40"; tacanBrojZaPled = "2 500 000 000"; }
+            else if (v_godina === 2058) { tacnaSatnica = "18:03:20"; tacanBrojZaPled = "2 600 000 000"; }
+            else if (v_godina === 2061) { tacnaSatnica = "3:50:00"; tacanBrojZaPled = "2 700 000 000"; }
+            else if (v_godina === 2064) { tacnaSatnica = "13:36:40"; tacanBrojZaPled = "2 800 000 000"; }
+            else if (v_godina === 2067) { tacnaSatnica = "23:23:20"; tacanBrojZaPled = "2 900 000 000"; }
+            else if (v_godina === 2070) { tacnaSatnica = "9:10:00"; tacanBrojZaPled = "3 000 000 000"; }
+            else if (v_godina === 2074) { tacnaSatnica = "18:56:40"; tacanBrojZaPled = "3 100 000 000"; }
+            else if (v_godina === 2077) { tacnaSatnica = "4:43:20"; tacanBrojZaPled = "3 200 000 000"; }
+            else if (v_godina === 2080) { tacnaSatnica = "14:30:00"; tacanBrojZaPled = "3 300 000 000"; }
+            else if (v_godina === 2083) { tacnaSatnica = "0:16:40"; tacanBrojZaPled = "3 400 000 000"; }
+            else if (v_godina === 2086) { tacnaSatnica = "10:03:20"; tacanBrojZaPled = "3 500 000 000"; }
+            else if (v_godina === 2089) { tacnaSatnica = "19:50:00"; tacanBrojZaPled = "3 600 000 000"; }
+            else if (v_godina === 2093) { tacnaSatnica = "5:36:40"; tacanBrojZaPled = "3 700 000 000"; }
+            else if (v_godina === 2096) { tacnaSatnica = "15:23:20"; tacanBrojZaPled = "3 800 000 000"; }
+            else if (v_godina === 2099) { tacnaSatnica = "1:10:00"; tacanBrojZaPled = "3 900 000 000"; }
+
+            // Ово спречава бесконачно рестартовање куцања у истом дану
+            if (tacanBrojZaPled !== window.poslednjaEpoha100M) {
+                window.poslednjaEpoha100M = tacanBrojZaPled;
+
+                // 1. СРЕДЊИ ПЕРГАМЕНТ - Ваша комплетна реченица без икаквих куцаћих грешака
+                const elGlavni = document.getElementById('tekst-misli');
+                if (elGlavni) {
+                    const noviTekstZaKucanje = "Ако математика не лаже — а она се, за разлику од историје, може доказати — данас у " + tacnaSatnica + " навршава ми се свега:<br> " + tacanBrojZaPled + " секунди.";
+                    kucajTekst(elGlavni, noviTekstZaKucanje);
+                }
+
+                // 2. ЛЕВИ СВИТАК (НАЈАВА) - Савршено прати централни папир
+                const elNajava = document.getElementById('tekst-najave');
+                if (elNajava) {
+                    elNajava.innerHTML = "<span style='font-size: 0.9em; color: red; font-weight: bold;'>" + tacnaSatnica + "</span><br><br>" + 
+                                         "<span style='font-size: 0.85em; color: black; font-weight: bold;'>" + tacanBrojZaPled + " с</span><br>" + 
+                                         "<span style='font-size: 0.7em; color: #4a2c0f; font-weight: normal; font-style: italic;'>навршених секунди</span>";
+                }
+            }
+
+            // Живи секундни бројач на дну тече неометано
             const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
             el.innerHTML = `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${formatiraneSekunde} с</span>`;
         }, 1000);
     }
-
 } else {
     if (window.tajmerRodjendana) {
         clearInterval(window.tajmerRodjendana);
