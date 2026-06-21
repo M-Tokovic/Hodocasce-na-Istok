@@ -1705,29 +1705,77 @@ function kopirajIposaljiСигурно(e) {
     let gSel = document.getElementById('novi-ar-god');
     let sSel = document.getElementById('novi-ar-sat');
     let mSel = document.getElementById('novi-ar-min');
-    
-    if (dSel && gSel && sSel && mSel) {
-        for (let d = 1; d <= 31; d++) { dSel.options[dSel.options.length] = new Option(d + ".", d); }
-        // НОВИ КОД (Путоказ проширен од 1975 до 2100):
-for (let g = 1975; g <= 2100; g++) { gSel.options[gSel.options.length] = new Option(g + ".", g); }
+    let mSelMonth = document.getElementById('novi-ar-mesec');
+
+    if (dSel && gSel && sSel && mSel && mSelMonth) {
+        // 1. ПРВО ПУНИМО ИЗБОРНИКЕ ЗА ГОДИНУ, САТЕ И МИНУТЕ
+        for (let g = 1975; g <= 2100; g++) { gSel.options[gSel.options.length] = new Option(g + ".", g); }
         for (let s = 0; s <= 23; s++) { sSel.options[sSel.options.length] = new Option((s < 10 ? '0' : '') + s, s); }
         for (let m = 0; m <= 59; m++) { mSel.options[mSel.options.length] = new Option((m < 10 ? '0' : '') + m, m); }
-        
+
+        // 2. СИГУРНА ФУНКЦИЈА КОЈА ОДРЕЂУЈЕ ТАЧАН БРОЈ ДАНА
+        function azurirajBrojDana() {
+            let trenutniIzborDana = dSel.value; // Чувамо шта је корисник већ притиснуо
+            let izabraniMesec = parseInt(mSelMonth.value);
+            let izabranaGodina = parseInt(gSel.value || 2026);
+            
+            // Фиксна мапа дана за сваки месец (од 1 до 12)
+            let brojDanaUMesecu = 31; // Подразумевано
+            
+            if (izabraniMesec === 4 || izabraniMesec === 6 || izabraniMesec === 9 || izabraniMesec === 11) {
+                brojDanaUMesecu = 30;
+            } else if (izabraniMesec === 2) {
+                // Математичка провера преступне године (ако је дељива са 4, фебруар има 29 дана)
+                if ((izabranaGodina % 4 === 0 && izabranaGodina % 100 !== 0) || (izabranaGodina % 400 === 0)) {
+                    brojDanaUMesecu = 29;
+                } else {
+                    brojDanaUMesecu = 28;
+                }
+            }
+
+            // Брзо и чисто ресетовање изборника за дане
+            dSel.options.length = 0;
+            
+            // Пуњење изборника исправним данима
+            for (let d = 1; d <= brojDanaUMesecu; d++) {
+                dSel.options[dSel.options.length] = new Option(d + ".", d);
+            }
+            
+            // Враћање корисничког избора на место
+            if (trenutniIzborDana && parseInt(trenutniIzborDana) <= brojDanaUMesecu) {
+                dSel.value = trenutniIzborDana;
+            } else {
+                dSel.value = brojDanaUMesecu;
+            }
+        }
+
+        // 3. ПРАЋЕЊЕ КЛИКОВА НА МЕСЕЦ ИЛИ ГОДИНУ
+        mSelMonth.addEventListener('change', azurirajBrojDana);
+        gSel.addEventListener('change', azurirajBrojDana);
+
+        // 4. УЧИТАВАЊЕ СТАЊА ИЗ УРЛ-А ИЛИ СИСТЕМСКОГ ВРЕМЕНА
         const urlParams = new URLSearchParams(window.location.search);
-        let фабричкиСад = (typeof window.GlavniFabrickiDate !== 'undefined') ? new window.GlavniFabrickiDate() : new Date();
-        
-        let sDan = urlParams.get('v_dan') || фабричкиСад.getDate();
-        let sMesec = urlParams.get('v_mesec') || (фабричкиСад.getMonth() + 1);
-        let sGodina = urlParams.get('v_godina') || фабричкиСад.getFullYear();
-        let sSat = urlParams.get('v_sat') || фабричкиСад.getHours();
-        let sMin = urlParams.get('v_min') || фабричкиСад.getMinutes();
-        
-        dSel.value = sDan;
-        if(document.getElementById('novi-ar-mesec')) document.getElementById('novi-ar-mesec').value = sMesec;
+        let fabrickiSad = (typeof window.GlavniFabrickiDate !== 'undefined') ? new window.GlavniFabrickiDate() : new Date();
+
+        let sDan = urlParams.get('v_dan') || fabrickiSad.getDate();
+        let sMesec = urlParams.get('v_mesec') || (fabrickiSad.getMonth() + 1);
+        let sGodina = urlParams.get('v_godina') || fabrickiSad.getFullYear();
+        let sSat = urlParams.get('v_sat') || fabrickiSad.getHours();
+        let sMin = urlParams.get('v_min') || fabrickiSad.getMinutes();
+
+        // Сигурно поравнавање почетних вредности у пољима
+        mSelMonth.value = sMesec;
         gSel.value = sGodina;
+        
+        // Покрећемо логику пре коначног одабира дана
+        azurirajBrojDana();
+        
+        // Сада безбедно бирамо дан из пуне листе
+        dSel.value = sDan;
+        
         sSel.value = sSat;
         mSel.value = sMin;
-        
+
         if (urlParams.get('v_dan') && document.getElementById('novi-veza-danas')) {
             document.getElementById('novi-veza-danas').style.display = 'inline';
         }
