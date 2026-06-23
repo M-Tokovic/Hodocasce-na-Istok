@@ -695,6 +695,9 @@ background-repeat: no-repeat;
 const misli2026 = {
     "2026": {
         "мисли": {
+		    "3": {
+		        "12": "Политичари" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
+			},
             "5": {
                 "3": "Кљун се заглавио у решетку канализационог одвода. Уместо да смирено затвори кљун и извуче се, он је све више гордо зевао и усисавао канализацију у себе.",
                 "5": "У Кући цвећа многи нису били, док у кући смећа већина борави.",
@@ -715,8 +718,8 @@ const misli2026 = {
                 "31": "Тројице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
             },
                   "6": {
-        "1": "Дали смо оно што смо имали, а и то је више од онога што неко има, а не да.",
-        "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
+                "1": "Дали смо оно што смо имали, а и то је више од онога што неко има, а не да.",
+                "2": "Случајно сам упао у устајалу бару, пољубила ме је жаба. Била је немоћна да ме претвори у цара, жаба је била стара.",
                 "3": "Математика, иако је егзактна наука, није увек прагматична.",
 				"4": "Ови што се фркишу по улицама Престонице, човек би рекао да су евнуси.",
 				"5": "Читајући многе коментаре и размишљајући о коментаторима, имбецил је блага реч.",
@@ -776,7 +779,8 @@ const misli2026 = {
 			"30": "Боље сдо 1999, него СЗО 2019!"
             },
             "10": {
-                "7": "У данашње време могуће су свакакве преваре. Истина је да смо обојица грдни."
+                "7": "У данашње време могуће су свакакве преваре. Истина је да смо обојица грдни.",
+				"10": "Михољске задушнице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
             },
             "11": {
                 "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…", // Čist tekst spreman za kucanje, na svakih 10 godina
@@ -791,13 +795,19 @@ const misli2026 = {
             },
 			// --- OVDE UPISUJETE NAJAVE ZA LEVI SVITAK ZA 2026. GODINU ---
 "најаве": {
-    "5": {
+    "3": {
+	    "12": "<div style='text-align: center; margin-bottom: 5px; font-size: 1.4em; font-weight: bold;'><span style='display: inline-block; transform: rotate(30deg);'>⬈</span></div>Тренутни путоказ:<br>централни пергамент"
+		},
+	"5": {
 	    "29": "<div style='text-align: center; margin-bottom: 5px; font-size: 1.4em; font-weight: bold;'><span style='display: inline-block; transform: rotate(30deg);'>⬈</span></div>Тренутни путоказ:<br>централни пергамент",
         "31": "<div style='text-align: center; margin-bottom: 5px; font-size: 1.4em; font-weight: bold;'><span style='display: inline-block; transform: rotate(30deg);'>⬈</span></div>Тренутни путоказ:<br>централни пергамент"
     },
     "6": {
         "8": ""
     },
+	"10": {
+	    "10": "<div style='text-align: center; margin-bottom: 5px; font-size: 1.4em; font-weight: bold;'><span style='display: inline-block; transform: rotate(30deg);'>⬈</span></div>Тренутни путоказ:<br>централни пергамент"
+	},
     "11": {
         "27": "<div style='text-align: center; margin-bottom: 5px; font-size: 1.4em; font-weight: bold;'><span style='display: inline-block; transform: rotate(30deg);'>⬈</span></div>Тренутни путоказ:<br>централни пергамент"
     }
@@ -1121,8 +1131,10 @@ if(стварниПутоказРесет) {
     
         // 1. SPISAK PRAZNIKA
     const specijalniLinkovi = {
-        "5-29": { tekst: "Са водом кубуримо већ неколико дана, а ни лифт нам није радио, па је требало провозати се пешке до цистерне... Струја још увек тече...<br>П. С. Вода жива увек тече...", link: "https://svetosavlje.org/omilije-2/29/" },
+        "3-12": { tekst: "Ми са Бобаном смо лако, а ови са Вучком никако - али њих двојица нису исто.<br>П. С. Тита је нешто треће.", link: "https://www.youtube.com/watch?v=bdtJfPXcRII" },
+		"5-29": { tekst: "Са водом кубуримо већ неколико дана, а ни лифт нам није радио, па је требало провозати се пешке до цистерне... Струја још увек тече...<br>П. С. Вода жива увек тече...", link: "https://svetosavlje.org/omilije-2/29/" },
 		"5-31": { tekst: "На Детињце, Материце и Оце везе између деце и родитеља. За Божић храстово дрво илити бадњак. На Богојављење света водица. На Цвети палмина или врбова гранчица. На Васкрс куцање фарбаним јајима. На Тројице венчићи од пољске траве. На Преображење свешта се грожђе.", link: "https://www.youtube.com/watch?si=lKI-9nYX71hZQ-F1&v=i9HRfH6EMCM&feature=youtu.be" },
+		"10-10": { tekst: "Михољске задушнице", link: "https://youtu.be/fcfhFlbLTRU?si=I2bQ0fNDXu8Ue4On" },
         "11-27": { tekst: "Ходочашће на Исток - аутор", link: "https://www.youtube.com/watch?v=YMlDe-dXrZw" }
     };
 
