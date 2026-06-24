@@ -1506,6 +1506,7 @@ if (m === 11 && dan === 17) {
             const v_mesec = parseInt(document.getElementById('novi-ar-mesec')?.value || m);
             const v_godina = parseInt(document.getElementById('novi-ar-god')?.value || godina);
 
+                        // БРОЈАЧ СЕ САДА ВРТИ И ПРАТИ ТВОЈУ НОВУ РУЧНУ ЛИСТУ У СЕКУНДУ
             const dTrenutни = new Date();
             const virtuelnaSadaUTC = Date.UTC(v_godina, v_mesec - 1, v_dan, dTrenutни.getHours(), dTrenutни.getMinutes(), dTrenutни.getSeconds());
 
@@ -1518,45 +1519,45 @@ if (m === 11 && dan === 17) {
             let tacnaSatnica = "16:16:40";
             let tacanBrojZaPled = "1 600 000 000";
 
-            if (v_godina === 1979) { tacnaSatnica = "12:36:40"; tacanBrojZaPled = "100 000 000"; }
-            else if (v_godina === 1982) { tacnaSatnica = "21:23:20"; tacanBrojZaPled = "200 000 000"; }
-            else if (v_godina === 1985) { tacnaSatnica = "07:10:00"; tacanBrojZaPled = "300 000 000"; }
-            else if (v_godina === 1988) { tacnaSatnica = "17:56:40"; tacanBrojZaPled = "400 000 000"; }
-            else if (v_godina === 1991) { tacnaSatnica = "03:43:20"; tacanBrojZaPled = "500 000 000"; }
-            else if (v_godina === 1994) { tacnaSatnica = "12:30:00"; tacanBrojZaPled = "600 000 000"; }
-            else if (v_godina === 1998) { tacnaSatnica = "22:16:40"; tacanBrojZaPled = "700 000 000"; }
-            else if (v_godina === 2001) { tacnaSatnica = "08:03:20"; tacanBrojZaPled = "800 000 000"; }
-            else if (v_godina === 2004) { tacnaSatnica = "18:50:00"; tacanBrojZaPled = "900 000 000"; }
-            else if (v_godina === 2007) { tacnaSatnica = "04:36:40"; tacanBrojZaPled = "1 000 000 000"; }
-            else if (v_godina === 2010) { tacnaSatnica = "14:23:20"; tacanBrojZaPled = "1 100 000 000"; }
-            else if (v_godina === 2013) { tacnaSatnica = "00:10:00"; tacanBrojZaPled = "1 200 000 000"; }
-            else if (v_godina === 2017) { tacnaSatnica = "09:56:40"; tacanBrojZaPled = "1 300 000 000"; }
-            else if (v_godina === 2020) { tacnaSatnica = "19:43:20"; tacanBrojZaPled = "1 400 000 000"; }
-            else if (v_godina === 2023) { tacnaSatnica = "05:30:00"; tacanBrojZaPled = "1 500 000 000"; }
-            else if (v_godina === 2026) { tacnaSatnica = "16:16:40"; tacanBrojZaPled = "1 600 000 000"; }
-            else if (v_godina === 2029) { tacnaSatnica = "02:03:20"; tacanBrojZaPled = "1 700 000 000"; }
-            else if (v_godina === 2032) { tacnaSatnica = "11:50:00"; tacanBrojZaPled = "1 800 000 000"; }
-            else if (v_godina === 2036) { tacnaSatnica = "21:36:40"; tacanBrojZaPled = "1 900 000 000"; }
-            else if (v_godina === 2039) { tacnaSatnica = "07:23:20"; tacanBrojZaPled = "2 000 000 000"; }
-            else if (v_godina === 2042) { tacnaSatnica = "17:10:00"; tacanBrojZaPled = "2 100 000 000"; }
-            else if (v_godina === 2045) { tacnaSatnica = "02:56:40"; tacanBrojZaPled = "2 200 000 000"; }
-            else if (v_godina === 2048) { tacnaSatnica = "12:43:20"; tacanBrojZaPled = "2 300 000 000"; }
-            else if (v_godina === 2051) { tacnaSatnica = "22:30:00"; tacanBrojZaPled = "2 400 000 000"; }
-            else if (v_godina === 2055) { tacnaSatnica = "08:16:40"; tacanBrojZaPled = "2 500 000 000"; }
-            else if (v_godina === 2058) { tacnaSatnica = "18:03:20"; tacanBrojZaPled = "2 600 000 000"; }
-            else if (v_godina === 2061) { tacnaSatnica = "03:50:00"; tacanBrojZaPled = "2 700 000 000"; }
-            else if (v_godina === 2064) { tacnaSatnica = "13:36:40"; tacanBrojZaPled = "2 800 000 000"; }
-            else if (v_godina === 2067) { tacnaSatnica = "23:23:20"; tacanBrojZaPled = "2 900 000 000"; }
-            else if (v_godina === 2070) { tacnaSatnica = "09:10:00"; tacanBrojZaPled = "3 000 000 000"; }
-            else if (v_godina === 2074) { tacnaSatnica = "18:56:40"; tacanBrojZaPled = "3 100 000 000"; }
-            else if (v_godina === 2077) { tacnaSatnica = "04:43:20"; tacanBrojZaPled = "3 200 000 000"; }
-            else if (v_godina === 2080) { tacnaSatnica = "14:30:00"; tacanBrojZaPled = "3 300 000 000"; }
-            else if (v_godina === 2083) { tacnaSatnica = "00:16:40"; tacanBrojZaPled = "3 400 000 000"; }
-            else if (v_godina === 2086) { tacnaSatnica = "10:03:20"; tacanBrojZaPled = "3 500 000 000"; }
-            else if (v_godina === 2089) { tacnaSatnica = "19:50:00"; tacanBrojZaPled = "3 600 000 000"; }
-            else if (v_godina === 2093) { tacnaSatnica = "05:36:40"; tacanBrojZaPled = "3 700 000 000"; }
-            else if (v_godina === 2096) { tacnaSatnica = "15:23:20"; tacanBrojZaPled = "3 800 000 000"; }
-            else if (v_godina === 2099) { tacnaSatnica = "01:10:00"; tacanBrojZaPled = "3 900 000 000"; }
+                                    if (v_godina === 1979) { tacnaSatnica = "13:36:40"; tacanBrojZaPled = "100 000 000"; }
+                        else if (v_godina === 1982) { tacnaSatnica = "23:23:20"; tacanBrojZaPled = "200 000 000"; }
+                        else if (v_godina === 1985) { tacnaSatnica = "09:10:00"; tacanBrojZaPled = "300 000 000"; }
+                        else if (v_godina === 1988) { tacnaSatnica = "18:56:40"; tacanBrojZaPled = "400 000 000"; }
+                        else if (v_godina === 1991) { tacnaSatnica = "04:43:20"; tacanBrojZaPled = "500 000 000"; }
+                        else if (v_godina === 1994) { tacnaSatnica = "14:30:00"; tacanBrojZaPled = "600 000 000"; }
+                        else if (v_godina === 1998) { tacnaSatnica = "00:16:40"; tacanBrojZaPled = "700 000 000"; }
+                        else if (v_godina === 2001) { tacnaSatnica = "10:03:20"; tacanBrojZaPled = "800 000 000"; }
+                        else if (v_godina === 2004) { tacnaSatnica = "19:50:00"; tacanBrojZaPled = "900 000 000"; }
+                        else if (v_godina === 2007) { tacnaSatnica = "05:36:40"; tacanBrojZaPled = "1 000 000 000"; }
+                        else if (v_godina === 2010) { tacnaSatnica = "15:23:20"; tacanBrojZaPled = "1 100 000 000"; }
+                        else if (v_godina === 2013) { tacnaSatnica = "01:10:00"; tacanBrojZaPled = "1 200 000 000"; }
+                        else if (v_godina === 2017) { tacnaSatnica = "10:56:40"; tacanBrojZaPled = "1 300 000 000"; }
+                        else if (v_godina === 2020) { tacnaSatnica = "20:43:20"; tacanBrojZaPled = "1 400 000 000"; }
+                        else if (v_godina === 2023) { tacnaSatnica = "06:30:00"; tacanBrojZaPled = "1 500 000 000"; }
+                        else if (v_godina === 2026) { tacnaSatnica = "16:16:40"; tacanBrojZaPled = "1 600 000 000"; }
+                        else if (v_godina === 2029) { tacnaSatnica = "02:03:20"; tacanBrojZaPled = "1 700 000 000"; }
+                        else if (v_godina === 2032) { tacnaSatnica = "11:50:00"; tacanBrojZaPled = "1 800 000 000"; }
+                        else if (v_godina === 2036) { tacnaSatnica = "21:36:40"; tacanBrojZaPled = "1 900 000 000"; }
+                        else if (v_godina === 2039) { tacnaSatnica = "07:23:20"; tacanBrojZaPled = "2 000 000 000"; }
+                        else if (v_godina === 2042) { tacnaSatnica = "17:10:00"; tacanBrojZaPled = "2 100 000 000"; }
+                        else if (v_godina === 2045) { tacnaSatnica = "02:56:40"; tacanBrojZaPled = "2 200 000 000"; }
+                        else if (v_godina === 2048) { tacnaSatnica = "12:43:20"; tacanBrojZaPled = "2 300 000 000"; }
+                        else if (v_godina === 2051) { tacnaSatnica = "22:30:00"; tacanBrojZaPled = "2 400 000 000"; }
+                        else if (v_godina === 2055) { tacnaSatnica = "08:16:40"; tacanBrojZaPled = "2 500 000 000"; }
+                        else if (v_godina === 2058) { tacnaSatnica = "18:03:20"; tacanBrojZaPled = "2 600 000 000"; }
+                        else if (v_godina === 2061) { tacnaSatnica = "03:50:00"; tacanBrojZaPled = "2 700 000 000"; }
+                        else if (v_godina === 2064) { tacnaSatnica = "13:36:40"; tacanBrojZaPled = "2 800 000 000"; }
+                        else if (v_godina === 2067) { tacnaSatnica = "23:23:20"; tacanBrojZaPled = "2 900 000 000"; }
+                        else if (v_godina === 2070) { tacnaSatnica = "09:10:00"; tacanBrojZaPled = "3 000 000 000"; }
+                        else if (v_godina === 2074) { tacnaSatnica = "18:56:40"; tacanBrojZaPled = "3 100 000 000"; }
+                        else if (v_godina === 2077) { tacnaSatnica = "04:43:20"; tacanBrojZaPled = "3 200 000 000"; }
+                        else if (v_godina === 2080) { tacnaSatnica = "14:30:00"; tacanBrojZaPled = "3 300 000 000"; }
+                        else if (v_godina === 2083) { tacnaSatnica = "00:16:40"; tacanBrojZaPled = "3 400 000 000"; }
+                        else if (v_godina === 2086) { tacnaSatnica = "10:03:20"; tacanBrojZaPled = "3 500 000 000"; }
+                        else if (v_godina === 2089) { tacnaSatnica = "19:50:00"; tacanBrojZaPled = "3 600 000 000"; }
+                        else if (v_godina === 2093) { tacnaSatnica = "05:36:40"; tacanBrojZaPled = "3 700 000 000"; }
+                        else if (v_godina === 2096) { tacnaSatnica = "15:23:20"; tacanBrojZaPled = "3 800 000 000"; }
+                        else if (v_godina === 2099) { tacnaSatnica = "01:10:00"; tacanBrojZaPled = "3 900 000 000"; }
 
             if (tacanBrojZaPled !== window.poslednjaEpoha100M) {
                 window.poslednjaEpoha100M = tacanBrojZaPled;
@@ -1578,8 +1579,11 @@ if (m === 11 && dan === 17) {
             }
 
             // Живи бројач на дну откуцава секунде
-            const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
-            el.innerHTML = `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${formatiraneSekunde} с</span>`;
+            // Фиксирање левог бројача да се бројке за сто посто поклопе са пергаментом
+const cisteSekundeIzMape = parseInt(tacanBrojZaPled.replace(/\s/g, ''));
+// Сада се бројач уживо врти, а због твоје нове листе се поклапа у нулу са пергаментом
+const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
+el.innerHTML = `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${formatiraneSekunde} с</span>`;
         }, 1000);
     }
 } else {
