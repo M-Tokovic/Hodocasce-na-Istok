@@ -608,11 +608,11 @@ background-repeat: no-repeat;
 
             <div id="yt-zona-sredina">
     <div class="ikona-kontejner" onclick="idi(6)">
-        <div class="prozor">YouTube 1</div>
+        <div class="prozor">YouTube сада</div>
         <div class="ikona-baza yt1">▶</div>
     </div>
     <div class="ikona-kontejner" onclick="idi(7)">
-        <div class="prozor">YouTube 2</div>
+        <div class="prozor">YouTube некада</div>
         <div class="ikona-baza yt2">▶</div>
     </div>
 </div> <!-- OVDE TREBA DA BUDE KRAJ -->
@@ -779,8 +779,15 @@ const misli2026 = {
 			"30": "Боље сдо 1999, него СЗО 2019!"
             },
             "10": {
-                "7": "У данашње време могуће су свакакве преваре. Истина је да смо обојица грдни.",
-				"10": "Михољске задушнице" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
+                "4": "Биле су мале измотације, па се прешло на мастурбацију,што је изазвало компликацију.",
+				"7": "У данашње време могуће су свакакве преваре. Истина је да смо обојица грдни.",
+				"10": "Михољске задушнице", // Čist tekst spreman za kucanje, link se dodaje naknadno dole
+				"11": "Треба бити хуман па мислити уместо других, али пожељно је да они који нису способни да мисле прихвате мишљење мислећих.",
+				"14": "Досада је прелепа за онога ко зна да је искористи.",
+				"18": "Багљави прсти увалише се у салварице.",
+				"25": "Боље „мртав“ пијан него убица!",
+				"27": "Лепши је од многих жена, али језик није развио попут женског.",
+				"31": "Поједини теолози се баве теалогијом."				
             },
             "11": {
                 "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…", // Čist tekst spreman za kucanje, na svakih 10 godina
@@ -1501,6 +1508,48 @@ if (m === 11 && dan === 17) {
         window.poslednjaEpoha100M = -1;
 
         window.tajmerTridesetiJul = setInterval(function() {
+		                        // Твоја космичка база података за аутоматску најаву 3 наредна јубилеја
+                        const jubilarnaLista = [
+                            { s: 100000000, t: "17.01.1979.", h: "13:36:40" },
+                            { s: 200000000, t: "19.03.1982.", h: "23:23:20" },
+                            { s: 300000000, t: "20.05.1985.", h: "09:10:00" },
+                            { s: 400000000, t: "20.07.1988.", h: "18:56:40" },
+                            { s: 500000000, t: "21.09.1991.", h: "04:43:20" },
+                            { s: 600000000, t: "21.11.1994.", h: "14:30:00" },
+                            { s: 700000000, t: "22.01.1998.", h: "00:16:40" },
+                            { s: 800000000, t: "24.03.2001.", h: "10:03:20" },
+                            { s: 900000000, t: "24.05.2004.", h: "19:50:00" },
+                            { s: 1000000000, t: "26.07.2007.", h: "05:36:40" },
+                            { s: 1100000000, t: "25.09.2010.", h: "15:23:20" },
+                            { s: 1200000000, t: "26.11.2013.", h: "01:10:00" },
+                            { s: 1300000000, t: "26.01.2017.", h: "10:56:40" },
+                            { s: 1400000000, t: "28.03.2020.", h: "20:43:20" },
+                            { s: 1500000000, t: "30.05.2023.", h: "06:30:00" },
+                            { s: 1600000000, t: "30.07.2026.", h: "16:16:40" },
+                            { s: 1700000000, t: "30.09.2029.", h: "02:03:20" },
+                            { s: 1800000000, t: "30.11.2032.", h: "11:50:00" },
+                            { s: 1900000000, t: "31.01.2036.", h: "21:36:40" },
+                            { s: 2000000000, t: "03.04.2039.", h: "07:23:20" },
+                            { s: 2100000000, t: "03.06.2042.", h: "17:10:00" },
+                            { s: 2200000000, t: "04.08.2045.", h: "02:56:40" },
+                            { s: 2300000000, t: "04.10.2048.", h: "12:43:20" },
+                            { s: 2400000000, t: "05.12.2051.", h: "22:30:00" },
+                            { s: 2500000000, t: "05.02.2055.", h: "08:16:40" },
+                            { s: 2600000000, t: "07.04.2058.", h: "18:03:20" },
+                            { s: 2700000000, t: "08.06.2061.", h: "03:50:00" },
+                            { s: 2800000000, t: "08.08.2064.", h: "13:36:40" },
+                            { s: 2900000000, t: "09.10.2067.", h: "23:23:20" },
+                            { s: 3000000000, t: "10.12.2070.", h: "09:10:00" },
+                            { s: 3100000000, t: "09.02.2074.", h: "18:56:40" },
+                            { s: 3200000000, t: "12.04.2077.", h: "04:43:20" },
+                            { s: 3300000000, t: "12.06.2080.", h: "14:30:00" },
+                            { s: 3400000000, t: "14.08.2083.", h: "00:16:40" },
+                            { s: 3500000000, t: "14.10.2086.", h: "10:03:20" },
+                            { s: 3600000000, t: "14.12.2089.", h: "19:50:00" },
+                            { s: 3700000000, t: "14.02.2093.", h: "05:36:40" },
+                            { s: 3800000000, t: "16.04.2096.", h: "15:23:20" },
+                            { s: 3900000000, t: "18.06.2099.", h: "01:10:00" }
+                        ];
             // Прецизно хватање вредности
             const v_dan = parseInt(document.getElementById('novi-ar-dan')?.value || dan);
             const v_mesec = parseInt(document.getElementById('novi-ar-mesec')?.value || m);
@@ -1569,21 +1618,71 @@ if (m === 11 && dan === 17) {
                     kucajTekst(elGlavni, noviTekstZaKucanje);
                 }
 
-                // 2. ЛЕВИ СВИТАК (НАЈАВА) - Приказ црвеног сата и секунди
-                const elNajava = document.getElementById('tekst-najave');
-                if (elNajava) {
-                    elNajava.innerHTML = "<span style='font-size: 0.9em; color: red; font-weight: bold;'>" + tacnaSatnica + "</span><br><br>" +
-                    "<span style='font-size: 0.85em; color: black; font-weight: bold;'>" + tacanBrojZaPled + " с</span><br>" +
-                    "<span style='font-size: 0.7em; color: #4a2c0f; font-weight: normal; font-style: italic;'>навршених секунди</span>";
-                }
+                                            // 2. ЛЕВИ СВИТАК (НАЈАВА) - АУТОМАТСКИ ПРИКАЗ 3 НАРЕДНА ЈУБИЛЕЈА
+                            const elNajava = document.getElementById('tekst-najave');
+                            if (elNajava) {
+                                // Претварамо тренутни текст у чист број секунди ради поређења
+                                const тренутнеСекундеЕпохе = parseInt(tacanBrojZaPled.replace(/\s/g, ''));
+                                
+                                // Проналазимо 3 наредна јубилеја из оне наше космичке листе
+                                let наредниЈубилеји = jubilarnaLista.filter(j => j.s > тренутнеСекундеЕпохе).slice(0, 3);
+                                
+                                // Ако нема наредних (нпр. на крају смо листе), узимамо последња три из историје за приказ
+                                if (наредниЈубилеји.length === 0) {
+                                    наредниЈубилеји = jubilarnaLista.slice(-3);
+                                }
+
+                                // Правимо ХТМЛ структуру за испис на левом свитку
+                                let htmlSadrzaj = "<div style='text-align: center; line-height: 1.4; font-family: inherit;'>";
+                                htmlSadrzaj += "<span style='font-size: 0.85em; color: #4a2c0f; font-weight: bold; text-decoration: underline;'>НАРЕДНИ ЈУБИЛЕЈИ:</span><br><br>";
+
+                                наредниЈубилеји.forEach((jubilej, indeks) => {
+                                    // Први следећи бојимо у црвено да се истакне, остале у тамно браон
+                                    const bojaSata = indeks === 0 ? 'red' : '#6b4423';
+                                    const formatiranBroj = jubilej.s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+                                    htmlSadrzaj += `<span style='font-size: 0.85em; color: ${bojaSata}; font-weight: bold;'>${jubilej.h}</span> — `;
+                                    htmlSadrzaj += `<span style='font-size: 0.8em; color: black; font-weight: normal;'>${jubilej.t}</span><br>`;
+                                    htmlSadrzaj += `<span style='font-size: 0.85em; color: black; font-weight: bold;'>${formatiranBroj} с</span><br>`;
+                                    htmlSadrzaj += "<hr style='border: 0; border-top: 1px dashed #d2b48c; margin: 6px 0;'>";
+                                });
+
+                                htmlSadrzaj += "</div>";
+                                elNajava.innerHTML = htmlSadrzaj;
+                            }
             }
 
-            // Живи бројач на дну откуцава секунде
-            // Фиксирање левог бројача да се бројке за сто посто поклопе са пергаментом
-const cisteSekundeIzMape = parseInt(tacanBrojZaPled.replace(/\s/g, ''));
-// Сада се бројач уживо врти, а због твоје нове листе се поклапа у нулу са пергаментом
-const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
-el.innerHTML = `<span style='color: black; font-weight: normal; font-size: 0.85em;'>${formatiraneSekunde} с</span>`;
+                                    // === АУТОМАТСКА ЛИСТА + ЖИВИ БРОЈАЧ (МАЊИ РАЗМАЦИ И КОМПАКТАН ИЗГЛЕД) ===
+            let htmlSaListomIBrojacem = "";
+
+            if (typeof jubilarnaLista !== 'undefined') {
+                // Проналазимо 3 наредна јубилеја на основу секунди које куцају
+                let наредниЈубилеји = jubilarnaLista.filter(j => j.s > ukupnoSekundi).slice(0, 3);
+                
+                if (наредниЈубилеји.length === 0) {
+                    наредниЈубилеји = jubilarnaLista.slice(-3);
+                }
+
+                htmlSaListomIBrojacem += "<div style='text-align: center; line-height: 1.15; font-family: inherit; color: #4a2c0f;'>";
+                htmlSaListomIBrojacem += "<span style='font-size: 0.75em; font-weight: bold; text-decoration: underline;'>МИЛИОНСКИ ПУТОКАЗИ:</span><br>";
+
+                наредниЈубилеји.forEach((jubilej) => {
+                    const formatiranBroj = jubilej.s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+                    htmlSaListomIBrojacem += `<span style='font-size: 0.72em; font-weight: bold; color: #4a2c0f;'>${jubilej.h}</span> — `;
+                    htmlSaListomIBrojacem += `<span style='font-size: 0.7em; font-weight: bold; color: #4a2c0f;'>${jubilej.t}</span><br>`;
+                    htmlSaListomIBrojacem += `<span style='font-size: 0.72em; font-weight: bold; color: #4a2c0f;'>${formatiranBroj} с</span><br>`;
+                    htmlSaListomIBrojacem += "<hr style='border: 0; border-top: 1px dashed #d2b48c; margin: 2px 0;'>"; // Згуснута линија
+                });
+                htmlSaListomIBrojacem += "</div>";
+            }
+
+            // Живи бројач је сада јасно одмакнут на самом крају (margin-top: 12px)
+            const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
+            htmlSaListomIBrojacem += `<div style='text-align: center; margin-top: 12px;'><span style='color: black; font-weight: normal; font-size: 0.8em;'>${formatiraneSekunde} с</span></div>`;
+
+            // Све заједно исписујемо одједном
+            el.innerHTML = htmlSaListomIBrojacem;
         }, 1000);
     }
 } else {
