@@ -1652,13 +1652,20 @@ if (m === 11 && dan === 17) {
                             }
             }
 
-                                    // === АУТОМАТСКА ЛИСТА + ЖИВИ БРОЈАЧ (МАЊИ РАЗМАЦИ И КОМПАКТАН ИЗГЛЕД) ===
+                                                // === КРАТКО И НАЈЛАКШЕ: ФИЛТРИРАЊЕ ПО ГОДИНАМА БЕЗ ГРЕШКЕ И ПРЕСКАКАЊА ===
             let htmlSaListomIBrojacem = "";
 
             if (typeof jubilarnaLista !== 'undefined') {
-                // Проналазимо 3 наредна јубилеја на основу секунди које куцају
-                let наредниЈубилеји = jubilarnaLista.filter(j => j.s > ukupnoSekundi).slice(0, 3);
-                
+                // Извлачимо тренутну годину из путоказа као број
+                const trenutnaIzabranaGodina = parseInt(v_godina);
+
+                // ФИЛТЕР: Узимамо искључиво јубилеје чија је година СТРОГО ВЕЋА од године у путоказу
+                let наредниЈубилеји = jubilarnaLista.filter(j => {
+                    const godinaJubileja = parseInt(j.t.split('.').slice(-2, -1)[0]);
+                    return godinaJubileja > trenutnaIzabranaGodina;
+                }).slice(0, 3);
+
+                // Сигурносни филтер ако смо дошли до самог краја листе у будућности
                 if (наредниЈубилеји.length === 0) {
                     наредниЈубилеји = jubilarnaLista.slice(-3);
                 }
@@ -1672,16 +1679,16 @@ if (m === 11 && dan === 17) {
                     htmlSaListomIBrojacem += `<span style='font-size: 0.72em; font-weight: bold; color: #4a2c0f;'>${jubilej.h}</span> — `;
                     htmlSaListomIBrojacem += `<span style='font-size: 0.7em; font-weight: bold; color: #4a2c0f;'>${jubilej.t}</span><br>`;
                     htmlSaListomIBrojacem += `<span style='font-size: 0.72em; font-weight: bold; color: #4a2c0f;'>${formatiranBroj} с</span><br>`;
-                    htmlSaListomIBrojacem += "<hr style='border: 0; border-top: 1px dashed #d2b48c; margin: 2px 0;'>"; // Згуснута линија
+                    htmlSaListomIBrojacem += "<hr style='border: 0; border-top: 1px dashed #d2b48c; margin: 2px 0;'>";
                 });
                 htmlSaListomIBrojacem += "</div>";
             }
 
-            // Живи бројач је сада јасно одмакнут на самом крају (margin-top: 12px)
+            // Твој оригинални фабрички живи бројач на дну који несметано врти секунде
             const formatiraneSekunde = ukupnoSekundi.toLocaleString('sr-RS');
             htmlSaListomIBrojacem += `<div style='text-align: center; margin-top: 12px;'><span style='color: black; font-weight: normal; font-size: 0.8em;'>${formatiraneSekunde} с</span></div>`;
 
-            // Све заједно исписујемо одједном
+            // Уписивање у елемент левог свитка
             el.innerHTML = htmlSaListomIBrojacem;
         }, 1000);
     }
