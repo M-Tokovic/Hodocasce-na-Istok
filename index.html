@@ -732,6 +732,7 @@ const misli2026 = {
 				"18": "Некад:<br>Ако ти је тешко, спусти...<br>Данас:<br>Ако ти је тешко, искључи се...",
 				"20": "Пио сам нескафу јутрос и у подне, што је просек скоро сваког дана.<br>Оба пута сам се загрцнуо, што имплицира да је не треба више пити. 😄<br>П. С. Треба читати знакове у себи, око себе и из себе...",
                 "21": "Просечан човек шта год види или осети неизоставно му се активира, у складу са опажајном асоцијацијом, промишљање.",
+				"25": "Да се ја питам, не би на Светском првенству у фудбалу играле само репрезентације попут Курасаоа и БиХ, него свих двеста и нешто држава света које то желе, па ком обојци, ком опанци.",
                 "28": "Видели су Виду како на острву Виду Видоја вида."
             },
             "7": {
@@ -792,13 +793,15 @@ const misli2026 = {
             "11": {
                 "17": "Стижу педесете, шездесете… али деведесете никад нису прошле…", // Čist tekst spreman za kucanje, na svakih 10 godina
                 "24": "24 године, са свега 24 минута и 24 секунде паузе у току 24 сата…",
-				"27": "Ходочашће на Исток - аутор" // Čist tekst spreman za kucanje, link se dodaje naknadno dole
+				"27": "Ходочашће на Исток - аутор", // Čist tekst spreman za kucanje, link se dodaje naknadno dole
+				"29": "Јовашевић Александар – Саша<br>29. 11. 1969."
             }
         },
                 "специјални": {
 				"6": { "8": { "aktivno": true, "video": "v3.mp4", "klik": 86 } },
             "9": { "28": { "aktivno": true, "video": "v2.mp4", "klik": 289 } },
-            "10": { "7": { "aktivno": true, "video": "v.mp4", "klik": 710 } }
+            "10": { "7": { "aktivno": true, "video": "v.mp4", "klik": 710 } },
+			"11": { "29": { "aktivno": true, "video": "v4.mp4", "klik": 2911 } }
             },
 			// --- OVDE UPISUJETE NAJAVE ZA LEVI SVITAK ZA 2026. GODINU ---
 "најаве": {
@@ -863,6 +866,7 @@ function idi(n) {
     if(n==710) { window.open("v.mp4", '_blank'); return; }
     if(n==289) { window.open("v2.mp4", '_blank'); return; }
 	if(n==86) { window.open("v3.mp4", '_blank'); return; }
+	if(n==2911) { window.open("v4.mp4", '_blank'); return; }
 
     if(l[n]) {
         window.open(l[n], '_blank');
@@ -1068,8 +1072,9 @@ if(stariYTStrim) stariYTStrim.remove();
                 miniVideo.onclick = function() { idi(710); }; // Pokreće v.mp4 na klik za 07.10.
             } else if (trenutniSpecijalan["video"] === "v3.mp4") {
                 miniVideo.onclick = function() { idi(86); }; // Pokreće v3.mp4 na klik za 08.06.
-            }
-            
+			} else if (trenutniSpecijalan["video"] === "v4.mp4") {
+                miniVideo.onclick = function() { idi(2911); }; // Pokreće v4.mp4 na klik za 29.11.
+            }            
             miniVideo.load();
         }
     } else {
