@@ -26,8 +26,8 @@ background-repeat: no-repeat;
 }
         .mrak { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; pointer-events: none; }
 
-        /* KURZOR RUKA */
-        .zastava-link, .ikona-kontejner, .slika-okvir, .ikona-baza { cursor: pointer !important; }
+        /* Izmenjen izgled linije 30: */
+		.zastava-link, .ikona-kontejner, .ikona-baza { cursor: pointer !important; }
 
         /* GORNJI ELEMENTI */
         .blok-levo { position: fixed; top: 30px; left: 30px; display: flex; flex-direction: column; align-items: center; z-index: 100; }
@@ -1253,10 +1253,8 @@ function listaj() {
     if(!f.length) return;
     f[cur].classList.remove('aktivna');
     cur = (cur + 1) % f.length;
-    f[cur].classList.add('aktivna');
-    f[cur].onclick = function() { idi(cur + 11); };
+    f[cur].classList.add('aktivna');    
 }
-if(f.length > 0) { f.onclick = function() { idi(11); }; }
 
 setInterval(listaj, 3000);
 setInterval(() => { 
