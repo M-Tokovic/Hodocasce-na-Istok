@@ -568,10 +568,9 @@ background-repeat: no-repeat;
     <span id="novi-veza-danas" onclick="obrisiKolaciceIPovratak()" style="font-size: 13px; color: #ff0000; font-weight: bold; text-shadow: 2px 2px 5px #000; cursor: pointer; border-bottom: 1px dashed red; padding-bottom: 1px; display: none; margin-top: 2px;">Време садашње</span>
 </div>
 
-<!-- НОВИ ПУТОКАЗ ОД ВАС КА НАМА И АИ ПУТОКАЗ - СТАВЉЕНИ ТАЧНО НА СРЕДИНУ -->
-<div id="centralni-putokaz-zona" style="position: fixed; top: 33px; left: 50%; transform: translateX(-50%); z-index: 100000; font-family: sans-serif; display: flex; gap: 25px; align-items: center;">
+<!-- НОВИ ПУТОКАЗ ОД ВАС КА НАМА - СТАВЉЕН ТАЧНО НА СРЕДИНУ, ТИК УЗ ГОРЊУ ТРАКУ -->
+<div id="centralni-putokaz" style="position: fixed; top: 33px; left: 50%; transform: translateX(-50%); z-index: 100000; font-family: sans-serif;">
     <span class="zlatni-putokaz-tekst" onclick="prikaziKomentare()">Путоказ од Вас ка нама</span>
-    <span class="zlatni-putokaz-tekst" onclick="prikaziAI()" style="color: #ccff00 !important;">АИ путоказ</span>
 </div>
 
 <div class="tv-traka-donja">
@@ -984,10 +983,10 @@ if (jeSpecijalanDan && !(m === 11 && dan === 17)) {
     if(dugmeOtvoriSvitak) dugmeOtvoriSvitak.style.display = "none";
 
     // === БЕТОНСКО ИЗБАЦИВАЊЕ ЦЕНТРАЛНОГ ПУТОКАЗА ЗА СПЕЦИЈАЛНЕ ДАНЕ ===
-const centralniPutokaz = document.getElementById('centralni-putokaz-zona');
-if(centralniPutokaz) {
-    centralniPutokaz.style.setProperty("display", "none", "important");
-}
+    const centralniPutokaz = document.getElementById('centralni-putokaz');
+    if(centralniPutokaz) {
+        centralniPutokaz.style.setProperty("display", "none", "important");
+    }
     // =================================================================
 
     // Сакривамо заставице и спуштамо датум на фабричку висину десно горе
@@ -1732,130 +1731,7 @@ if (m === 11 && dan === 17) {
 
 postaviSve();
 setInterval(azurirajNajavu, 1000);
-// --- КОМПЛЕТАН ИНТЕЛЕГЕНТНИ АИ МОДУЛ БЕЗ СЕРВЕРА ---
 
-function prikaziAI() {
-    document.getElementById('ai-mrak-podloga').style.display = 'block';
-    document.getElementById('prozor-ai').style.display = 'flex';
-    
-    // Привремено сакривање доњих и бочних елемената да не сметају фокусу
-    if(document.getElementById('donja-sekcija')) document.getElementById('donja-sekcija').style.opacity = '0';
-    if(document.getElementById('yt-zona-sredina')) document.getElementById('yt-zona-sredina').style.opacity = '0';
-    if(document.getElementById('najava-svitak')) document.getElementById('najava-svitak').style.opacity = '0';
-    if(document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.opacity = '0';
-    if(document.getElementById('dugme-otvori-svitak')) document.getElementById('dugme-otvori-svitak').style.opacity = '0';
-
-    // --- НОВИ БЕТОН ДОДАТАК ЗА ТАСТЕР ENTER ---
-    const aiUnosPolje = document.getElementById('ai-pitanje-unos');
-    if (aiUnosPolje) {
-        aiUnosPolje.focus(); // Аутоматски ставља фокус (курсор) у поље за куцање чим се отвори прозор
-        
-        // Уклањамо стари ослушкивач ако је постојао да не би дуплирао слање
-        aiUnosPolje.onkeydown = null; 
-        
-        // Везујемо притисак на тастер за слање
-        aiUnosPolje.onkeydown = function(dogadjaj) {
-            if (dogadjaj.key === "Enter") {
-                dogadjaj.preventDefault(); // Спречава ремећење форме у претраживачу
-                posaljiPitanjeКаАИ(); // Покреће АИ одговор
-            }
-        };
-    }
-}
-
-function zatvoriAI() {
-    document.getElementById('ai-mrak-podloga').style.display = 'none';
-    document.getElementById('prozor-ai').style.display = 'none';
-    
-    // Враћање свих елемената у првобитно стање
-    if(document.getElementById('donja-sekcija')) document.getElementById('donja-sekcija').style.opacity = '1';
-    if(document.getElementById('yt-zona-sredina')) document.getElementById('yt-zona-sredina').style.opacity = '1';
-    if(document.getElementById('najava-svitak')) document.getElementById('najava-svitak').style.opacity = '1';
-    if(document.getElementById('svitak-meni')) document.getElementById('svitak-meni').style.opacity = '1';
-    if(document.getElementById('dugme-otvori-svitak')) document.getElementById('dugme-otvori-svitak').style.opacity = '1';
-}
-
-// Функција која аутоматски чита Вашу кодирану базу података "misli2026" и прави текст за АИ
-function pripremiBazuTekstovaZaAI() {
-    let tekstualnaBaza = "";
-    if (typeof misli2026 !== 'undefined' && misli2026["2026"] && misli2026["2026"]["мисли"]) {
-        let meseci = misli2026["2026"]["мисли"];
-        for (let m in meseci) {
-            for (let d in meseci[m]) {
-                tekstualnaBaza += `Датум: ${d}.${m}. - Мисао: "${meseci[m][d]}"\n`;
-            }
-        }
-    }
-    return tekstualnaBaza;
-}
-
-// Главна функција за слање и куцање одговора
-async function posaljiPitanjeКаАИ() {
-    const unosPolje = document.getElementById('ai-pitanje-unos');
-    const prikazOdgovora = document.getElementById('ai-odgovor-prikaz');
-    const pitanje = unosPolje.value.trim();
-    
-    if (!pitanje) {
-        pitanje = "Напиши ми једну дубоку духовну мисао за данас.";
-    }
-    
-    prikazOdgovora.innerHTML = "Контемплирам над Вашим питањем, сачекајте тренутак...";
-    unosPolje.value = ""; // Чишћење поља
-    
-    // Извлачење Ваших текстова директно из активног HTML-а
-    const naseMisliЗаАИ = pripremiBazuTekstovaZaAI();
-    
-    // Архитектура Системског упутства (Постављање филозофског карактера модела)
-    const sistemsкеInstrukcije = `Ти си АИ асистент и духовни сапутник на интернет саборишту 'Ходочашће на Исток' аутора М. Токовића. 
-Твој тон је увек смирен, дубок, филозофски, помало поетичан и контемплативан. Користиш отмен речник.
-Одговараш посетиоцима сајта на њихова животна питања, тражећи утеху или дубљи смисао.
-
-Примарна база твог знања су аутентичне мисли М. Токовића које ти достављам у наставку. Проучи их и кад год је могуће, повежи свој одговор, метафоре или поенту са овим мислима, али немој само суво да их препишеш, већ их филозофски образложи. На шира питања одговарај слободно, али задржи исти отмени и контемплативни стил 'Ходочашћа на Исток'. Одговарај искључиво на српском језику (ћирилицом или латиницом у зависности од упита).
-
-ЕВО БАЗЕ АУТЕНТИЧНИХ МИСЛИ:
-${naseMisliЗаАИ}`;
-
-    try {
-        // Директан позив ка јавном бесплатном АИ рутеру (без икаквих додатних програма на Вашем серверу)
-        const response = await fetch("https://openrouter.ai", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Користи се јавни прокси кључ са сигурним ограничењима за бесплатне моделе (нпр. Google Gemini Flash или Llama)
-                "Authorization": "Bearer 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" 
-            },
-            body: JSON.stringify({
-                model: "google/gemini-2.5-flash", // Најбржи и одличан модел за српски језик
-                messages: [
-                    { role: "system", content: sistemsкеInstrukcije },
-                    { role: "user", content: pitanje }
-                ],
-                temperature: 0.7
-            })
-        });
-
-        const podaci = await response.json();
-        
-        if (podaci.choices && podaci.choices[0] && podaci.choices[0].message) {
-            let konacanOdgovor = podaci.choices[0].message.content;
-            
-            // Претварање стандардних АИ ознака у чист HTML прелом линије како Ваша постојећа функција куцања не би баговала
-            konacanOdgovor = konacanOdgovor.replace(/\n/g, "<br>");
-            
-            // Савршено коришћење Ваше оригиналне функције куцања из линије 1205 за ефекат слова по слово!
-            if (typeof kucajTekst === "function") {
-                kucajTekst(prikazOdgovora, konacanOdgovor);
-            } else {
-                prikazOdgovora.innerHTML = konacanOdgovor;
-            }
-        } else {
-            prikazOdgovora.innerHTML = "Мисао се распршила у тишини. Покушајте поново за тренутак.";
-        }
-    } catch (greska) {
-        console.error(greska);
-        prikazOdgovora.innerHTML = "Веза са Истоком је тренутно у тишини контемплације. Проверите интернет везу.";
-    }
-}
 </script>
 
 <!-- МИНИМАЛИСТИЧКИ ЋИРИЛИЧНИ ВРЕМЕНСКИ ПУТОКАЗ (ДАН, МЕСЕЦ, ГОДИНА, САТ, МИНУТ) -->
@@ -2081,36 +1957,6 @@ function obrisiKolaciceIPovratak() {
         </span>
         
         <div class="komentari-dugme-zatvori" onclick="zatvoriKomentare()" style="padding-top: 10px; margin-top: 5px;">▲ ПОВРАТАК</div>
-    </div>
-    <div class="cilim-valjak-dno"></div>
-</div>
-
-<!-- НОВИ АИ ПУТОКАЗ (ИНТЕГРИСАН ТАЧНО ИСПОД) -->
-<div id="ai-mrak-podloga" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000; z-index: 100001; display: none;" onclick="zatvoriAI()"></div>
-
-<div id="prozor-ai" class="komentari-kontejner" style="z-index: 100002; display: none;">
-    <div class="cilim-valjak-vrh"></div>
-    <div class="komentari-prozor" style="width: 310px; padding: 15px 20px; min-height: auto;">
-        
-        <div class="komentari-naslov" style="color: #8b0000; font-size: 20px; font-weight: bold; margin-bottom: 10px;">
-            📜 АИ Сапутник
-        </div>
-        
-        <!-- Простор за приказ одговора са скролом ако је текст дужи -->
-        <div id="ai-odgovor-prikaz" class="komentari-tekst" style="margin-top: 5px; margin-bottom: 15px; font-size: 15px; font-style: italic; line-height: 1.4; text-align: left; max-height: 200px; overflow-y: auto; padding-right: 5px;">
-            Поставите питање о мислима „Ходочашћа на Исток“...
-        </div>
-        
-        <!-- Унос за куцање питања посетиоца -->
-        <div style="margin-bottom: 15px;">
-            <input type="text" id="ai-pitanje-unos" placeholder="Упишите питање овде..." style="width: 100%; padding: 6px; border: 1px solid #8b5a2b; border-radius: 4px; background: #fffdf9; font-family: 'Times New Roman', serif; font-size: 14px; box-sizing: border-box; color: #4a2c0f; font-weight: bold;">
-        </div>
-        
-        <!-- Акциона дугмад укомпонована у дизајн -->
-        <div style="display: flex; gap: 8px; justify-content: center;">
-            <button onclick="posaljiPitanjeКаАИ()" style="padding: 4px 12px; background: #8b5a2b; color: #fffdf9; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 12px;">ПИТАЈ</button>
-            <button onclick="zatvoriAI()" style="padding: 4px 12px; background: #555; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 12px;">ПОВРАТАК</button>
-        </div>
     </div>
     <div class="cilim-valjak-dno"></div>
 </div>
